@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33723.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreightAccounting.Core", "FreightAccounting.Core\FreightAccounting.Core.csproj", "{95991207-763E-4ED4-B689-F8CB5AFA8552}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreightAccounting.WPF", "FreightAccounting.WPF\FreightAccounting.WPF.csproj", "{207CE7F6-C024-47FA-A4B7-FF99038C553A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{95991207-763E-4ED4-B689-F8CB5AFA8552}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95991207-763E-4ED4-B689-F8CB5AFA8552}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95991207-763E-4ED4-B689-F8CB5AFA8552}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95991207-763E-4ED4-B689-F8CB5AFA8552}.Release|Any CPU.Build.0 = Release|Any CPU
+		{207CE7F6-C024-47FA-A4B7-FF99038C553A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{207CE7F6-C024-47FA-A4B7-FF99038C553A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{207CE7F6-C024-47FA-A4B7-FF99038C553A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{207CE7F6-C024-47FA-A4B7-FF99038C553A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8175AF03-1C80-4276-ACAE-417724FFCEFD}
+	EndGlobalSection
+EndGlobal
