@@ -37,8 +37,18 @@ public partial class App : Application
 
         services.AddDbContext<FreightAccountingContext>(options => options.UseSqlServer(configuration.GetConnectionString("SqlConnectionString")));
 
+        MigrateDatabase(services);  
 
         services.AddSingleton<MainWindow>();
+    }
+    private void MigrateDatabase(ServiceCollection services)
+    {
+        using (var serviceProvider = services.BuildServiceProvider())
+        {
+            var dbContext = serviceProvider.GetRequiredService<FreightAccountingContext>();
+            dbContext.Database.Migrate();
+        }
+
     }
 
     private void OnStartup(object sender, StartupEventArgs e)
