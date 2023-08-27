@@ -13,9 +13,8 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="50" />
             </Grid.RowDefinitions>
 
             <!--snackbar-->
@@ -61,7 +60,32 @@
                 </StackPanel>
             </Grid>
 
-            
+            <!--body-->
+            <Grid Grid.Row="1">
+                <TabControl FlowDirection="RightToLeft">
+                    <TabItem Cursor="Hand" Padding="5">
+                        <TabItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon VerticalAlignment="Center" Margin="15,0" Kind="Report" Width="22" Height="22"/>
+                                <TextBlock Text="گزارش گیری" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
+                                           Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Center"/>
+                            </StackPanel> 
+                        </TabItem.Header>
+                        
+                        
+                    </TabItem>
+
+                    <TabItem Cursor="Hand" Padding="5">
+                        <TabItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon VerticalAlignment="Center" Margin="15,0" Kind="Money" Width="22" Height="22"/>
+                                <TextBlock Text="پرداخت نشده" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
+                                           Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </TabItem.Header>
+                    </TabItem>
+                </TabControl>
+            </Grid>
             
             
             
