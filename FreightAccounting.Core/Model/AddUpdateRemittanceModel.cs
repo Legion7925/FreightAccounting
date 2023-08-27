@@ -1,8 +1,6 @@
-﻿using FreightAccounting.Core.Common;
+﻿namespace FreightAccounting.Core.Model;
 
-namespace FreightAccounting.Core.Entities;
-
-public class Remittance : BaseEntity
+public class AddUpdateRemittanceModel
 {
     /// <summary>
     /// شماره بارنامه
@@ -35,22 +33,19 @@ public class Remittance : BaseEntity
     public required string SubmittedUsername { get; set; }
 
     /// <summary>
-    /// پورسانت کاربر
-    /// </summary>
-    public int UserCut { get; set; }
-
-    /// <summary>
-    /// سود خالص
-    /// </summary>
-    public int NetProfit { get; set; }
-
-    /// <summary>
     /// کمیسیون دریافتی
     /// </summary>
     public int ReceviedCommission { get; set; }
 
     /// <summary>
+    /// پورسانت کاربر
+    /// </summary>
+    public int UserCut { get; set; }
+
+    /// <summary>
     /// تاریخ ثبت بارنامه
     /// </summary>
     public DateTime SubmitDate { get; set; }
+
+
 }
