@@ -1,10 +1,12 @@
 ﻿using FreightAccounting.Core.Entities;
 using FreightAccounting.Core.Exception;
+using FreightAccounting.Core.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace FreightAccounting.Core.Repositories;
 
-public class OperatorUserRepository
+
+public class OperatorUserRepository : IOperatorUserRepository
 {
     private readonly FreightAccountingContext _context;
 
