@@ -3,11 +3,98 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:persianDateControls="clr-namespace:Mohsen.PersianDateControls;assembly=Mohsen.PersianDateControls"
         xmlns:local="clr-namespace:FreightAccounting.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="760" Width="1024" MinHeight="760" MinWidth="1024" WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="CanResizeWithGrip"
+        WindowStyle="None" Background="Transparent" WindowState="Normal" Loaded="Window_Loaded" Closing="Window_Closing">
+    <Border x:Name="mainContainer" CornerRadius="12" Padding="10.6" Background="{DynamicResource MaterialDesignPaper}" BorderThickness="2" BorderBrush="#FFC8C8C8">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
 
-        
-    </Grid>
+            <!--snackbar-->
+            <materialDesign:Snackbar x:Name="snackBarSuccess" MessageQueue="{materialDesign:MessageQueue}" IsActive="False"  HorizontalAlignment="Center" 
+                                     VerticalAlignment="Bottom" Margin="10" Grid.Row="0" Grid.RowSpan="3" Background="#EF22C83C" Panel.ZIndex="100" 
+                                     Foreground="White" FlowDirection="RightToLeft"/>
+
+            <materialDesign:Snackbar x:Name="snackBarError" MessageQueue="{materialDesign:MessageQueue}" IsActive="False"  HorizontalAlignment="Left" 
+                                     VerticalAlignment="Bottom" Margin="10" Grid.Row="0" Grid.RowSpan="3" Background="#EFDC3636" Panel.ZIndex="100" 
+                                     Foreground="White" FlowDirection="RightToLeft"/>
+
+            <materialDesign:Snackbar x:Name="snackBarWarning" MessageQueue="{materialDesign:MessageQueue}" IsActive="False"  HorizontalAlignment="Left" 
+                                     VerticalAlignment="Bottom" Margin="10" Grid.Row="0" Grid.RowSpan="3" Background="#FFFF9800" Panel.ZIndex="100" 
+                                     Foreground="White" FlowDirection="RightToLeft"/>
+
+            <materialDesign:Snackbar x:Name="snackBarInfo" MessageQueue="{materialDesign:MessageQueue}" IsActive="False"  HorizontalAlignment="Left" 
+                                     VerticalAlignment="Bottom" Margin="10" Grid.Row="0" Grid.RowSpan="3" Background="#EF36ABDC" Panel.ZIndex="100" 
+                                     Foreground="White" FlowDirection="RightToLeft"/>
+            
+            <!--header-->
+            <Grid x:Name="gridHears" Background="{DynamicResource MaterialDesignPaper}" MouseDown="gridHears_MouseDown">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0.5" VerticalAlignment="Top">
+                    
+                    <Button x:Name="btnMinimize" Content="{materialDesign:PackIcon Kind=WindowMinimize}" Background="Transparent"
+                                BorderBrush="Transparent" Foreground="{DynamicResource MaterialDesignBody}" Click="btnMinimize_Click"></Button>
+                    <Button x:Name="btnMaximize" Content="{materialDesign:PackIcon Kind=WindowMaximize}" Background="Transparent"
+                                BorderBrush="Transparent"  Foreground="{DynamicResource MaterialDesignBody}" Click="btnMaximize_Click"></Button>
+                    <Button x:Name="btnClose" Content="{materialDesign:PackIcon Kind=WindowClose}" Background="Transparent"
+                                BorderBrush="Transparent" Foreground="{DynamicResource MaterialDesignBody}" Click="btnClose_Click"></Button>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,5,0,0"  FlowDirection="RightToLeft" VerticalAlignment="Top">
+                    <ToggleButton x:Name="btnChangeTheme" Style="{DynamicResource MaterialDesignActionAccentToggleButton}" 
+                                  Content="{materialDesign:PackIcon Kind=WbSunny}" materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=MoonAndStars}"
+                                  Background="{DynamicResource PrimaryHueDarkBrush}" Height="35" Width="35" Margin="2.5,0"
+                                  Checked="btnChangeTheme_Checked" Unchecked="btnChangeTheme_Unchecked"></ToggleButton>
+
+                    <Button x:Name="btnChangePassword" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
+                            Background="{DynamicResource PrimaryHueDarkBrush}" BorderBrush="{x:Null}" Margin="2.5,0" ToolTip="تغییر رمز عبور"
+                            Click="btnChangePassword_Click">
+                        <materialDesign:PackIcon Kind="key"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <!--body-->
+            <Grid Grid.Row="1">
+                <TabControl FlowDirection="RightToLeft">
+                    <TabItem Cursor="Hand" Padding="5">
+                        <TabItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon VerticalAlignment="Center" Margin="15,0" Kind="Report" Width="22" Height="22"/>
+                                <TextBlock Text="گزارش گیری" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
+                                           Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Center"/>
+                            </StackPanel> 
+                        </TabItem.Header>
+                        
+                        
+                    </TabItem>
+
+                    <TabItem Cursor="Hand" Padding="5">
+                        <TabItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon VerticalAlignment="Center" Margin="15,0" Kind="Money" Width="22" Height="22"/>
+                                <TextBlock Text="پرداخت نشده" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
+                                           Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </TabItem.Header>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+            
+            
+            
+            
+            
+            
+            
+            
+        </Grid>
+    </Border>
+
 </Window>
