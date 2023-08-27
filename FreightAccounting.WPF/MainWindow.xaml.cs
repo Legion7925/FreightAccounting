@@ -115,5 +115,25 @@ namespace FreightAccounting.WPF
         {
 
         }
+
+        private void btnAddRemittance_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void dgReport_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+
+        }
+
+        private void btnAddDebtors_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void dgDebtorsReport_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+
+        }
     }
 }
