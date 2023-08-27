@@ -14,7 +14,6 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="50" />
             </Grid.RowDefinitions>
 
             <!--snackbar-->
@@ -33,11 +32,11 @@
             <materialDesign:Snackbar x:Name="snackBarInfo" MessageQueue="{materialDesign:MessageQueue}" IsActive="False"  HorizontalAlignment="Left" 
                                      VerticalAlignment="Bottom" Margin="10" Grid.Row="0" Grid.RowSpan="3" Background="#EF36ABDC" Panel.ZIndex="100" 
                                      Foreground="White" FlowDirection="RightToLeft"/>
-            
+
             <!--header-->
             <Grid x:Name="gridHears" Background="{DynamicResource MaterialDesignPaper}" MouseDown="gridHears_MouseDown">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0.5" VerticalAlignment="Top">
-                    
+
                     <Button x:Name="btnMinimize" Content="{materialDesign:PackIcon Kind=WindowMinimize}" Background="Transparent"
                                 BorderBrush="Transparent" Foreground="{DynamicResource MaterialDesignBody}" Click="btnMinimize_Click"></Button>
                     <Button x:Name="btnMaximize" Content="{materialDesign:PackIcon Kind=WindowMaximize}" Background="Transparent"
@@ -69,10 +68,44 @@
                                 <materialDesign:PackIcon VerticalAlignment="Center" Margin="15,0" Kind="Report" Width="22" Height="22"/>
                                 <TextBlock Text="گزارش گیری" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
                                            Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Center"/>
-                            </StackPanel> 
+                            </StackPanel>
                         </TabItem.Header>
-                        
-                        
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="70" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+
+                            <Button x:Name="btnAddRemittance" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
+                                    Background="#FF28AD43" BorderBrush="{x:Null}" Margin="5,5" HorizontalAlignment="Right"
+                                        ToolTip="افزودن حواله" Visibility="Visible" Grid.Row="0" Click="btnAddRemittance_Click">
+                                <materialDesign:PackIcon Kind="Add"/>
+                            </Button>
+
+                            <DataGrid x:Name="dgReport" AutoGenerateColumns="False" FlowDirection="RightToLeft" Grid.Row="1" 
+                                      Grid.ColumnSpan="2" SelectedCellsChanged="dgReport_SelectedCellsChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Header="شماره حواله" ></DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="کرایه"></DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="کمیسیون سازمان"></DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="کمیسیون بیمه"></DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="کمیسون مالیات"></DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="نام کاربر"></DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="کمیسیون کاربر"></DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="کمیسیون دریافتی"></DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="سود خاص"></DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
                     </TabItem>
 
                     <TabItem Cursor="Hand" Padding="5">
@@ -83,17 +116,43 @@
                                            Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Center"/>
                             </StackPanel>
                         </TabItem.Header>
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Button x:Name="btnAddDebtors" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
+                                    Background="#FF28AD43" BorderBrush="{x:Null}" Margin="5,5" HorizontalAlignment="Right"
+                                        ToolTip="افزودن حواله" Visibility="Visible" Grid.Row="0" Click="btnAddDebtors_Click">
+                                <materialDesign:PackIcon Kind="Add"/>
+                            </Button>
+
+                            <DataGrid x:Name="dgDebtorsReport" AutoGenerateColumns="False" FlowDirection="RightToLeft" Grid.Row="1" 
+                                      Grid.ColumnSpan="2" SelectedCellsChanged="dgDebtorsReport_SelectedCellsChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Header="نام راننده" ></DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="شماره پلاک"></DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="مقصد"></DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="شماره تماس"></DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="مقدار بدهی"></DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="تاریخ"></DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                        
                     </TabItem>
                 </TabControl>
             </Grid>
-            
-            
-            
-            
-            
-            
-            
-            
+
+
+
+
+
+
+
+
         </Grid>
     </Border>
 
