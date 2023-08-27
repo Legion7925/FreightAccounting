@@ -28,9 +28,9 @@ public class AddUpdateRemittanceModel
     public int TaxPayment { get; set; }
 
     /// <summary>
-    /// نام کاربر ثبت کننده
+    /// آیدی کاربر ثبت کننده
     /// </summary>
-    public required string SubmittedUsername { get; set; }
+    public int OperatorUserId { get; set; }
 
     /// <summary>
     /// کمیسیون دریافتی

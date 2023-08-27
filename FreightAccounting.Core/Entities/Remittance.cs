@@ -1,4 +1,5 @@
 ﻿using FreightAccounting.Core.Common;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FreightAccounting.Core.Entities;
 
@@ -32,7 +33,10 @@ public class Remittance : BaseEntity
     /// <summary>
     /// نام کاربر ثبت کننده
     /// </summary>
-    public required string SubmittedUsername { get; set; }
+    public string? SubmittedUsername { get; set; }
+
+    [ForeignKey("OperatorUser")]
+    public int OperatorUserId { get; set; }
 
     /// <summary>
     /// پورسانت کاربر
@@ -53,4 +57,6 @@ public class Remittance : BaseEntity
     /// تاریخ ثبت بارنامه
     /// </summary>
     public DateTime SubmitDate { get; set; }
+
+    public OperatorUser? OperatorUser { get; set; }
 }

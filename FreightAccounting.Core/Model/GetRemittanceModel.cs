@@ -15,9 +15,10 @@ public class GetRemittanceModel
     //مالیات پرداختی بین دو تاریخ
     public int SumTaxPayment => Remittances.Select(r => r.TaxPayment).Sum();
 
-    //جمع کارکرد کاربر بین دو تاریخ
-    public int SumUserCut => Remittances.Select(r=> r.UserCut).Sum();
-
     //جمع پرداختی به بیمه
     public int SumInsurancePayment => Remittances.Select(r=> r.InsurancePayment).Sum();
+
+    //جمع کارکرد کاربر بین دو تاریخ این مقدار فقط وقتی برای نمایش مناسبه که گزارش بر اساس آیدی یک کاربر باشه
+    public int SumUserCut => Remittances.Select(r=> r.UserCut).Sum();
+
 }

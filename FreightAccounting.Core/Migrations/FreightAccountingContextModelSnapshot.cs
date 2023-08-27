@@ -56,6 +56,27 @@ namespace FreightAccounting.Core.Migrations
                     b.ToTable("Debtors");
                 });
 
+            modelBuilder.Entity("FreightAccounting.Core.Entities.OperatorUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Family")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OperatorUsers");
+                });
+
             modelBuilder.Entity("FreightAccounting.Core.Entities.Remittance", b =>
                 {
                     b.Property<int>("Id")
@@ -68,6 +89,9 @@ namespace FreightAccounting.Core.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("NetProfit")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OperatorUserId")
                         .HasColumnType("int");
 
                     b.Property<int>("OrganizationPayment")
@@ -84,7 +108,6 @@ namespace FreightAccounting.Core.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("SubmittedUsername")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TaxPayment")
@@ -98,7 +121,25 @@ namespace FreightAccounting.Core.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OperatorUserId");
+
                     b.ToTable("Remittances");
+                });
+
+            modelBuilder.Entity("FreightAccounting.Core.Entities.Remittance", b =>
+                {
+                    b.HasOne("FreightAccounting.Core.Entities.OperatorUser", "OperatorUser")
+                        .WithMany("Remittances")
+                        .HasForeignKey("OperatorUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OperatorUser");
+                });
+
+            modelBuilder.Entity("FreightAccounting.Core.Entities.OperatorUser", b =>
+                {
+                    b.Navigation("Remittances");
                 });
 #pragma warning restore 612, 618
         }
