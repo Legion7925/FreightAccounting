@@ -30,6 +30,20 @@ namespace FreightAccounting.Core.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OperatorUsers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Family = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OperatorUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Remittances",
                 columns: table => new
                 {
@@ -40,14 +54,28 @@ namespace FreightAccounting.Core.Migrations
                     OrganizationPayment = table.Column<int>(type: "int", nullable: false),
                     InsurancePayment = table.Column<int>(type: "int", nullable: false),
                     TaxPayment = table.Column<int>(type: "int", nullable: false),
-                    SubmittedUsername = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SubmittedUsername = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OperatorUserId = table.Column<int>(type: "int", nullable: false),
+                    UserCut = table.Column<int>(type: "int", nullable: false),
                     NetProfit = table.Column<int>(type: "int", nullable: false),
-                    ReceviedCommission = table.Column<int>(type: "int", nullable: false)
+                    ReceviedCommission = table.Column<int>(type: "int", nullable: false),
+                    SubmitDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Remittances", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Remittances_OperatorUsers_OperatorUserId",
+                        column: x => x.OperatorUserId,
+                        principalTable: "OperatorUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Remittances_OperatorUserId",
+                table: "Remittances",
+                column: "OperatorUserId");
         }
 
         /// <inheritdoc />
@@ -58,6 +86,9 @@ namespace FreightAccounting.Core.Migrations
 
             migrationBuilder.DropTable(
                 name: "Remittances");
+
+            migrationBuilder.DropTable(
+                name: "OperatorUsers");
         }
     }
 }

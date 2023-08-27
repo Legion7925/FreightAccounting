@@ -24,10 +24,35 @@ public class RemittanceRepository : IRemittanceRepository
     /// <returns></returns>
     public async Task<GetRemittanceModel> GetRemittancesBetweenDates(RemittanceQueryParameter queryParameters)
     {
-        var remittanceList = _context.Remittances.AsNoTracking()
+        var remittanceList = _context.Remittances
+            .AsNoTracking()
+            .Include(x => x.OperatorUser)
+            .Where(r => r.SubmitDate >= queryParameters.StartDate
+            && r.SubmitDate <= queryParameters.EndDate).Select(r => new Remittance
+            {
+                RemittanceNumber = r.RemittanceNumber,
+                Id = r.Id,
+                ReceviedCommission = r.ReceviedCommission,
+                InsurancePayment = r.InsurancePayment,
+                NetProfit = r.NetProfit,
+                OperatorUserId = r.OperatorUserId,
+                SubmittedUsername = r.OperatorUser!.Name + " " + r.OperatorUser.Family,
+                OrganizationPayment = r.OrganizationPayment,
+                SubmitDate = r.SubmitDate,
+                TaxPayment = r.TaxPayment,
+                TransforPayment = r.TransforPayment,
+                UserCut = r.UserCut
+            });
+
+        //اگر آیدی کاربر نال نباشه بر اساس اون کاربر گزارش میاد بیرون
+        if (queryParameters.OperatorUserId is not null)
+        {
+            remittanceList = remittanceList.Where(r => r.OperatorUserId == queryParameters.OperatorUserId);
+        }
+
+        remittanceList = remittanceList
             .Skip((queryParameters.Page - 1) * queryParameters.Size)
-            .Take(queryParameters.Size)
-            .Where(r => r.SubmitDate >= queryParameters.StartDate && r.SubmitDate <= queryParameters.EndDate);
+            .Take(queryParameters.Size);
 
         return new GetRemittanceModel
         {
@@ -51,13 +76,13 @@ public class RemittanceRepository : IRemittanceRepository
 
     public async Task AddRemittance(AddUpdateRemittanceModel remittanceModel)
     {
-        //درآمد روزانه
-        var dailyIncome = CalculateDailyIncome(remittanceModel);
+        //محاسبه جمع مالیات ها که بعدا از کمیسیون کسر خواهد شد
+        var dailyIncome = CalculateTaxes(remittanceModel);
         var remittance = new Remittance
         {
             InsurancePayment = remittanceModel.InsurancePayment,
             RemittanceNumber = remittanceModel.RemittanceNumber,
-            SubmittedUsername = remittanceModel.SubmittedUsername,
+            OperatorUserId = remittanceModel.OperatorUserId,
             //محاسبه سود خالص با کم کردن درصد ها از میزان کمیسیون
             NetProfit = remittanceModel.ReceviedCommission - dailyIncome,
             UserCut = remittanceModel.UserCut,
@@ -75,11 +100,11 @@ public class RemittanceRepository : IRemittanceRepository
     public async Task UpdateRemittance(int remittanceId, AddUpdateRemittanceModel remittanceModel)
     {
         var remittance = await GetRemittanceById(remittanceId);
-        var dailyIncome = CalculateDailyIncome(remittanceModel);
+        var dailyIncome = CalculateTaxes(remittanceModel);
 
         remittance.InsurancePayment = remittanceModel.InsurancePayment;
         remittance.RemittanceNumber = remittanceModel.RemittanceNumber;
-        remittance.SubmittedUsername = remittanceModel.SubmittedUsername;
+        remittance.OperatorUserId = remittanceModel.OperatorUserId;
         //محاسبه سود خالص با کم کردن درصد ها از میزان کمیسیون
         remittance.NetProfit = remittanceModel.ReceviedCommission - dailyIncome;
         remittance.UserCut = remittanceModel.UserCut;
@@ -110,7 +135,12 @@ public class RemittanceRepository : IRemittanceRepository
         return remittance;
     }
 
-    private int CalculateDailyIncome(AddUpdateRemittanceModel remittanceModel)
+    /// <summary>
+    /// جمع مبالغ بیمه ، مالیات ، دارایی و غیره 
+    /// </summary>
+    /// <param name="remittanceModel"></param>
+    /// <returns></returns>
+    private int CalculateTaxes(AddUpdateRemittanceModel remittanceModel)
     {
         return remittanceModel.InsurancePayment + remittanceModel.TaxPayment + remittanceModel.OrganizationPayment + remittanceModel.UserCut;
     }
