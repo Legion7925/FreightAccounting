@@ -9,7 +9,7 @@
     <materialDesign:Card Background="#e6e6e6">
         <Grid>
             <Grid Height="35" VerticalAlignment="Top" MouseDown="Grid_MouseDown" Background="#546b8a"></Grid>
-            <Button x:Name="btnClose" Content="{materialDesign:PackIcon Kind=WindowClose}" TabIndex="5" VerticalAlignment="Top" HorizontalAlignment="Right" Background="Transparent" BorderBrush="Transparent" Margin="4,2" Foreground="White" Click="btnClose_Click"></Button>
+            <Button x:Name="btnClose" TabIndex="5" VerticalAlignment="Top" HorizontalAlignment="Right" Background="Transparent" BorderBrush="Transparent" Margin="4,2" Foreground="White" Click="btnClose_Click"></Button>
             <materialDesign:Card VerticalAlignment="Center" HorizontalAlignment="Center" Panel.ZIndex="10" Height="280" Width="250" Background="White">
                 <Grid>
                     <Button x:Name="submitLogin" Click="submitLogin_Click" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Content="ورود" Background="#546b8a" Width="120" VerticalAlignment="Bottom" HorizontalAlignment="Center" TabIndex="4" Margin="0,5" Padding="0,0,0,5">

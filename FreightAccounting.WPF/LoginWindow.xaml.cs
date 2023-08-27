@@ -33,5 +33,25 @@ namespace FreightAccounting.WPF
         {
 
         }
+
+        private void txtPassword_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void txtUserName_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
