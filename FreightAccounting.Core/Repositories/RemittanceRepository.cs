@@ -22,7 +22,7 @@ public class RemittanceRepository : IRemittanceRepository
     /// <param name="startDate"></param>
     /// <param name="endDate"></param>
     /// <returns></returns>
-    public async Task<GetRemittanceModel> GetRemittancesBetweenDates(RemittanceQueryParameter queryParameters)
+    public async Task<RemittanceReportModel> GetRemittancesBetweenDates(RemittanceQueryParameter queryParameters)
     {
         var remittanceList = _context.Remittances
             .AsNoTracking()
@@ -41,6 +41,7 @@ public class RemittanceRepository : IRemittanceRepository
                 SubmitDate = r.SubmitDate,
                 TaxPayment = r.TaxPayment,
                 TransforPayment = r.TransforPayment,
+                ProductInsuranceNumber = r.ProductInsuranceNumber,
                 UserCut = r.UserCut
             });
 
@@ -54,7 +55,7 @@ public class RemittanceRepository : IRemittanceRepository
             .Skip((queryParameters.Page - 1) * queryParameters.Size)
             .Take(queryParameters.Size);
 
-        return new GetRemittanceModel
+        return new RemittanceReportModel
         {
             Remittances = await remittanceList.ToListAsync()
         };
@@ -90,7 +91,8 @@ public class RemittanceRepository : IRemittanceRepository
             OrganizationPayment = remittanceModel.OrganizationPayment,
             TaxPayment = remittanceModel.TaxPayment,
             TransforPayment = remittanceModel.TransforPayment,
-            SubmitDate = remittanceModel.SubmitDate
+            SubmitDate = remittanceModel.SubmitDate,
+            ProductInsuranceNumber = remittanceModel.ProductInsuranceNumber,         
         };
 
         await _context.Remittances.AddAsync(remittance);
@@ -113,6 +115,7 @@ public class RemittanceRepository : IRemittanceRepository
         remittance.TaxPayment = remittanceModel.TaxPayment;
         remittance.TransforPayment = remittanceModel.TransforPayment;
         remittance.SubmitDate = remittanceModel.SubmitDate;
+        remittance.ProductInsuranceNumber = remittanceModel.ProductInsuranceNumber;
 
         await _context.SaveChangesAsync();
     }

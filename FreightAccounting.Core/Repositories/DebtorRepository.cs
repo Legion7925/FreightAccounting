@@ -19,12 +19,22 @@ public class DebtorRepository : IDebtorRepository
     /// لیست همه ی بدهکاران
     /// </summary>
     /// <returns></returns>
-    public async Task<IEnumerable<Debtor>> GetDebtors(QueryParameters queryParameters)
+    public async Task<IEnumerable<DebtorReportModel>> GetDebtors(QueryParameters queryParameters)
     {
         return await _context.Debtors.AsNoTracking()
             .Skip((queryParameters.Page - 1) * queryParameters.Size)
             .Take(queryParameters.Size)
-            .ToArrayAsync();
+            .Select(d=> new DebtorReportModel
+            {
+                Destination = d.Destination,
+                DriverFirstName = d.DriverFirstName,
+                DriverLastName = d.DriverLastName,
+                PlateNumber = d.PlateNumber,
+                PaymentDate = d.PaymentDate,
+                DebtAmount = d.DebtAmount,
+                Id = d.Id,
+                PhoneNumber = d.PhoneNumber
+            }).ToArrayAsync();
     }
 
     public async Task AddDebtor(AddUpdateDebtorModel debtorModel)

@@ -2,7 +2,7 @@
 
 namespace FreightAccounting.Core.Model;
 
-public class GetRemittanceModel
+public class RemittanceReportModel
 {
     public List<Remittance> Remittances { get; set; } = new();
 

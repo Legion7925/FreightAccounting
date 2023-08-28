@@ -47,5 +47,11 @@ public class AddUpdateRemittanceModel
     /// </summary>
     public DateTime SubmitDate { get; set; }
 
+    /// <summary>
+    /// شماره بیمه کالا
+    /// </summary>
+    public string? ProductInsuranceNumber { get; set; }
+
+
 
 }
