@@ -8,6 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Fonts\samim-font-v4.0.5\Farsi-Digits\Samim-Bold-FD.ttf" />
+    <None Remove="Resources\Fonts\samim-font-v4.0.5\Farsi-Digits\Samim-FD.ttf" />
+    <None Remove="Resources\Fonts\samim-font-v4.0.5\Farsi-Digits\Samim-Medium-FD.ttf" />
+    <None Remove="Resources\Fonts\samim-font-v4.0.5\Samim-Bold.ttf" />
+    <None Remove="Resources\Fonts\samim-font-v4.0.5\Samim-Medium.ttf" />
+    <None Remove="Resources\Fonts\samim-font-v4.0.5\Samim.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.10">
       <PrivateAssets>all</PrivateAssets>
@@ -27,9 +36,26 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="ControlPlateText">
+      <HintPath>Ref\ControlPlateText.dll</HintPath>
+    </Reference>
+    <Reference Include="NGM_ANPR_Net5Core">
+      <HintPath>Ref\NGM_ANPR_Net5Core.dll</HintPath>
+    </Reference>
     <Reference Include="PlateModel.Wpf">
       <HintPath>..\..\WpfApp1\WpfApp1\ref\PlateModel.Wpf.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Fonts\samim-font-v4.0.5\Farsi-Digits\Samim-Bold-FD.ttf" />
+    <Resource Include="Resources\Fonts\samim-font-v4.0.5\Farsi-Digits\Samim-FD.ttf">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\samim-font-v4.0.5\Farsi-Digits\Samim-Medium-FD.ttf" />
+    <Resource Include="Resources\Fonts\samim-font-v4.0.5\Samim-Bold.ttf" />
+    <Resource Include="Resources\Fonts\samim-font-v4.0.5\Samim-Medium.ttf" />
+    <Resource Include="Resources\Fonts\samim-font-v4.0.5\Samim.ttf" />
   </ItemGroup>
 
   <ItemGroup>

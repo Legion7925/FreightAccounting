@@ -1,4 +1,5 @@
-﻿using MaterialDesignColors;
+﻿using FreightAccounting.Core.Interfaces.Repositories;
+using MaterialDesignColors;
 using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
@@ -23,9 +24,12 @@ namespace FreightAccounting.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private readonly IDebtorRepository debtorRepository;
+
+        public MainWindow(IDebtorRepository debtorRepository)
         {
             InitializeComponent();
+            this.debtorRepository = debtorRepository;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -128,7 +132,8 @@ namespace FreightAccounting.WPF
 
         private void btnAddDebtors_Click(object sender, RoutedEventArgs e)
         {
-
+            var addDebtorWindow = new AddDebtorWindow(debtorRepository, false, null, null);
+            addDebtorWindow.ShowDialog();
         }
 
         private void dgDebtorsReport_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
