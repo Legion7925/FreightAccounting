@@ -1,6 +1,8 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,20 +21,46 @@ namespace FreightAccounting.WPF
     /// </summary>
     public partial class EditPassword : Window
     {
-        public EditPassword()
-        {
-            InitializeComponent();
-        }
 
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
-        {
+        //public event EventHandler<MessageTypeEnum>? ShowMessage;
+        //public EditPassword()
+        //{
+        //    InitializeComponent();
+        //}
 
-        }
+        //private void btnCancel_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Close();
+        //}
 
-        private void btnSubmitChangePassword_Click(object sender, RoutedEventArgs e)
-        {
+        //private void btnSubmitChangePassword_Click(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        var valid = ValidateInput();
+        //        if (!valid) return;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ShowMessage?.Invoke(ex.Message, MessageTypeEnum.Error);
+        //    }
+        //}
 
-        }
+        //private bool ValidateInput()
+        //{
+        //    if (string.IsNullOrEmpty(pbOldPass.Password))
+        //    {
+        //        ShowMessage?.Invoke("کلمه عبور قدیمی را وارد کنید", MessageTypeEnum.Warning);
+        //        return false;
+        //    }
+
+        //    if (string.IsNullOrEmpty(PbNewPass.Password))
+        //    {
+        //        ShowMessage?.Invoke("کلمه عبور جدید را وارد کنید", MessageTypeEnum.Warning);
+        //        return false;
+        //    }
+        //    return true;
+        //}
 
     }
 }

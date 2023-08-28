@@ -31,6 +31,7 @@
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="هزینه سازمان :" VerticalAlignment="Center" />
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="هزینه بیمه :" VerticalAlignment="Center" />
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="مالیات و دارایی :" VerticalAlignment="Center" />
+                                <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="تاریخ ثبت :" VerticalAlignment="Center" />
                             </StackPanel>
 
                             <StackPanel Grid.Column="1">
@@ -38,31 +39,69 @@
                                          HorizontalAlignment="Left" MaxLength="15" IsReadOnly="True"></TextBox>
                                 <TextBox x:Name="txtTranforPayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,12,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15"></TextBox>
-                                <TextBox x:Name="txtOrganizationPayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,15,0,10"  
+                                <TextBox x:Name="txtOrganizationPayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,14,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15"></TextBox>
-                                <TextBox x:Name="txtInsurancePayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,15,0,10"  
+                                <TextBox x:Name="txtInsurancePayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,14,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15"></TextBox>
-                                <TextBox x:Name="txtTaxPayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,17,0,10"  
+                                <TextBox x:Name="txtTaxPayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,15,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15"></TextBox>
+                                <TextBox x:Name="txtDateTime" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,14,0,10"  
+                                         HorizontalAlignment="Left" MaxLength="15" IsReadOnly="True"></TextBox>
                             </StackPanel>
 
                             <StackPanel Grid.Column="2" Margin="5,0">
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="نام کاربر ثبت کننده :" VerticalAlignment="Center" />
+                                <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="درصد پورسانت کاربر :" VerticalAlignment="Center" />
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="پورسانت کاربر :" VerticalAlignment="Center" />
+                                <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="بیمه کالا :" VerticalAlignment="Center" />
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="کمیسیون دریافتی :" VerticalAlignment="Center" />
-                                <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="تاریخ ثبت :" VerticalAlignment="Center" />
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="سود خالص :" VerticalAlignment="Center" />
                             </StackPanel>
 
                             <StackPanel Grid.Column="3">
-                                <ComboBox x:Name="cbSubmitUser" Foreground="{DynamicResource MaterialDesignBody}" Width="130" 
-                                          VerticalAlignment="Center" Margin="0,15,0,10"  IsEditable="True" HorizontalAlignment="Left"></ComboBox>
+                                <StackPanel Orientation="Horizontal" Margin="0,12,0,10">
+                                    <ComboBox x:Name="cbSubmitUser" Foreground="{DynamicResource MaterialDesignBody}" Width="100" 
+                                          VerticalAlignment="Center"   IsEditable="True" HorizontalAlignment="Left"></ComboBox>
+
+                                    <Button x:Name="btnAddUser" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
+                                            Height="25" Width="25"
+                                           Background="#4ccf60" BorderBrush="{x:Null}" HorizontalAlignment="Left" ToolTip="تولید شماره سند یکتا" VerticalAlignment="Bottom" 
+                                            Margin="7,0,0,2" Click="btnAddUser_Click">
+                                        <materialDesign:PackIcon Kind="Add"/>
+                                    </Button>
+
+                                </StackPanel>
+
+                                <ComboBox x:Name="cbUserCut" Foreground="{DynamicResource MaterialDesignBody}" Width="130" 
+                                          VerticalAlignment="Center" Margin="0,12,0,10"  IsEditable="True" HorizontalAlignment="Left"></ComboBox>
+
+                                <TextBox x:Name="txtUserCut" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,14,0,10"  
+                                         HorizontalAlignment="Left" MaxLength="15"></TextBox>
+
+                                <TextBox x:Name="txtInsurance" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,14,0,10"  
+                                         HorizontalAlignment="Left" MaxLength="15"></TextBox>
+
+                                <TextBox x:Name="txtReceviedCommission" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,14,0,10"  
+                                         HorizontalAlignment="Left" MaxLength="15"></TextBox>
+
+                                <TextBox x:Name="txtNetProfit" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,15,0,10"  
+                                         HorizontalAlignment="Left" MaxLength="15" IsReadOnly="True"></TextBox>
                             </StackPanel>
                         </Grid>
                     </StackPanel>
                 </Grid>
 
+                <Grid Grid.Row="1">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" FlowDirection="RightToLeft" Margin="5,15">
+                        <Button x:Name="btnCancel" Content="{materialDesign:PackIcon Kind=Close}" Margin="7,0" Background="Transparent"
+                                    Foreground="#FFC31F35" BorderBrush="#FFC31F35" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="30" Width="30" ToolTip="انصراف"
+                                Click="btnCancel_Click"></Button>
 
+                        <Button x:Name="btnSubmit" Content="{materialDesign:PackIcon Kind=Check}" Background="Transparent"
+                                Foreground="#FF26A952" BorderBrush="#FF26A952" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
+                                        Height="30" Width="30" ToolTip="ثبت تخلیه" Click="btnSubmit_Click"></Button>
+                    </StackPanel>
+                </Grid>
             </Grid>
 
         </Border>
