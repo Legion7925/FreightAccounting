@@ -23,54 +23,54 @@ namespace FreightAccounting.WPF
     /// </summary>
     public partial class AddUser : Window
     {
-        //private readonly IOperatorUserRepository operatorUserRepository;
-        //public event EventHandler<MessageTypeEnum>? ShowMessage;
+        private readonly IOperatorUserRepository operatorUserRepository;
+        public event EventHandler<MessageTypeEnum>? ShowMessage;
 
-        //public AddUser(IOperatorUserRepository operatorUserRepository)
-        //{
-        //    InitializeComponent();
-        //    this.operatorUserRepository = operatorUserRepository;
-        //}
+        public AddUser(IOperatorUserRepository operatorUserRepository)
+        {
+            InitializeComponent();
+            this.operatorUserRepository = operatorUserRepository;
+        }
 
-        //private void btnCancel_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Close();
-        //}
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
 
-        
-        //private bool ValidateInput()
-        //{
-        //    if (string.IsNullOrEmpty(txtName.Text))
-        //    {
-        //        ShowMessage?.Invoke("نام کاربر را وارد کنید", MessageTypeEnum.Warning);
-        //        return false;
-        //    }
 
-        //    if (string.IsNullOrEmpty(txtFamily.Text))
-        //    {
-        //        ShowMessage?.Invoke("نام خانوادکی کاربر را وارد کنید", MessageTypeEnum.Warning);
-        //        return false;
-        //    }
-        //    return true;
-        //}
+        private bool ValidateInput()
+        {
+            if (string.IsNullOrEmpty(txtName.Text))
+            {
+                ShowMessage?.Invoke("نام کاربر را وارد کنید", MessageTypeEnum.Warning);
+                return false;
+            }
 
-        //private async void btnSubmit_Click(object sender, RoutedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        var valid = ValidateInput();
-        //        if (!valid) return;
-        //        await operatorUserRepository.AddOperatorUser(new OperatorUser
-        //        {
-        //            Name = txtName.Text,
-        //            Family = txtFamily.Text
-        //        });
-        //        ShowMessage?.Invoke("کاربر با موفقیت ثبت شد", MessageTypeEnum.Success);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        ShowMessage?.Invoke("در ایجاد کاربر مشکلی رخ داده است در صورت تکرار با پشتیبانی تماس بگیرید ", MessageTypeEnum.Error);
-        //    }
-        //}
+            if (string.IsNullOrEmpty(txtFamily.Text))
+            {
+                ShowMessage?.Invoke("نام خانوادکی کاربر را وارد کنید", MessageTypeEnum.Warning);
+                return false;
+            }
+            return true;
+        }
+
+        private async void btnSubmit_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var valid = ValidateInput();
+                if (!valid) return;
+                await operatorUserRepository.AddOperatorUser(new OperatorUser
+                {
+                    Name = txtName.Text,
+                    Family = txtFamily.Text
+                });
+                ShowMessage?.Invoke("کاربر با موفقیت ثبت شد", MessageTypeEnum.Success);
+            }
+            catch (Exception)
+            {
+                ShowMessage?.Invoke("در ایجاد کاربر مشکلی رخ داده است در صورت تکرار با پشتیبانی تماس بگیرید ", MessageTypeEnum.Error);
+            }
+        }
     }
 }
