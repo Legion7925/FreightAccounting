@@ -59,7 +59,6 @@ public partial class AddRemitance : Window
     {
         try
         {
-            var a = ((KeyValuePair<int, string>)cbSubmitUser.SelectedItem).Key;
             var valid = ValidateInputs();
             if (!valid) return;
 
