@@ -1,5 +1,6 @@
 ﻿using FreightAccounting.Core.Entities;
-using FreightAccounting.Core.Model;
+using FreightAccounting.Core.Model.Common;
+using FreightAccounting.Core.Model.Expenses;
 
 namespace FreightAccounting.Core.Interfaces.Repositories;
 

@@ -1,4 +1,5 @@
-﻿using FreightAccounting.Core.Entities;
+﻿using FreightAccounting.Core.Common;
+using FreightAccounting.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -8,10 +9,10 @@ public class FreightAccountingContext : DbContext
 {
     public FreightAccountingContext()
     {
-        
+
     }
 
-    public FreightAccountingContext(DbContextOptions<FreightAccountingContext> options) 
+    public FreightAccountingContext(DbContextOptions<FreightAccountingContext> options)
         : base(options)
     {
 
@@ -29,6 +30,15 @@ public class FreightAccountingContext : DbContext
         optionsBuilder.UseSqlServer(connectionString);
     }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<User>().HasData
+        (
+            new User {Id=1, NameAndFamily = "root", Username = "root", Password = PasswordHasher.HashPassword("123qwe!@#") }
+        );
+        base.OnModelCreating(modelBuilder);
+    }
+
     public DbSet<Remittance> Remittances { get; set; }
 
     public DbSet<Debtor> Debtors { get; set; }
@@ -36,4 +46,6 @@ public class FreightAccountingContext : DbContext
     public DbSet<OperatorUser> OperatorUsers { get; set; }
 
     public DbSet<Expense> Expenses { get; set; }
+
+    public DbSet<User> Users { get; set; }
 }

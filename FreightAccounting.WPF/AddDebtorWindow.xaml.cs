@@ -1,7 +1,7 @@
 ﻿using ControlPlateText;
 using FreightAccounting.Core.Exception;
 using FreightAccounting.Core.Interfaces.Repositories;
-using FreightAccounting.Core.Model;
+using FreightAccounting.Core.Model.Debtors;
 using FreightAccounting.WPF.Helper;
 using System;
 using System.Windows;

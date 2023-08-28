@@ -1,5 +1,5 @@
 ﻿using FreightAccounting.Core.Entities;
-using FreightAccounting.Core.Model;
+using FreightAccounting.Core.Model.Remittances;
 
 namespace FreightAccounting.Core.Interfaces.Repositories;
 

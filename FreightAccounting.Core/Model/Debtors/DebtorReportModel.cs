@@ -2,7 +2,7 @@
 using FreightAccounting.Core.Entities;
 using PersianDate.Standard;
 
-namespace FreightAccounting.Core.Model;
+namespace FreightAccounting.Core.Model.Debtors;
 
 public class DebtorReportModel : Debtor
 {

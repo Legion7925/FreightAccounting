@@ -1,7 +1,8 @@
 ﻿using FreightAccounting.Core.Entities;
 using FreightAccounting.Core.Exception;
 using FreightAccounting.Core.Interfaces.Repositories;
-using FreightAccounting.Core.Model;
+using FreightAccounting.Core.Model.Common;
+using FreightAccounting.Core.Model.Debtors;
 using Microsoft.EntityFrameworkCore;
 
 namespace FreightAccounting.Core.Repositories;
