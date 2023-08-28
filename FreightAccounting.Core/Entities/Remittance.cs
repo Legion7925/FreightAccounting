@@ -26,6 +26,11 @@ public class Remittance : BaseEntity
     public int InsurancePayment { get; set; }
 
     /// <summary>
+    /// شماره بیمه کالا
+    /// </summary>
+    public string? ProductInsuranceNumber { get; set; }
+
+    /// <summary>
     /// مالیات دارایی
     /// </summary>
     public int TaxPayment { get; set; }

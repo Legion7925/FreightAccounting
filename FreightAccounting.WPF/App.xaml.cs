@@ -34,6 +34,9 @@ public partial class App : Application
 
 
         services.AddScoped<IRemittanceRepository, RemittanceRepository>();
+        services.AddScoped<IOperatorUserRepository, OperatorUserRepository>();
+        services.AddScoped<IDebtorRepository, DebtorRepository>();
+        services.AddScoped<IExpensesRepository, ExpensesRepository>();
 
         services.AddDbContext<FreightAccountingContext>(options => options.UseSqlServer(configuration.GetConnectionString("SqlConnectionString")));
 

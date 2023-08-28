@@ -15,6 +15,11 @@ public class OperatorUserRepository : IOperatorUserRepository
         _context = context;
     }
 
+    public async Task<IEnumerable<OperatorUser>> GetOperatorUsers()
+    {
+        return await _context.OperatorUsers.AsNoTracking().ToListAsync();
+    }
+
     public async Task AddOperatorUser(OperatorUser operatorUser)
     {
         await _context.OperatorUsers.AddAsync(operatorUser);

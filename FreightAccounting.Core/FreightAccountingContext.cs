@@ -34,4 +34,6 @@ public class FreightAccountingContext : DbContext
     public DbSet<Debtor> Debtors { get; set; }
 
     public DbSet<OperatorUser> OperatorUsers { get; set; }
+
+    public DbSet<Expense> Expenses { get; set; }
 }

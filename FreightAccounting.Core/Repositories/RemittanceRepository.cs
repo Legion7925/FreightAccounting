@@ -27,8 +27,8 @@ public class RemittanceRepository : IRemittanceRepository
         var remittanceList = _context.Remittances
             .AsNoTracking()
             .Include(x => x.OperatorUser)
-            .Where(r => r.SubmitDate >= queryParameters.StartDate
-            && r.SubmitDate <= queryParameters.EndDate).Select(r => new Remittance
+            .Where(r => r.SubmitDate.Date >= queryParameters.StartDate.Date
+            && r.SubmitDate.Date <= queryParameters.EndDate.Date).Select(r => new Remittance
             {
                 RemittanceNumber = r.RemittanceNumber,
                 Id = r.Id,
