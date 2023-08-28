@@ -1,6 +1,7 @@
 ﻿using FreightAccounting.Core.Entities;
 using FreightAccounting.Core.Interfaces.Repositories;
 using FreightAccounting.Core.Repositories;
+using FreightAccounting.WPF.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
