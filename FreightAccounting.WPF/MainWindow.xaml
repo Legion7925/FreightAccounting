@@ -87,9 +87,17 @@
                                 </Grid.ColumnDefinitions>
                             </Grid>
 
-                            <StackPanel Grid.Column="0">
-                                <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="10,7" Text="تاریخ شروع :" VerticalAlignment="Center"></TextBlock>
+                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="10,7" Text="تاریخ شروع :" VerticalAlignment="Center"></TextBlock>
+                                    <persianDateControls:PersianDatePicker x:Name="dpStart" BorderBrush="Gray" VerticalAlignment="Center"
+                                                               Foreground="{DynamicResource MaterialDesignBody}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="10,10" Text="تاریخ پایان :" VerticalAlignment="Center"></TextBlock>
+                                    <persianDateControls:PersianDatePicker x:Name="dpEnd" BorderBrush="Gray" VerticalAlignment="Center"
+                                                               Foreground="{DynamicResource MaterialDesignBody}"/>
+                                </StackPanel>
                                 
                             </StackPanel>
 
