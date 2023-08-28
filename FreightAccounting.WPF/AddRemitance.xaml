@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FreightAccounting.WPF" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="AddRemitance" Width="auto" Height="auto" SizeToContent="WidthAndHeight" Grid.RowSpan="2" Panel.ZIndex="1" WindowStartupLocation="CenterScreen" WindowStyle="None"
-        AllowsTransparency="True"  ResizeMode="NoResize" Background="Transparent" Loaded="Window_Loaded">
+        Title="AddRemitance" Width="auto" Height="auto" SizeToContent="WidthAndHeight" Grid.RowSpan="2" Panel.ZIndex="1" 
+        WindowStartupLocation="CenterScreen" WindowStyle="None"
+        AllowsTransparency="True"  ResizeMode="NoResize" Background="Transparent" Loaded="Window_Loaded"
+        FontFamily="./Resources/Fonts/samim-font-v4.0.5/Farsi-Digits/#Samim FD" FontSize="14">
     <Border Padding="7" Background="{DynamicResource MaterialDesignPaper}" CornerRadius="7" BorderThickness="3"
             BorderBrush="#FFC8C8C8">
         <Border Padding="15,10,15,10">
@@ -63,8 +65,8 @@
 
                             <StackPanel Grid.Column="3">
                                 <StackPanel Orientation="Horizontal" Margin="0,12,0,10">
-                                    <ComboBox x:Name="cbSubmitUser" Foreground="{DynamicResource MaterialDesignBody}" Width="100" 
-                                          VerticalAlignment="Center" Text="{}"  IsEditable="True" HorizontalAlignment="Left"></ComboBox>
+                                    <ComboBox x:Name="cbSubmitUser" Foreground="{DynamicResource MaterialDesignBody}" Width="140" 
+                                          VerticalAlignment="Center" DisplayMemberPath="Value"  IsEditable="True" HorizontalAlignment="Left"></ComboBox>
 
                                     <Button x:Name="btnAddUser" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
                                             Height="25" Width="25"
@@ -75,19 +77,20 @@
 
                                 </StackPanel>
 
-                                <ComboBox x:Name="cbUserCut" Foreground="{DynamicResource MaterialDesignBody}" Width="130" 
-                                          VerticalAlignment="Center" Margin="0,12,0,10" IsEditable="True" HorizontalAlignment="Left"></ComboBox>
+                                <ComboBox x:Name="cbUserCut" Foreground="{DynamicResource MaterialDesignBody}" Width="140" 
+                                          VerticalAlignment="Center" Margin="0,12,0,10" IsEditable="True" HorizontalAlignment="Left"
+                                           FontSize="12"></ComboBox>
 
-                                <TextBox x:Name="txtUserCut" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,14,0,10"  
+                                <TextBox x:Name="txtUserCut" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15"></TextBox>
 
-                                <TextBox x:Name="txtInsurance" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,14,0,10"  
+                                <TextBox x:Name="txtInsurance" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15"></TextBox>
 
-                                <TextBox x:Name="txtReceviedCommission" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,14,0,10"  
+                                <TextBox x:Name="txtReceviedCommission" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15" InputScope="Number"></TextBox>
 
-                                <TextBox x:Name="txtNetProfit" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,15,0,10"  
+                                <TextBox x:Name="txtNetProfit" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,15,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15" IsReadOnly="True"></TextBox>
                             </StackPanel>
                         </Grid>

@@ -1,6 +1,8 @@
 ﻿using FreightAccounting.Core.Exception;
 using FreightAccounting.Core.Interfaces.Repositories;
 using FreightAccounting.Core.Model;
+using FreightAccounting.Core.Model.Common;
+using FreightAccounting.Core.Model.Debtors;
 using FreightAccounting.WPF.Helper;
 using MaterialDesignColors;
 using MaterialDesignThemes.Wpf;
@@ -20,14 +22,19 @@ namespace FreightAccounting.WPF;
 public partial class MainWindow : Window
 {
     private readonly IDebtorRepository debtorRepository;
+    private readonly IRemittanceRepository remittanceRepository;
+    private readonly IOperatorUserRepository operatorUserRepository;
     private IEnumerable<DebtorReportModel> debtorsList = new List<DebtorReportModel>();
     private DebtorReportModel selectedDebtor = new DebtorReportModel();
 
-    public MainWindow(IDebtorRepository debtorRepository)
+    public MainWindow(IDebtorRepository debtorRepository, 
+        IRemittanceRepository remittanceRepository , 
+        IOperatorUserRepository operatorUserRepository)
     {
         InitializeComponent();
         this.debtorRepository = debtorRepository;
-
+        this.remittanceRepository = remittanceRepository;
+        this.operatorUserRepository = operatorUserRepository;
         NotificationEventsManager.showMessage += ShowSnackbarMessage;
         CartableEventsManager.updateDebtorDatagrid += FillDebtorDatagrid;
     }
@@ -122,7 +129,7 @@ public partial class MainWindow : Window
 
     private void btnAddRemittance_Click(object sender, RoutedEventArgs e)
     {
-
+        new AddRemitance(remittanceRepository, operatorUserRepository, false, null,null).ShowDialog();
     }
 
     private void dgReport_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
