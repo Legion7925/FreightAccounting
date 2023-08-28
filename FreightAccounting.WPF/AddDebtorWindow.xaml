@@ -3,12 +3,77 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FreightAccounting.WPF"
+        xmlns:local="clr-namespace:FreightAccounting.WPF" 
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:controlplatetext="clr-namespace:ControlPlateText;assembly=ControlPlateText"
         mc:Ignorable="d"
-        Title="AddDebtorWindow" Height="450" Width="800" FontFamily="./Resources/Fonts/samim-font-v4.0.5/Farsi-Digits/#Samim FD">
-    <Grid>
-        <Viewbox Width="240" xmlns:irplate="clr-namespace:PlateModel.Wpf.Plates.Iran;assembly=PlateModel.Wpf">
-            <irplate:IRNationalPlate Plate="{Binding MyPlate, Mode=OneWay}" />
-        </Viewbox>
-    </Grid>
+        Title="AddDebtorWindow" Width="auto" Height="auto" SizeToContent="WidthAndHeight" Grid.RowSpan="2" Panel.ZIndex="1" WindowStartupLocation="CenterScreen" WindowStyle="None"
+        AllowsTransparency="True"  ResizeMode="NoResize" Background="Transparent" 
+        FontFamily="./Resources/Fonts/samim-font-v4.0.5/Farsi-Digits/#Samim FD" FontSize="16">
+    <Border Padding="7" Background="{DynamicResource MaterialDesignPaper}" CornerRadius="7" BorderThickness="3"
+            BorderBrush="#FFC8C8C8">
+        <Border Padding="15,10,15,10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <StackPanel>
+                        <Grid FlowDirection="RightToLeft">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="شماره پلاک :" VerticalAlignment="Center" />
+                                <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="نام راننده :" VerticalAlignment="Center" />
+                                <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="نام خانوادگی راننده :" VerticalAlignment="Center" />
+                                <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="مقصد :" VerticalAlignment="Center" />
+                                <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="شماره تماس :" VerticalAlignment="Center" />
+                                <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="مبلغ بدهی :" VerticalAlignment="Center" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="5,0">
+                                <!--<StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,12,0,10">
+                                    <TextBox x:Name="txtP4" Width="17" Text="57" TextAlignment="Center" MaxLength="2"></TextBox>
+                                    <TextBox x:Name="txtP3"  Text="888" Margin="10,0" TextAlignment="Center" MaxLength="3"></TextBox>
+                                    <TextBox x:Name="txtP2"  Text="الف" Margin="0,0,10,0" TextAlignment="Center" MaxLength="1"></TextBox>
+                                    <TextBox x:Name="txtP1" Width="20"  Text="88" TextAlignment="Center" Margin="0,0,10,0" MaxLength="2"></TextBox>
+                                </StackPanel>-->
+                                <Viewbox MaxHeight="50" HorizontalAlignment="Center" Margin="0,0,0,0" FlowDirection="LeftToRight">
+                                    <controlplatetext:WPF_NGM_Plate x:Name="txtPlate" IsEnabled="True" Foreground="Black"/>
+                                </Viewbox>
+                                <TextBox x:Name="txtDriverFirstName" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="0,12,0,10"  
+                                         HorizontalAlignment="Left" ></TextBox>
+                                <TextBox x:Name="txtDriverLastName" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="0,12,0,10"  
+                                         HorizontalAlignment="Left"></TextBox>
+                                <TextBox x:Name="txtDestination" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="0,15,0,10"  
+                                         HorizontalAlignment="Left" ></TextBox>
+                                <TextBox x:Name="txtPhoneNumber" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="0,15,0,10"  
+                                         HorizontalAlignment="Left" MaxLength="11"></TextBox>
+                                <TextBox x:Name="txtDebtAmount" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="0,17,0,10"  
+                                         HorizontalAlignment="Left" InputScope="Number"></TextBox>
+                            </StackPanel>
+
+
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" FlowDirection="RightToLeft" Margin="5,10">
+                        <Button x:Name="btnCancel" Content="{materialDesign:PackIcon Kind=Close}" Margin="7,0" Background="Transparent"
+                                    Foreground="#FFC31F35" BorderBrush="#FFC31F35" Click="btnCancel_Click"
+                                        Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="30" Width="30" ToolTip="انصراف"/>
+
+                        <Button x:Name="btnSubmitDebtor" Content="{materialDesign:PackIcon Kind=Check}" Click="btnSubmitDebtor_Click" Background="Transparent"
+                                    Foreground="#FF26A952" BorderBrush="#FF26A952" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
+                                        Height="30" Width="30" ToolTip="ثبت بدهی"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+
+        </Border>
+    </Border>
 </Window>

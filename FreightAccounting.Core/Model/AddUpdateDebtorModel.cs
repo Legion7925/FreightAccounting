@@ -2,9 +2,11 @@
 
 public class AddUpdateDebtorModel
 {
-    public required string DriverName { get; set; }
+    public required string DriverFirstName { get; set; }
 
-    public required string DriverFamilyName { get; set; }
+    public required string DriverLastName { get; set; }
+
+    public required string PlateNumber { get; set; }
 
     /// <summary>
     /// مقصد

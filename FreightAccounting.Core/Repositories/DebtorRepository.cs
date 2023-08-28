@@ -31,9 +31,10 @@ public class DebtorRepository : IDebtorRepository
     {
         await _context.Debtors.AddAsync(new Debtor
         {
+            PlateNumber = debtorModel.PlateNumber,
             Destination = debtorModel.Destination,
-            DriverFamilyName = debtorModel.DriverFamilyName,
-            DriverName = debtorModel.DriverName,
+            DriverLastName = debtorModel.DriverLastName,
+            DriverFirstName = debtorModel.DriverFirstName,
             DebtAmount = debtorModel.DebtAmount,
             PhoneNumber = debtorModel.PhoneNumber,
         });
@@ -60,10 +61,11 @@ public class DebtorRepository : IDebtorRepository
         var debtor = await GetDebtorById(debtorId);
 
         debtor.Destination = debtorModel.Destination;
-        debtor.DriverFamilyName = debtorModel.DriverFamilyName;
-        debtor.DriverName = debtorModel.DriverName;
+        debtor.DriverLastName = debtorModel.DriverLastName;
+        debtor.DriverFirstName = debtorModel.DriverFirstName;
         debtor.DebtAmount = debtorModel.DebtAmount;
         debtor.PhoneNumber = debtorModel.PhoneNumber;
+        debtor.PlateNumber = debtorModel.PlateNumber;
 
         await _context.SaveChangesAsync();
     }
