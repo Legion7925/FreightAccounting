@@ -1,4 +1,4 @@
-﻿namespace FreightAccounting.Core.Model;
+﻿namespace FreightAccounting.Core.Model.Remittances;
 
 public class AddUpdateRemittanceModel
 {
@@ -46,6 +46,12 @@ public class AddUpdateRemittanceModel
     /// تاریخ ثبت بارنامه
     /// </summary>
     public DateTime SubmitDate { get; set; }
+
+    /// <summary>
+    /// شماره بیمه کالا
+    /// </summary>
+    public string? ProductInsuranceNumber { get; set; }
+
 
 
 }

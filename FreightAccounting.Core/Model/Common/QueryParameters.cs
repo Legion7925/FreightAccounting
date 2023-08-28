@@ -1,4 +1,4 @@
-﻿namespace FreightAccounting.Core.Model;
+﻿namespace FreightAccounting.Core.Model.Common;
 
 public class QueryParameters
 {

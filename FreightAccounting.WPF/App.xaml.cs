@@ -1,4 +1,6 @@
 ﻿using FreightAccounting.Core;
+using FreightAccounting.Core.Common;
+using FreightAccounting.Core.Entities;
 using FreightAccounting.Core.Interfaces.Repositories;
 using FreightAccounting.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -44,12 +46,20 @@ public partial class App : Application
 
         services.AddSingleton<MainWindow>();
     }
-    private void MigrateDatabase(ServiceCollection services)
+    private async void MigrateDatabase(ServiceCollection services)
     {
         using (var serviceProvider = services.BuildServiceProvider())
         {
             var dbContext = serviceProvider.GetRequiredService<FreightAccountingContext>();
             dbContext.Database.Migrate();
+            var rootUserExists = await dbContext.Users.AnyAsync(u => u.Username == "root");
+
+            if (rootUserExists is not true)
+            {
+                await dbContext.Users.AddAsync(new User { NameAndFamily = "root", Password = PasswordHasher.HashPassword("123qwe!@#"), Username = "root" });
+                await dbContext.SaveChangesAsync();
+            }
+
         }
 
     }

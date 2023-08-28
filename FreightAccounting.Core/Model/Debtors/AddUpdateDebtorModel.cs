@@ -1,4 +1,4 @@
-﻿namespace FreightAccounting.Core.Model;
+﻿namespace FreightAccounting.Core.Model.Debtors;
 
 public class AddUpdateDebtorModel
 {

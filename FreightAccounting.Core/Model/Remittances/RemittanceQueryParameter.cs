@@ -1,4 +1,6 @@
-﻿namespace FreightAccounting.Core.Model;
+﻿using FreightAccounting.Core.Model.Common;
+
+namespace FreightAccounting.Core.Model.Remittances;
 
 public class RemittanceQueryParameter : QueryParameters
 {

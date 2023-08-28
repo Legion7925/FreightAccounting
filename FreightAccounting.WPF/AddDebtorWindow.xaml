@@ -44,9 +44,9 @@
                                 <Viewbox MaxHeight="50" HorizontalAlignment="Center" Margin="0,0,0,0" FlowDirection="LeftToRight">
                                     <controlplatetext:WPF_NGM_Plate x:Name="txtPlate" IsEnabled="True" Foreground="Black"/>
                                 </Viewbox>
-                                <TextBox x:Name="txtDriverFirstName" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="0,12,0,10"  
+                                <TextBox x:Name="txtDriverFirstName" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="0,25,0,10"  
                                          HorizontalAlignment="Left" ></TextBox>
-                                <TextBox x:Name="txtDriverLastName" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="0,12,0,10"  
+                                <TextBox x:Name="txtDriverLastName" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="0,15,0,10"  
                                          HorizontalAlignment="Left"></TextBox>
                                 <TextBox x:Name="txtDestination" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="0,15,0,10"  
                                          HorizontalAlignment="Left" ></TextBox>

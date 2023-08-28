@@ -1,4 +1,4 @@
-﻿namespace FreightAccounting.Core.Model;
+﻿namespace FreightAccounting.Core.Model.Expenses;
 
 public class AddUpdateExpenseModel
 {

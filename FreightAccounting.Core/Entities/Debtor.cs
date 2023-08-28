@@ -4,19 +4,19 @@ namespace FreightAccounting.Core.Entities;
 
 public class Debtor : BaseEntity
 {
-    public required string DriverFirstName { get; set; }
+    public  string DriverFirstName { get; set; } = string .Empty;
 
-    public required string DriverLastName { get; set; }
+    public string DriverLastName { get; set; } = string.Empty;
 
     /// <summary>
     /// مقصد
     /// </summary>
-    public required string Destination { get; set; }
+    public string Destination { get; set; } = string.Empty;
 
     /// <summary>
     /// شماره پلاک
     /// </summary>
-    public required string PlateNumber { get; set; }
+    public string PlateNumber { get; set; } = string.Empty;
 
     public string? PhoneNumber { get; set; }
 

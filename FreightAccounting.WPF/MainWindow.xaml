@@ -66,8 +66,8 @@
                     <TabItem Cursor="Hand" Padding="5">
                         <TabItem.Header>
                             <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon VerticalAlignment="Center" Margin="15,0" Kind="Report" Width="22" Height="22"/>
-                                <TextBlock Text="گزارش گیری" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
+                                <materialDesign:PackIcon VerticalAlignment="Center" Margin="15,0" Kind="Paper" Width="22" Height="22"/>
+                                <TextBlock Text="حواله ها" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
                                            Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Center"/>
                             </StackPanel>
                         </TabItem.Header>
@@ -87,9 +87,17 @@
                                 </Grid.ColumnDefinitions>
                             </Grid>
 
-                            <StackPanel Grid.Column="0">
-                                <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="10,7" Text="تاریخ شروع :" VerticalAlignment="Center"></TextBlock>
+                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="10,7" Text="تاریخ شروع :" VerticalAlignment="Center"></TextBlock>
+                                    <persianDateControls:PersianDatePicker x:Name="dpStart" BorderBrush="Gray" VerticalAlignment="Center"
+                                                               Foreground="{DynamicResource MaterialDesignBody}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="10,10" Text="تاریخ پایان :" VerticalAlignment="Center"></TextBlock>
+                                    <persianDateControls:PersianDatePicker x:Name="dpEnd" BorderBrush="Gray" VerticalAlignment="Center"
+                                                               Foreground="{DynamicResource MaterialDesignBody}"/>
+                                </StackPanel>
                                 
                             </StackPanel>
 
@@ -110,15 +118,16 @@
                             <DataGrid x:Name="dgReport" AutoGenerateColumns="False" FlowDirection="RightToLeft" Grid.Row="1" 
                                       Grid.ColumnSpan="2" SelectedCellsChanged="dgReport_SelectedCellsChanged">
                                 <DataGrid.Columns>
-                                    <DataGridTemplateColumn Header="شماره حواله" ></DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="کرایه"></DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="کمیسیون سازمان"></DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="کمیسیون بیمه"></DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="کمیسون مالیات"></DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="نام کاربر"></DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="کمیسیون کاربر"></DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="کمیسیون دریافتی"></DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="سود خاص"></DataGridTemplateColumn>
+                                    <DataGridTextColumn Binding="{Binding Id}"  Header="آیدی" Visibility="Hidden"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding RemittanceNumber}"   Header="شماره حواله" ></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding TransforPayment}" Header="کرایه"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding OrganizationPayment}" Header="کمیسیون سازمان"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding InsurancePayment}" Header="کمیسیون بیمه"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding TaxPayment}" Header="کمیسون مالیات"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding SubmittedUsername}" Header="نام کاربر"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding UserCut}" Header="کمیسیون کاربر"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding ReceviedCommission}" Header="کمیسیون دریافتی"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding NetProfit}" Header="سود خاص"></DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>
@@ -139,21 +148,75 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
 
-                            <Button x:Name="btnAddDebtors" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
+                            <Grid Grid.Row="0" FlowDirection="LeftToRight">
+                                <Button x:Name="btnAddDebtors" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
                                     Background="#FF28AD43" BorderBrush="{x:Null}" Margin="5,5" HorizontalAlignment="Right"
                                         ToolTip="افزودن حواله" Visibility="Visible" Grid.Row="0" Click="btnAddDebtors_Click">
-                                <materialDesign:PackIcon Kind="Add"/>
-                            </Button>
+                                    <materialDesign:PackIcon Kind="Add"/>
+                                </Button>
+
+                                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+                                    
+                                    <ComboBox x:Name="cmbFilterPaymentStatus"  Width="100" SelectedIndex="0" FlowDirection="RightToLeft" 
+                                          SelectionChanged="cmbFilterPaymentStatus_SelectionChanged" Foreground="{DynamicResource MaterialDesignBody}">
+                                        <ComboBoxItem Content="همه"/>
+                                        <ComboBoxItem Content="پرداخت شده"/>
+                                        <ComboBoxItem Content="عدم پرداخت"/>
+                                    </ComboBox>
+
+                                    <StackPanel VerticalAlignment="Center" Margin="20,0" Orientation="Horizontal">
+                                        <TextBox x:Name="txtSearchDebtorsByName" Width="130" Margin="5,0"
+                                                 TextChanged="txtSearchDebtorsByName_TextChanged" FlowDirection="RightToLeft" Foreground="{DynamicResource MaterialDesignBody}"></TextBox>
+                                        <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text=": جست و جو نام" VerticalAlignment="Center"></TextBlock>
+                                    </StackPanel>
+
+                                </StackPanel>
+
+                          
+                            </Grid>
+                        
 
                             <DataGrid x:Name="dgDebtorsReport" AutoGenerateColumns="False" FlowDirection="RightToLeft" Grid.Row="1" 
-                                      Grid.ColumnSpan="2" SelectedCellsChanged="dgDebtorsReport_SelectedCellsChanged">
+                                      Grid.ColumnSpan="2" SelectedCellsChanged="dgDebtorsReport_SelectedCellsChanged" IsReadOnly="True">
                                 <DataGrid.Columns>
-                                    <DataGridTemplateColumn Header="نام راننده" ></DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="شماره پلاک"></DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="مقصد"></DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="شماره تماس"></DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="مقدار بدهی"></DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="تاریخ"></DataGridTemplateColumn>
+                                    <DataGridTextColumn Binding="{Binding Id}"  Header="آیدی" Visibility="Hidden"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding DriverFirstName}" Header="نام راننده" ></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding DriverLastName}" Header="نام خانوادگی راننده" ></DataGridTextColumn>
+                                    <DataGridTemplateColumn Header="شماره پلاک">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <StackPanel Orientation="Horizontal" >
+                                                        <Label Content="{Binding P4}"></Label>
+                                                        <Label Content="{Binding P3}"></Label>
+                                                        <Label Content="{Binding P2}"></Label>
+                                                        <Label Content="{Binding P1}"></Label>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Binding="{Binding Destination}" Header="مقصد"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding PhoneNumber}" Header="شماره تماس"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding DebtAmount}" Header="مقدار بدهی"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding PaidTranslate}" Header="وضعیت پرداخت"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding PaymentDateFa}" Header="تاریخ پرداخت"></DataGridTextColumn>
+                                    <DataGridTemplateColumn Header="عملیات">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+
+                                                    <Button x:Name="btnEditUser" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Content="{materialDesign:PackIcon Kind=Edit}"
+                                                             Background="{x:Null}" MaxWidth="30" MaxHeight="30" ToolTip="ویرایش" Margin="4,0" Foreground="#FF37A6EA" BorderBrush="#FF37A6EA"
+                                                                Click="btnEditDebtor_Click"></Button>
+
+                                                    <Button x:Name="btnDeleteUser" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Content="{materialDesign:PackIcon Kind=Delete}"
+                                                             Background="{x:Null}" MaxWidth="30" MaxHeight="30" ToolTip="حذف" Margin="4,0" Foreground="#FFEA3737" BorderBrush="#FFEA3737"
+                                                             Click="btnDeleteDebtor_Click"></Button>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>
