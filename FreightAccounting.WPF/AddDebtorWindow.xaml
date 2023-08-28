@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="AddDebtorWindow" Height="450" Width="800" FontFamily="./Resources/Fonts/samim-font-v4.0.5/Farsi-Digits/#Samim FD">
     <Grid>
-        
+        <Viewbox Width="240" xmlns:irplate="clr-namespace:PlateModel.Wpf.Plates.Iran;assembly=PlateModel.Wpf">
+            <irplate:IRNationalPlate Plate="{Binding MyPlate, Mode=OneWay}" />
+        </Viewbox>
     </Grid>
 </Window>
