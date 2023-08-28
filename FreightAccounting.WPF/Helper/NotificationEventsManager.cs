@@ -2,7 +2,7 @@
 
 namespace FreightAccounting.WPF.Helper;
 
-public static class NotificationManager
+public static class NotificationEventsManager
 {
     public static event EventHandler<MessageTypeEnum>? showMessage;
 

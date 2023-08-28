@@ -66,8 +66,8 @@
                     <TabItem Cursor="Hand" Padding="5">
                         <TabItem.Header>
                             <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon VerticalAlignment="Center" Margin="15,0" Kind="Report" Width="22" Height="22"/>
-                                <TextBlock Text="گزارش گیری" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
+                                <materialDesign:PackIcon VerticalAlignment="Center" Margin="15,0" Kind="Paper" Width="22" Height="22"/>
+                                <TextBlock Text="حواله ها" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
                                            Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Center"/>
                             </StackPanel>
                         </TabItem.Header>
@@ -111,15 +111,15 @@
                                       Grid.ColumnSpan="2" SelectedCellsChanged="dgReport_SelectedCellsChanged">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Binding="{Binding Id}"  Header="آیدی" Visibility="Hidden"></DataGridTextColumn>
-                                    <DataGridTextColumn   Header="شماره حواله" ></DataGridTextColumn>
-                                    <DataGridTextColumn Header="کرایه"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="کمیسیون سازمان"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="کمیسیون بیمه"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="کمیسون مالیات"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="نام کاربر"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="کمیسیون کاربر"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="کمیسیون دریافتی"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="سود خاص"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding RemittanceNumber}"   Header="شماره حواله" ></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding TransforPayment}" Header="کرایه"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding OrganizationPayment}" Header="کمیسیون سازمان"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding InsurancePayment}" Header="کمیسیون بیمه"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding TaxPayment}" Header="کمیسون مالیات"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding SubmittedUsername}" Header="نام کاربر"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding UserCut}" Header="کمیسیون کاربر"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding ReceviedCommission}" Header="کمیسیون دریافتی"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding NetProfit}" Header="سود خاص"></DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>

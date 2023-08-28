@@ -2,7 +2,7 @@
 
 namespace FreightAccounting.WPF.Helper;
 
-public class CartableEvents
+public class CartableEventsManager
 {
     public static event EventHandler? updateDebtorDatagrid;
     public static event EventHandler? updateRemittanceDatagrid;

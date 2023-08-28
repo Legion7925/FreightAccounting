@@ -61,7 +61,7 @@ public partial class AddDebtorWindow : Window
                     PhoneNumber = txtPhoneNumber.Text.ToEnglishNumber(),
                     PlateNumber = txtPlate.PlateText
                 });
-                NotificationManager.OnShowMessage("عملیات ویرایش با موفقیت انجام شد!", MessageTypeEnum.Success);
+                NotificationEventsManager.OnShowMessage("عملیات ویرایش با موفقیت انجام شد!", MessageTypeEnum.Success);
             }
             else
             {
@@ -74,19 +74,19 @@ public partial class AddDebtorWindow : Window
                     PhoneNumber = txtPhoneNumber.Text,
                     PlateNumber = txtPlate.PlateText.ToEnglishNumber()
                 });
-                NotificationManager.OnShowMessage("بدهکار جدید با موفقیت اضافه شد!", MessageTypeEnum.Success);
+                NotificationEventsManager.OnShowMessage("بدهکار جدید با موفقیت اضافه شد!", MessageTypeEnum.Success);
             }
-            CartableEvents.OnUpdateDebtorDatagrid();
+            CartableEventsManager.OnUpdateDebtorDatagrid();
             Close();
         }
         catch (AppException ax)
         {
-            NotificationManager.OnShowMessage(ax.Message, MessageTypeEnum.Warning);
+            NotificationEventsManager.OnShowMessage(ax.Message, MessageTypeEnum.Warning);
         }
         catch (Exception ex)
         {
             Logger.LogException(ex);
-            NotificationManager.OnShowMessage("در عملیات ثبت خطایی رخ داده", MessageTypeEnum.Error);
+            NotificationEventsManager.OnShowMessage("در عملیات ثبت خطایی رخ داده", MessageTypeEnum.Error);
         }
     }
 

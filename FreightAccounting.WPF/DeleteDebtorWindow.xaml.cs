@@ -27,18 +27,18 @@ public partial class DeleteDebtorWindow : Window
         try
         {
             await debtorRepository.DeleteDebtor(debtorId);
-            NotificationManager.OnShowMessage("عملیات ویرایش با موفقیت انجام شد!", MessageTypeEnum.Success);
-            CartableEvents.OnUpdateDebtorDatagrid();
+            NotificationEventsManager.OnShowMessage("عملیات ویرایش با موفقیت انجام شد!", MessageTypeEnum.Success);
+            CartableEventsManager.OnUpdateDebtorDatagrid();
             Close();
         }
         catch (AppException ax)
         {
-            NotificationManager.OnShowMessage(ax.Message, MessageTypeEnum.Warning);
+            NotificationEventsManager.OnShowMessage(ax.Message, MessageTypeEnum.Warning);
         }
         catch (Exception ex)
         {
             Logger.LogException(ex);
-            NotificationManager.OnShowMessage("در عملیات حذف خطایی رخ داده", MessageTypeEnum.Error);
+            NotificationEventsManager.OnShowMessage("در عملیات حذف خطایی رخ داده", MessageTypeEnum.Error);
         }
     }
 

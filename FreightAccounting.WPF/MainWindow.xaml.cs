@@ -28,8 +28,8 @@ public partial class MainWindow : Window
         InitializeComponent();
         this.debtorRepository = debtorRepository;
 
-        NotificationManager.showMessage += ShowSnackbarMessage;
-        CartableEvents.updateDebtorDatagrid += FillDebtorDatagrid;
+        NotificationEventsManager.showMessage += ShowSnackbarMessage;
+        CartableEventsManager.updateDebtorDatagrid += FillDebtorDatagrid;
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
