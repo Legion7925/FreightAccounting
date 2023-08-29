@@ -4,7 +4,9 @@ using FreightAccounting.Core.Interfaces.Repositories;
 using FreightAccounting.Core.Model;
 using FreightAccounting.Core.Model.Common;
 using FreightAccounting.Core.Model.Debtors;
+using FreightAccounting.Core.Model.Expenses;
 using FreightAccounting.Core.Model.Remittances;
+using FreightAccounting.Core.Repositories;
 using FreightAccounting.WPF.Helper;
 using MaterialDesignColors;
 using MaterialDesignThemes.Wpf;
@@ -27,14 +29,20 @@ public partial class MainWindow : Window
     private readonly IDebtorRepository _debtorRepository;
     private readonly IRemittanceRepository _remittanceRepository;
     private readonly IOperatorUserRepository _operatorUserRepository;
+    private readonly IExpensesRepository _expensesRepository;
     private IEnumerable<DebtorReportModel> debtorsList = new List<DebtorReportModel>();
-    private IEnumerable<RemittanceReportModel> remittanceList = new List<RemittanceReportModel>();
+    private ExpensesReportModel expensesReportModel = new ExpensesReportModel();
+    private RemittanceReportModel remittanceReportModel = new RemittanceReportModel();
     private DebtorReportModel selectedDebtor = new DebtorReportModel();
     //private RemittanceReportModel selectedRemitance = new RemittanceReportModel();
     private Remittance selectedRemittance = new Remittance() { RemittanceNumber = string.Empty };
+    private ExpenseEntityReportModel selectedExpense = new ExpenseEntityReportModel();
     private int _selectedId;
 
-    public MainWindow(IDebtorRepository debtorRepository, IRemittanceRepository remittanceRepository, IOperatorUserRepository operatorUserRepository)
+    public MainWindow(IDebtorRepository debtorRepository,
+        IRemittanceRepository remittanceRepository,
+        IOperatorUserRepository operatorUserRepository,
+        IExpensesRepository expensesRepository)
     {
         InitializeComponent();
         _debtorRepository = debtorRepository;
@@ -44,11 +52,14 @@ public partial class MainWindow : Window
         NotificationEventsManager.showMessage += ShowSnackbarMessage;
         CartableEventsManager.updateDebtorDatagrid += FillDebtorDatagrid;
         CartableEventsManager.updateRemittanceDatagrid += FillRemitanceDatagrid;
+        CartableEventsManager.updateExpensesDatagrid += FillExpensesDatagrid;
+        _expensesRepository = expensesRepository;
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
         FillDebtorDatagrid(null, null);
+        FillExpensesDatagrid(null, null);
     }
 
     private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -173,8 +184,14 @@ public partial class MainWindow : Window
     {
         try
         {
-            remittanceList = (IEnumerable<RemittanceReportModel>)await _remittanceRepository.GetRemittancesBetweenDates(new RemittanceQueryParameter());
-            dgReport.ItemsSource = remittanceList;
+            remittanceReportModel = await _remittanceRepository.GetRemittancesBetweenDates(
+            new RemittanceQueryParameter
+            {
+                StartDate = dpRemittanceStart.DisplayDate.ToDateTime(),
+                EndDate = dpRemittanceEnd.DisplayDate.ToDateTime(),
+            });
+
+            dgReport.ItemsSource = remittanceReportModel.Remittances;
         }
         catch (AppException ax)
         {
@@ -220,6 +237,7 @@ public partial class MainWindow : Window
             ShowSnackbarMessage(ex.Message, MessageTypeEnum.Error);
         }
     }
+
     private void dgDebtorsReport_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
     {
         if (dgDebtorsReport.SelectedItems.Count > 0)
@@ -289,8 +307,69 @@ public partial class MainWindow : Window
     {
         new DeleteDebtorWindow(_debtorRepository, selectedDebtor.Id, true, _remittanceRepository, 0).ShowDialog();
     }
+
+    private void btnSubmitPayment_Click(object sender, RoutedEventArgs e)
+    {
+        new SubmitDebtWindow(_debtorRepository, selectedDebtor.Id).ShowDialog();
+    }
+
     #endregion Debtors
 
+    #region Expenses
+    private async void FillExpensesDatagrid(object? sender, EventArgs? e)
+    {
+        try
+        {
+            expensesReportModel = await _expensesRepository.GetExpensesReport(
+            new ExpensesQueryParameters
+            {
+                StartDate = dpExpensesReportStart.DisplayDate.ToDateTime(),
+                EndDate = dpExpensesReportEnd.DisplayDate.ToDateTime()
+            });
+
+            dgExpenses.ItemsSource = expensesReportModel.Expenses;
+        }
+        catch (AppException ax)
+        {
+            ShowSnackbarMessage(ax.Message, MessageTypeEnum.Warning);
+        }
+        catch (Exception ex)
+        {
+            ShowSnackbarMessage(ex.Message, MessageTypeEnum.Error);
+        }
+    }
+
+    private void btnAddExpense_Click(object sender, RoutedEventArgs e)
+    {
+        new AddExpenseWindow(_expensesRepository, false, null, null).ShowDialog();
+    }
+
+    private void btnEditExpense_Click(object sender, RoutedEventArgs e)
+    {
+        new AddExpenseWindow(_expensesRepository, true, selectedExpense.Id, new AddUpdateExpenseModel
+        {
+            ExpensesAmount = selectedExpense.ExpensesAmount,
+            SubmitDate = selectedExpense.SubmitDate,
+        }).ShowDialog();
+    }
+
+    private void dgExpenses_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+    {
+        if (dgExpenses.SelectedItems.Count > 0)
+            selectedExpense = dgExpenses.SelectedItem as ExpenseEntityReportModel ?? new ExpenseEntityReportModel();
+    }
+
+    private void btnDeleteExpense_Click(object sender, RoutedEventArgs e)
+    {
+        new DeleteExpenseWindow(_expensesRepository, selectedExpense.Id).ShowDialog();
+    }
+
+    #endregion Expenses
+
+    private void btnSettings_Click(object sender, RoutedEventArgs e)
+    {
+        new SettingsWindow().ShowDialog();
+    }
 
     private void btnDeleteRemitance_Click(object sender, RoutedEventArgs e)
     {
@@ -316,11 +395,12 @@ public partial class MainWindow : Window
 
     private void txtSearchRemitanceById_TextChanged(object sender, TextChangedEventArgs e)
     {
-        if (string.IsNullOrEmpty(txtSearchDebtorsByName.Text))
-        {
-            dgReport.ItemsSource = remittanceList;
-            return;
-        }
+        //if (string.IsNullOrEmpty(txtSearchDebtorsByName.Text))
+        //{
+        //    dgReport.ItemsSource = remittanceList;
+        //    return;
+        //}
         //todo
     }
+
 }

@@ -16,17 +16,20 @@ public partial class LoginWindow : Window
     private readonly IDebtorRepository debtorRepository;
     private readonly IRemittanceRepository remittanceRepository;
     private readonly IOperatorUserRepository operatorUserRepository;
+    private readonly IExpensesRepository expensesRepository;
 
     public LoginWindow(IUserRepository userRepository ,
         IDebtorRepository debtorRepository ,
         IRemittanceRepository remittanceRepository ,
-        IOperatorUserRepository operatorUserRepository)
+        IOperatorUserRepository operatorUserRepository,
+        IExpensesRepository expensesRepository)
     {
         InitializeComponent();
         this.userRepository = userRepository;
         this.debtorRepository = debtorRepository;
         this.remittanceRepository = remittanceRepository;
         this.operatorUserRepository = operatorUserRepository;
+        this.expensesRepository = expensesRepository;
     }
 
     private void btnClose_Click(object sender, RoutedEventArgs e)
@@ -53,7 +56,7 @@ public partial class LoginWindow : Window
             AppSession.LoggedInUsername = userInfo.Username;
             AppSession.LoggedInUserId = userInfo.Id;
 
-            new MainWindow(debtorRepository,remittanceRepository,operatorUserRepository).ShowDialog();
+            new MainWindow(debtorRepository,remittanceRepository,operatorUserRepository,expensesRepository).ShowDialog();
         }
         catch (AppException ax)
         {

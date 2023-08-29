@@ -21,7 +21,14 @@ public class ExpensesRepository : IExpensesRepository
            .AsNoTracking()
            .Where(e => e.SubmitDate.Date >= queryParameters.StartDate.Date && e.SubmitDate <= queryParameters.EndDate.Date)
            .Skip((queryParameters.Page - 1) * queryParameters.Size)
-           .Take(queryParameters.Size);
+           .Take(queryParameters.Size)
+           .Select(e=> new ExpenseEntityReportModel
+           {
+               Id = e.Id,   
+               SubmitDate = e.SubmitDate,
+               ExpensesAmount = e.ExpensesAmount,
+               Income = e.Income,
+           });
 
         return new ExpensesReportModel
         {
