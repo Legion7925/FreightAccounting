@@ -100,14 +100,14 @@
                                     <persianDateControls:PersianDatePicker x:Name="dpEnd" BorderBrush="Gray" VerticalAlignment="Center"
                                                                Foreground="{DynamicResource MaterialDesignBody}"/>
                                 </StackPanel>
-                                
+
                                 <StackPanel Orientation="Horizontal" Margin="30,0,5,0">
                                     <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text=": جست و جو حواله" VerticalAlignment="Center"></TextBlock>
                                     <TextBox x:Name="txtSearchRemitanceById" Width="100" Margin="5,5,5,15"
                                                   FlowDirection="RightToLeft" Foreground="{DynamicResource MaterialDesignBody}"
                                              TextChanged="txtSearchRemitanceById_TextChanged"></TextBox>
                                 </StackPanel>
-                                
+
                             </StackPanel>
 
 
@@ -169,16 +169,17 @@
 
                             <Grid Grid.Row="0" FlowDirection="LeftToRight">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="403*"/>
-                                    <ColumnDefinition Width="96*"/>
+                                    <ColumnDefinition Width="253*"/>
+                                    <ColumnDefinition Width="554*"/>
+                                    <ColumnDefinition Width="192*"/>
                                 </Grid.ColumnDefinitions>
                                 <Button x:Name="btnAddDebtors" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
-                                    Background="#FF28AD43" BorderBrush="{x:Null}" Margin="153,8,0,8" HorizontalAlignment="Left"
-                                        ToolTip="افزودن حواله" Visibility="Visible" Grid.Row="0" Click="btnAddDebtors_Click" Grid.Column="1">
+                                    Background="#FF28AD43" BorderBrush="{x:Null}" Margin="153,8,0,7" HorizontalAlignment="Left"
+                                        ToolTip="افزودن حواله" Visibility="Visible" Grid.Row="0" Click="btnAddDebtors_Click" Grid.Column="2">
                                     <materialDesign:PackIcon Kind="Add"/>
                                 </Button>
 
-                                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+                                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal" Grid.ColumnSpan="2">
 
                                     <ComboBox x:Name="cmbFilterPaymentStatus"  Width="100" SelectedIndex="0" FlowDirection="RightToLeft" 
                                           SelectionChanged="cmbFilterPaymentStatus_SelectionChanged" Foreground="{DynamicResource MaterialDesignBody}">

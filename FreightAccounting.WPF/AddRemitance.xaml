@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FreightAccounting.WPF" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:persianDateControls="clr-namespace:Mohsen.PersianDateControls;assembly=Mohsen.PersianDateControls"
         mc:Ignorable="d"
         Title="AddRemitance" Width="auto" Height="auto" SizeToContent="WidthAndHeight" Grid.RowSpan="2" Panel.ZIndex="1" 
         WindowStartupLocation="CenterScreen" WindowStyle="None"
@@ -40,18 +41,19 @@
                                 <TextBox x:Name="txtNumberRemmitance" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,12,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15" IsReadOnly="True"></TextBox>
                                 <TextBox x:Name="txtTranforPayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,12,0,10"  
-                                         HorizontalAlignment="Left" MaxLength="15" InputScope="Number"></TextBox>
+                                         HorizontalAlignment="Left" MaxLength="15" InputScope="Number" TextChanged="txtTranforPayment_TextChanged"></TextBox>
                                 
                                 <TextBox x:Name="txtOrganizationPayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,14,0,10"  
-                                         HorizontalAlignment="Left" MaxLength="15"></TextBox>
+                                         HorizontalAlignment="Left" MaxLength="15"  IsReadOnly="True"></TextBox>
                                 <TextBox x:Name="txtInsurancePayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,14,0,10"  
-                                         HorizontalAlignment="Left" MaxLength="15"></TextBox>
+                                         HorizontalAlignment="Left" MaxLength="15"  IsReadOnly="True"></TextBox>
                                 <TextBox x:Name="txtTaxPayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,15,0,10"  
-                                         HorizontalAlignment="Left" MaxLength="15"></TextBox>
-                                
+                                         HorizontalAlignment="Left" MaxLength="15"  IsReadOnly="True"></TextBox>
 
-                                <materialDesign:TimePicker x:Name="tpDate" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,14,0,10"
-                                                           Visibility="Collapsed" Is24Hours="True"/>
+
+                                <persianDateControls:PersianDatePicker x:Name="dpDate" BorderBrush="Gray" VerticalAlignment="Center"
+                                                               Foreground="{DynamicResource MaterialDesignBody}" Margin="0,22,0,0"/>
+                                
                             </StackPanel>
 
                             <StackPanel Grid.Column="2" Margin="5,0">
@@ -86,7 +88,7 @@
                                 </ComboBox>
 
                                 <TextBox x:Name="txtUserCut" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
-                                         HorizontalAlignment="Left" MaxLength="15"></TextBox>
+                                         HorizontalAlignment="Left" MaxLength="15"  IsReadOnly="True"></TextBox>
 
                                 <TextBox x:Name="txtInsurance" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15"></TextBox>

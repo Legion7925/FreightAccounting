@@ -43,7 +43,7 @@ namespace FreightAccounting.WPF
             }
             catch (Exception ex)
             {
-                ShowMessage?.Invoke(ex.Message, MessageTypeEnum.Error);
+                NotificationEventsManager.OnShowMessage(ex.Message, MessageTypeEnum.Error);
             }
         }
 
@@ -51,13 +51,13 @@ namespace FreightAccounting.WPF
         {
             if (string.IsNullOrEmpty(pbOldPass.Password))
             {
-                ShowMessage?.Invoke("کلمه عبور قدیمی را وارد کنید", MessageTypeEnum.Warning);
+                NotificationEventsManager.OnShowMessage("کلمه عبور قدیمی را وارد کنید", MessageTypeEnum.Warning);
                 return false;
             }
 
             if (string.IsNullOrEmpty(PbNewPass.Password))
             {
-                ShowMessage?.Invoke("کلمه عبور جدید را وارد کنید", MessageTypeEnum.Warning);
+                NotificationEventsManager.OnShowMessage("کلمه عبور جدید را وارد کنید", MessageTypeEnum.Warning);
                 return false;
             }
             return true;

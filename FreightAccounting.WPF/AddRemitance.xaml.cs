@@ -39,7 +39,7 @@ public partial class AddRemitance : Window
             txtOrganizationPayment.Text = addUpdateRemittanceModel.OrganizationPayment.ToString();
             txtInsurancePayment.Text = addUpdateRemittanceModel.InsurancePayment.ToString();
             txtTaxPayment.Text = addUpdateRemittanceModel.TaxPayment.ToString();
-            tpDate.Text = addUpdateRemittanceModel.SubmitDate.ToString();
+            dpDate.Text = addUpdateRemittanceModel.SubmitDate.ToString();
             cbUserCut.SelectedIndex = addUpdateRemittanceModel.UserCut;
             txtUserCut.Text = addUpdateRemittanceModel.UserCut.ToString();
             txtInsurance.Text = addUpdateRemittanceModel.InsurancePayment.ToString(); //todo
@@ -74,7 +74,7 @@ public partial class AddRemitance : Window
                     OrganizationPayment = Convert.ToInt32(doubleTranforPayment * .12),
                     InsurancePayment = Convert.ToInt32(doubleTranforPayment * .05),
                     TaxPayment = Convert.ToInt32(doubleTranforPayment * .01),
-                    SubmitDate = DateTime.Now,
+                    SubmitDate = dpDate.DisplayDate.ToDateTime(),
                     OperatorUserId = ((KeyValuePair<int, string>)cbSubmitUser.SelectedItem).Key,
                     UserCut = _userCut,
                     ReceviedCommission = Convert.ToInt32(txtReceviedCommission.Text)
@@ -90,7 +90,7 @@ public partial class AddRemitance : Window
                     OrganizationPayment = Convert.ToInt32(doubleTranforPayment * .12),
                     InsurancePayment = Convert.ToInt32(doubleTranforPayment * .05),
                     TaxPayment = Convert.ToInt32(doubleTranforPayment * .01),
-                    SubmitDate = DateTime.Now,
+                    SubmitDate = dpDate.DisplayDate.ToDateTime(),
                     OperatorUserId = ((KeyValuePair<int, string>)cbSubmitUser.SelectedItem).Key,
                     UserCut = _userCut,
                     ReceviedCommission = Convert.ToInt32(txtReceviedCommission.Text),
@@ -175,7 +175,7 @@ public partial class AddRemitance : Window
     {
         if (string.IsNullOrEmpty(txtTranforPayment.Text))
         {
-            MessageBox.Show("مقدار کرایه نمیتواند خالی باشد");
+            //MessageBox.Show("مقدار کرایه نمیتواند خالی باشد");
             return;
         }
         else
@@ -185,15 +185,30 @@ public partial class AddRemitance : Window
             {
                 case 0:
                     _userCut = Convert.ToInt32(doubleTranforPayment * .005);
+                    txtUserCut.Text = _userCut.ToString();
                     break;
                 case 1:
                     _userCut = Convert.ToInt32(doubleTranforPayment * .03);
+                    txtUserCut.Text = _userCut.ToString();
                     break;
                 case 2:
                     _userCut = Convert.ToInt32(doubleTranforPayment * .05);
+                    txtUserCut.Text = _userCut.ToString();
                     break;
             }
         }
 
+    }
+
+    private void txtTranforPayment_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    {
+        var doubleTranforPayment = double.Parse(txtTranforPayment.Text);
+        var organizationPayment = AppSession.AppSettings.OrganizationPercentage * doubleTranforPayment / 100;
+        txtOrganizationPayment.Text = organizationPayment.ToString();
+        var taxPayment = AppSession.AppSettings.TaxPercentage * doubleTranforPayment / 100;
+        txtTaxPayment.Text = taxPayment.ToString();
+        var insurePayment = AppSession.AppSettings.InsurancePercentage * doubleTranforPayment / 100;
+        txtInsurancePayment.Text = insurePayment.ToString();
+        cbUserCut_SelectionChanged(null, null);
     }
 }

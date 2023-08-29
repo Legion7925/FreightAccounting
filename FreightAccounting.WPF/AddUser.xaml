@@ -28,9 +28,9 @@
                     </StackPanel>
                     <StackPanel Grid.Column="1">
                         <TextBox x:Name="txtName" Foreground="{DynamicResource MaterialDesignBody}" Width="190" VerticalAlignment="Center" Margin="0,21,0,10"  
-                                         HorizontalAlignment="Left" MaxLength="15" IsReadOnly="True"></TextBox>
+                                         HorizontalAlignment="Left" MaxLength="15"></TextBox>
                         <TextBox x:Name="txtFamily" Foreground="{DynamicResource MaterialDesignBody}" Width="190" VerticalAlignment="Center" Margin="0,31,0,10"  
-                                         HorizontalAlignment="Left" MaxLength="15" IsReadOnly="True"></TextBox>
+                                         HorizontalAlignment="Left" MaxLength="15"></TextBox>
                         
                     </StackPanel>
                 </Grid>

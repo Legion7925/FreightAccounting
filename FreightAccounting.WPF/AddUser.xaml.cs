@@ -1,4 +1,5 @@
 ﻿using FreightAccounting.Core.Entities;
+using FreightAccounting.Core.Exception;
 using FreightAccounting.Core.Interfaces.Repositories;
 using FreightAccounting.Core.Repositories;
 using FreightAccounting.WPF.Helper;
@@ -43,13 +44,13 @@ namespace FreightAccounting.WPF
         {
             if (string.IsNullOrEmpty(txtName.Text))
             {
-                ShowMessage?.Invoke("نام کاربر را وارد کنید", MessageTypeEnum.Warning);
+                NotificationEventsManager.OnShowMessage("نام کاربر را وارد کنید", MessageTypeEnum.Warning);
                 return false;
             }
 
             if (string.IsNullOrEmpty(txtFamily.Text))
             {
-                ShowMessage?.Invoke("نام خانوادکی کاربر را وارد کنید", MessageTypeEnum.Warning);
+                NotificationEventsManager.OnShowMessage("نام خانوادکی کاربر را وارد کنید", MessageTypeEnum.Warning);
                 return false;
             }
             return true;
@@ -66,11 +67,17 @@ namespace FreightAccounting.WPF
                     Name = txtName.Text,
                     Family = txtFamily.Text
                 });
-                ShowMessage?.Invoke("کاربر با موفقیت ثبت شد", MessageTypeEnum.Success);
+                NotificationEventsManager.OnShowMessage("کاربر با موفقیت ثبت شد", MessageTypeEnum.Success);
+                Close();
             }
-            catch (Exception)
+            catch (AppException ne)
             {
-                ShowMessage?.Invoke("در ایجاد کاربر مشکلی رخ داده است در صورت تکرار با پشتیبانی تماس بگیرید ", MessageTypeEnum.Error);
+                NotificationEventsManager.OnShowMessage(ne.Message, MessageTypeEnum.Warning);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogException(ex);
+                NotificationEventsManager.OnShowMessage("در انجام عملیات خطایی رخ داده است", MessageTypeEnum.Error);
             }
         }
     }
