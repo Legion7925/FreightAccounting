@@ -2,6 +2,7 @@
 using FreightAccounting.Core.Exception;
 using FreightAccounting.Core.Interfaces.Repositories;
 using FreightAccounting.Core.Model.Remittances;
+using FreightAccounting.WPF.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,18 +16,19 @@ namespace FreightAccounting.WPF;
 /// </summary>
 public partial class AddRemitance : Window
 {
-    private readonly IOperatorUserRepository operatorUserRepository;
-    private readonly IRemittanceRepository remittanceRepository;
+    private readonly IOperatorUserRepository _operatorUserRepository;
+    private readonly IRemittanceRepository _remittanceRepository;
     private bool _isEdit;
     private readonly int _remittanceId;
-    public static IEnumerable<OperatorUser> userList = new List<OperatorUser>();
+    private static IEnumerable<OperatorUser> _userList = new List<OperatorUser>();
+    private int _userCut;
 
     public AddRemitance(IRemittanceRepository remittanceRepository, IOperatorUserRepository operatorUserRepository,
         bool isEdit, int? remitanceId, AddUpdateRemittanceModel? addUpdateRemittanceModel)
     {
         InitializeComponent();
-        this.remittanceRepository = remittanceRepository;
-        this.operatorUserRepository = operatorUserRepository;
+        _remittanceRepository = remittanceRepository;
+        _operatorUserRepository = operatorUserRepository;
         _isEdit = isEdit;
 
         if (_isEdit)
@@ -65,7 +67,7 @@ public partial class AddRemitance : Window
             var doubleTranforPayment = double.Parse(txtTranforPayment.Text);
             if (_isEdit)
             {
-                await remittanceRepository.UpdateRemittance(_remittanceId, new AddUpdateRemittanceModel
+                await _remittanceRepository.UpdateRemittance(_remittanceId, new AddUpdateRemittanceModel
                 {
                     RemittanceNumber = txtNumberRemmitance.Text,
                     TransforPayment = Convert.ToInt32(txtTranforPayment.Text),
@@ -74,14 +76,14 @@ public partial class AddRemitance : Window
                     TaxPayment = Convert.ToInt32(doubleTranforPayment * .01),
                     SubmitDate = DateTime.Now,
                     OperatorUserId = ((KeyValuePair<int, string>)cbSubmitUser.SelectedItem).Key,
-                    UserCut = 0,
-                    ReceviedCommission = Convert.ToInt32(txtReceviedCommission.Text),
-
+                    UserCut = _userCut,
+                    ReceviedCommission = Convert.ToInt32(txtReceviedCommission.Text)
                 });
+                NotificationEventsManager.OnShowMessage("عملیات ویرایش با موفقیت انجام شد!", MessageTypeEnum.Success);
             }
             else
             {
-                await remittanceRepository.AddRemittance(new AddUpdateRemittanceModel
+                await _remittanceRepository.AddRemittance(new AddUpdateRemittanceModel
                 {
                     RemittanceNumber = txtNumberRemmitance.Text,
                     TransforPayment = Convert.ToInt32(txtTranforPayment.Text),
@@ -89,19 +91,23 @@ public partial class AddRemitance : Window
                     InsurancePayment = Convert.ToInt32(doubleTranforPayment * .05),
                     TaxPayment = Convert.ToInt32(doubleTranforPayment * .01),
                     SubmitDate = DateTime.Now,
-                    OperatorUserId = 0,
-                    UserCut = 0,
+                    OperatorUserId = ((KeyValuePair<int, string>)cbSubmitUser.SelectedItem).Key,
+                    UserCut = _userCut,
                     ReceviedCommission = Convert.ToInt32(txtReceviedCommission.Text),
                 });
+                NotificationEventsManager.OnShowMessage("حواله جدید با موفقیت اضافه شد!", MessageTypeEnum.Success);
             }
+            CartableEventsManager.OnUpdateDebtorDatagrid();
+            Close();
         }
         catch (AppException ne)
         {
-
+            NotificationEventsManager.OnShowMessage(ne.Message, MessageTypeEnum.Warning);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-
+            Logger.LogException(ex);
+            NotificationEventsManager.OnShowMessage("در انجام عملیات خطایی رخ داده است", MessageTypeEnum.Error);
         }
     }
 
@@ -110,23 +116,30 @@ public partial class AddRemitance : Window
         try
         {
             var userDictionary = new Dictionary<int, string>();
-            userList = await operatorUserRepository.GetOperatorUsers();
-            if (userList.Any())
+            _userList = await _operatorUserRepository.GetOperatorUsers();
+            if (_userList.Any())
             {
-                foreach (var item in userList)
+                foreach (var item in _userList)
                 {
                     userDictionary.Add(item.Id, item.Name + " " + item.Family);
                 }
             }
             cbSubmitUser.ItemsSource = userDictionary;
         }
-        catch (AppException ne) { }
-        catch (Exception) { }
+        catch (AppException ne)
+        {
+            NotificationEventsManager.OnShowMessage(ne.Message, MessageTypeEnum.Warning);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogException(ex);
+            NotificationEventsManager.OnShowMessage("در واکشی اطلاعات خطایی رخ داده است", MessageTypeEnum.Error);
+        }
     }
 
     private void btnAddUser_Click(object sender, RoutedEventArgs e)
     {
-        new AddUser(operatorUserRepository).ShowDialog();
+        new AddUser(_operatorUserRepository).ShowDialog();
     }
 
     private bool ValidateInputs()
@@ -156,5 +169,31 @@ public partial class AddRemitance : Window
         }
 
         return true;
+    }
+
+    private void cbUserCut_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+        if (string.IsNullOrEmpty(txtTranforPayment.Text))
+        {
+            MessageBox.Show("مقدار کرایه نمیتواند خالی باشد");
+            return;
+        }
+        else
+        {
+            var doubleTranforPayment = double.Parse(txtTranforPayment.Text);
+            switch (cbUserCut.SelectedIndex)
+            {
+                case 0:
+                    _userCut = Convert.ToInt32(doubleTranforPayment * .005);
+                    break;
+                case 1:
+                    _userCut = Convert.ToInt32(doubleTranforPayment * .03);
+                    break;
+                case 2:
+                    _userCut = Convert.ToInt32(doubleTranforPayment * .05);
+                    break;
+            }
+        }
+
     }
 }

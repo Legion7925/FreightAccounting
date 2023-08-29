@@ -77,9 +77,13 @@
 
                                 </StackPanel>
 
-                                <ComboBox x:Name="cbUserCut" Foreground="{DynamicResource MaterialDesignBody}" Width="140" 
+                                <ComboBox x:Name="cbUserCut" Foreground="{DynamicResource MaterialDesignBody}" Width="140" SelectedIndex="0"
                                           VerticalAlignment="Center" Margin="0,12,0,10" IsEditable="True" HorizontalAlignment="Left"
-                                           FontSize="12"></ComboBox>
+                                           SelectionChanged="cbUserCut_SelectionChanged">
+                                    <ComboBoxItem Content="0.5"></ComboBoxItem>
+                                    <ComboBoxItem Content="3"></ComboBoxItem>
+                                    <ComboBoxItem Content="5"></ComboBoxItem>
+                                </ComboBox>
 
                                 <TextBox x:Name="txtUserCut" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15"></TextBox>

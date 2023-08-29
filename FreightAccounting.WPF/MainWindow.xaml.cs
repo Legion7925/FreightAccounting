@@ -1,11 +1,14 @@
-﻿using FreightAccounting.Core.Exception;
+﻿using FreightAccounting.Core.Entities;
+using FreightAccounting.Core.Exception;
 using FreightAccounting.Core.Interfaces.Repositories;
 using FreightAccounting.Core.Model;
 using FreightAccounting.Core.Model.Common;
 using FreightAccounting.Core.Model.Debtors;
+using FreightAccounting.Core.Model.Remittances;
 using FreightAccounting.WPF.Helper;
 using MaterialDesignColors;
 using MaterialDesignThemes.Wpf;
+using Microsoft.Xaml.Behaviors.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,22 +24,26 @@ namespace FreightAccounting.WPF;
 /// </summary>
 public partial class MainWindow : Window
 {
-    private readonly IDebtorRepository debtorRepository;
-    private readonly IRemittanceRepository remittanceRepository;
-    private readonly IOperatorUserRepository operatorUserRepository;
+    private readonly IDebtorRepository _debtorRepository;
+    private readonly IRemittanceRepository _remittanceRepository;
+    private readonly IOperatorUserRepository _operatorUserRepository;
     private IEnumerable<DebtorReportModel> debtorsList = new List<DebtorReportModel>();
+    private IEnumerable<RemittanceReportModel> remittanceList = new List<RemittanceReportModel>();
     private DebtorReportModel selectedDebtor = new DebtorReportModel();
+    //private RemittanceReportModel selectedRemitance = new RemittanceReportModel();
+    private Remittance selectedRemittance = new Remittance() { RemittanceNumber = string.Empty };
+    private int _selectedId;
 
-    public MainWindow(IDebtorRepository debtorRepository, 
-        IRemittanceRepository remittanceRepository , 
-        IOperatorUserRepository operatorUserRepository)
+    public MainWindow(IDebtorRepository debtorRepository, IRemittanceRepository remittanceRepository, IOperatorUserRepository operatorUserRepository)
     {
         InitializeComponent();
-        this.debtorRepository = debtorRepository;
-        this.remittanceRepository = remittanceRepository;
-        this.operatorUserRepository = operatorUserRepository;
+        _debtorRepository = debtorRepository;
+        _remittanceRepository = remittanceRepository;
+        _operatorUserRepository = operatorUserRepository;
+
         NotificationEventsManager.showMessage += ShowSnackbarMessage;
         CartableEventsManager.updateDebtorDatagrid += FillDebtorDatagrid;
+        CartableEventsManager.updateRemittanceDatagrid += FillRemitanceDatagrid;
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -46,7 +53,7 @@ public partial class MainWindow : Window
 
     private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
-
+        Application.Current.Shutdown();
     }
 
     private void gridHears_MouseDown(object sender, MouseButtonEventArgs e)
@@ -129,14 +136,8 @@ public partial class MainWindow : Window
 
     private void btnAddRemittance_Click(object sender, RoutedEventArgs e)
     {
-        new AddRemitance(remittanceRepository, operatorUserRepository, false, null,null).ShowDialog();
+        new AddRemitance(_remittanceRepository, _operatorUserRepository, false, null, null).ShowDialog();
     }
-
-    private void dgReport_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
-    {
-
-    }
-
 
 
     /// <summary>
@@ -168,10 +169,33 @@ public partial class MainWindow : Window
         }
     }
 
+    private async void FillRemitanceDatagrid(object? sender, EventArgs? e)
+    {
+        try
+        {
+            remittanceList = (IEnumerable<RemittanceReportModel>)await _remittanceRepository.GetRemittancesBetweenDates(new RemittanceQueryParameter());
+            dgReport.ItemsSource = remittanceList;
+        }
+        catch (AppException ax)
+        {
+            ShowSnackbarMessage(ax.Message, MessageTypeEnum.Warning);
+        }
+        catch (Exception ex)
+        {
+            ShowSnackbarMessage(ex.Message, MessageTypeEnum.Error);
+        }
+    }
+
+    private void dgReport_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+    {
+        if (dgReport.SelectedItems.Count > 0)
+            selectedRemittance = dgReport.SelectedItem as Remittance ?? new Remittance() { RemittanceNumber = string.Empty };
+    }
+
     #region Debtors
     private void btnAddDebtors_Click(object sender, RoutedEventArgs e)
     {
-        var addDebtorWindow = new AddDebtorWindow(debtorRepository, false, null, null);
+        var addDebtorWindow = new AddDebtorWindow(_debtorRepository, false, null, null);
         addDebtorWindow.ShowDialog();
     }
 
@@ -180,11 +204,11 @@ public partial class MainWindow : Window
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private async void FillDebtorDatagrid(object? sender , EventArgs? e)
+    private async void FillDebtorDatagrid(object? sender, EventArgs? e)
     {
         try
         {
-            debtorsList = await debtorRepository.GetDebtors(new QueryParameters());
+            debtorsList = await _debtorRepository.GetDebtors(new QueryParameters());
             dgDebtorsReport.ItemsSource = debtorsList;
         }
         catch (AppException ax)
@@ -211,7 +235,7 @@ public partial class MainWindow : Window
     {
         if (dgDebtorsReport is null)
             return;
-        
+
         switch (cmbFilterPaymentStatus.SelectedIndex)
         {
             case 0:
@@ -237,7 +261,7 @@ public partial class MainWindow : Window
             dgDebtorsReport.ItemsSource = debtorsList;
             return;
         }
-        dgDebtorsReport.ItemsSource = debtorsList.Where(d=> (d.DriverFirstName + d.DriverLastName).Contains(txtSearchDebtorsByName.Text)).ToList();
+        dgDebtorsReport.ItemsSource = debtorsList.Where(d => (d.DriverFirstName + d.DriverLastName).Contains(txtSearchDebtorsByName.Text)).ToList();
     }
     /// <summary>
     /// باز کردن پنجره ویرایش بدهکار
@@ -246,13 +270,13 @@ public partial class MainWindow : Window
     /// <param name="e"></param>
     private void btnEditDebtor_Click(object sender, RoutedEventArgs e)
     {
-        new AddDebtorWindow(debtorRepository, true, selectedDebtor.Id, new AddUpdateDebtorModel
+        new AddDebtorWindow(_debtorRepository, true, selectedDebtor.Id, new AddUpdateDebtorModel
         {
             DebtAmount = selectedDebtor.DebtAmount,
             Destination = selectedDebtor.Destination,
             DriverFirstName = selectedDebtor.DriverFirstName,
             DriverLastName = selectedDebtor.DriverLastName,
-            PlateNumber= selectedDebtor.PlateNumber,
+            PlateNumber = selectedDebtor.PlateNumber,
             PhoneNumber = selectedDebtor.PhoneNumber
         }).ShowDialog();
     }
@@ -263,8 +287,40 @@ public partial class MainWindow : Window
     /// <param name="e"></param>
     private void btnDeleteDebtor_Click(object sender, RoutedEventArgs e)
     {
-        new DeleteDebtorWindow(debtorRepository, selectedDebtor.Id).ShowDialog();
+        new DeleteDebtorWindow(_debtorRepository, selectedDebtor.Id, true, _remittanceRepository, 0).ShowDialog();
     }
     #endregion Debtors
 
+
+    private void btnDeleteRemitance_Click(object sender, RoutedEventArgs e)
+    {
+        new DeleteDebtorWindow(_debtorRepository, 0, false, _remittanceRepository, selectedDebtor.Id).ShowDialog();
+    }
+
+    private void btnEditRemitance_Click(object sender, RoutedEventArgs e)
+    {
+        new AddRemitance(_remittanceRepository, _operatorUserRepository, true, selectedRemittance.Id, new AddUpdateRemittanceModel
+        {
+            RemittanceNumber = selectedRemittance.RemittanceNumber,
+            InsurancePayment = selectedRemittance.InsurancePayment,
+            OperatorUserId = selectedRemittance.OperatorUserId,
+            OrganizationPayment = selectedRemittance.OrganizationPayment,
+            ProductInsuranceNumber = selectedRemittance.ProductInsuranceNumber,
+            ReceviedCommission = selectedRemittance.ReceviedCommission,
+            SubmitDate = selectedRemittance.SubmitDate,
+            TransforPayment = selectedRemittance.InsurancePayment,
+            UserCut = selectedRemittance.UserCut,
+            TaxPayment = selectedRemittance.TaxPayment
+        }).ShowDialog();
+    }
+
+    private void txtSearchRemitanceById_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (string.IsNullOrEmpty(txtSearchDebtorsByName.Text))
+        {
+            dgReport.ItemsSource = remittanceList;
+            return;
+        }
+        //todo
+    }
 }
