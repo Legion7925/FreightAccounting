@@ -21,6 +21,18 @@ public class UserRepository : IUserRepository
         return await _context.Users.AsNoTracking().ToArrayAsync();
     }
 
+    public async Task<User> LoginUser(string username, string password)
+    {
+        var user = await _context.Users.Where(u => u.Username == username).FirstOrDefaultAsync();
+
+        if (user == null || user.Password != PasswordHasher.HashPassword(password)) 
+        {
+            throw new AppException("نام کاربری یا کلمه عبور نادرست است");
+        }
+
+        return user;
+    }
+
     public async Task AddUser(AddUserModel userModel)
     {
         await _context.Users.AddAsync(new User

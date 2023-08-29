@@ -58,11 +58,11 @@ public class DebtorRepository : IDebtorRepository
     /// </summary>
     /// <param name="debtorId"></param>
     /// <returns></returns>
-    public async Task SubmitPayment(int debtorId)
+    public async Task SubmitPayment(int debtorId , DateTime paymentDate)
     {
         var debtor = await GetDebtorById(debtorId);
 
-        debtor.PaymentDate = DateTime.Now;
+        debtor.PaymentDate = paymentDate;
 
         await _context.SaveChangesAsync();
     }
