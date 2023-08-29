@@ -54,6 +54,9 @@ public partial class MainWindow : Window
         CartableEventsManager.updateRemittanceDatagrid += FillRemitanceDatagrid;
         CartableEventsManager.updateExpensesDatagrid += FillExpensesDatagrid;
         _expensesRepository = expensesRepository;
+
+        dpExpensesReportStart.SelectedDate = Mohsen.PersianDate.Today.AddDays(-2);
+        dpExpensesReportEnd.SelectedDate = Mohsen.PersianDate.Today;
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)

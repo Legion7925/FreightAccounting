@@ -62,11 +62,11 @@
                                   Background="{DynamicResource PrimaryHueDarkBrush}" Height="35" Width="35" Margin="2.5,0"
                                   Checked="btnChangeTheme_Checked" Unchecked="btnChangeTheme_Unchecked"></ToggleButton>
 
-                    <Button x:Name="btnChangePassword" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
+                    <!--<Button x:Name="btnChangePassword" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
                             Background="{DynamicResource PrimaryHueDarkBrush}" BorderBrush="{x:Null}" Margin="2.5,0" ToolTip="تغییر رمز عبور"
                             Click="btnChangePassword_Click">
                         <materialDesign:PackIcon Kind="key"/>
-                    </Button>
+                    </Button>-->
 
                     <Button x:Name="btnSettings" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
                             Background="{DynamicResource PrimaryHueDarkBrush}" BorderBrush="{x:Null}" Margin="2.5,0" ToolTip="تنظیمات"

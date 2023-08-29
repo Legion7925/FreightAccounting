@@ -48,7 +48,7 @@ public partial class AddExpenseWindow : Window
                 await expensesRepository.UpdateExpense(expenseId, new AddUpdateExpenseModel
                 {
                     ExpensesAmount = Convert.ToInt32(txtExpensesAmount.Text),
-                    SubmitDate = dpExpense.DisplayDate.ToDateTime(),
+                    SubmitDate = dpExpense.SelectedDate.ToDateTime(),
                 });
                 NotificationEventsManager.OnShowMessage("عملیات ویرایش با موفقیت انجام شد!", MessageTypeEnum.Success);
             }
@@ -57,7 +57,7 @@ public partial class AddExpenseWindow : Window
                 await expensesRepository.AddExpense(new AddUpdateExpenseModel
                 {
                     ExpensesAmount = Convert.ToInt32(txtExpensesAmount.Text),
-                    SubmitDate = dpExpense.DisplayDate.ToDateTime(),
+                    SubmitDate = dpExpense.SelectedDate.ToDateTime(),
                 });
                 NotificationEventsManager.OnShowMessage("مورد جدید با موفقیت اضافه شد!", MessageTypeEnum.Success);
             }

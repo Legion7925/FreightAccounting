@@ -56,9 +56,12 @@ public class ExpensesRepository : IExpensesRepository
     public async Task UpdateExpense(int expenseId, AddUpdateExpenseModel expenseModel)
     {
         var expense = await GetExpenseById(expenseId);
+        //سود خالص روزی که وارد کرده رو از دیتا بیس میکشیم بیرون همرو با هم جمع میزنیم
+        var submittedDateNetProfit = _context.Remittances.Where(r => r.SubmitDate.Date == expenseModel.SubmitDate.Date).Select(r => r.NetProfit).Sum();
 
         expense.ExpensesAmount = expenseModel.ExpensesAmount;
         expense.SubmitDate = expenseModel.SubmitDate;
+        expense.Income = submittedDateNetProfit - expenseModel.ExpensesAmount;
 
         await _context.SaveChangesAsync();
     }
