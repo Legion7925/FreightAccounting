@@ -1,13 +1,13 @@
-﻿<Window x:Class="FreightAccounting.WPF.SettingsWindow"
+﻿<Window x:Class="FreightAccounting.WPF.AddExpenseWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FreightAccounting.WPF" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:FreightAccounting.WPF" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:persianDateControls="clr-namespace:Mohsen.PersianDateControls;assembly=Mohsen.PersianDateControls"
         mc:Ignorable="d"
-        Title="SettingsWindow" SizeToContent="WidthAndHeight" Grid.RowSpan="2" Panel.ZIndex="1" WindowStartupLocation="CenterScreen" WindowStyle="None"
+        Title="AddExpenseWindow" SizeToContent="WidthAndHeight" Grid.RowSpan="2" Panel.ZIndex="1" WindowStartupLocation="CenterScreen" WindowStyle="None"
         AllowsTransparency="True" FontSize="16" ResizeMode="NoResize" Background="Transparent" FontFamily="./Resources/Fonts/samim-font-v4.0.5/Farsi-Digits/#Samim FD"
-        Loaded="Window_Loaded">
+        >
 
     <Border Padding="10" Background="{DynamicResource MaterialDesignPaper}" CornerRadius="7" BorderThickness="3"
             BorderBrush="#FFC8C8C8">
@@ -20,14 +20,11 @@
             <Grid Grid.Row="0">
                 <StackPanel Margin="15" FlowDirection="RightToLeft">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="درصد بیمه تکمیلی : " VerticalAlignment="Center"></TextBlock>
-                        <TextBox x:Name="txtOrganizationPercentage" Foreground="{DynamicResource MaterialDesignBody}" Width="50" Margin="10,0"></TextBox>
-                        <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="درصد هزینه سازمان : " VerticalAlignment="Center"></TextBlock>
-                        <TextBox x:Name="txtInsurancePercentage" Foreground="{DynamicResource MaterialDesignBody}" Width="50" Margin="10,0"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,10">
-                        <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="درصد دارایی :" VerticalAlignment="Center"></TextBlock>
-                        <TextBox x:Name="txtTaxPercentage" Foreground="{DynamicResource MaterialDesignBody}" Width="50" Margin="10,0"></TextBox>
+                        <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="مقدار مخارج : " VerticalAlignment="Center"></TextBlock>
+                        <TextBox x:Name="txtExpensesAmount" Foreground="{DynamicResource MaterialDesignBody}" Width="100" Margin="10,0"></TextBox>
+                        <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="تاریخ روز : " VerticalAlignment="Center"></TextBlock>
+                        <persianDateControls:PersianDatePicker x:Name="dpExpense" BorderBrush="Gray" VerticalAlignment="Center" Height="28"
+                                                               Foreground="{DynamicResource MaterialDesignBody}"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -39,10 +36,10 @@
                                         Height="30" Width="30" ToolTip="انصراف"
                             Click="btnCancel_Click"/>
 
-                    <Button x:Name="btnSubmitSettings" Content="{materialDesign:PackIcon Kind=Check}" Background="Transparent"
+                    <Button x:Name="btnSubmitExpense" Content="{materialDesign:PackIcon Kind=Check}" Background="Transparent"
                                     Foreground="#FF26A952" BorderBrush="#FF26A952" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
-                                        Height="30" Width="30" ToolTip="ذخیره تنظیمات"
-                            Click="btnSubmitSettings_Click"/>
+                                        Height="30" Width="30" ToolTip="ثبت مخارج جدید"
+                            Click="btnSubmitExpense_Click"/>
                 </StackPanel>
             </Grid>
 

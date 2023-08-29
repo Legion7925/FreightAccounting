@@ -58,11 +58,11 @@ public partial class SubmitDebtWindow : Window
 
     private bool ValidateInputs()
     {
-        if(!DateTime.TryParse(dpSubmit.DisplayDate.ToString() , out _))
-        {
-            NotificationEventsManager.OnShowMessage("لطفا تاریخ را با فرمت درست وارد کنید", MessageTypeEnum.Warning);
-            return false;
-        }
+        //if(!DateTime.TryParse(dpSubmit.DisplayDate.ToString() , out _))
+        //{
+        //    NotificationEventsManager.OnShowMessage("لطفا تاریخ را با فرمت درست وارد کنید", MessageTypeEnum.Warning);
+        //    return false;
+        //}
         return true;
     }
 

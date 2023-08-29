@@ -10,6 +10,16 @@
         Title="MainWindow" Height="760" Width="1024" MinHeight="760" MinWidth="1024" WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="CanResizeWithGrip"
         WindowStyle="None" Background="Transparent" WindowState="Normal" Loaded="Window_Loaded" Closing="Window_Closing"
         FontFamily="./Resources/Fonts/samim-font-v4.0.5/Farsi-Digits/#Samim FD">
+    <Window.Resources>
+        <Style x:Key="SubmitPaymentButtonStyle" BasedOn="{StaticResource MaterialDesignFloatingActionAccentButton}" TargetType="Button">
+            <Setter Property="Visibility" Value="Visible" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Paid}" Value="True">
+                    <Setter Property="Visibility" Value="Hidden" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Border x:Name="mainContainer" CornerRadius="12" Padding="10.6" Background="{DynamicResource MaterialDesignPaper}" BorderThickness="2" BorderBrush="#FFC8C8C8">
         <Grid>
             <Grid.RowDefinitions>
@@ -57,12 +67,18 @@
                             Click="btnChangePassword_Click">
                         <materialDesign:PackIcon Kind="key"/>
                     </Button>
+
+                    <Button x:Name="btnSettings" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
+                            Background="{DynamicResource PrimaryHueDarkBrush}" BorderBrush="{x:Null}" Margin="2.5,0" ToolTip="تنظیمات"
+                            Click="btnSettings_Click">
+                        <materialDesign:PackIcon Kind="Settings"/>
+                    </Button>
                 </StackPanel>
             </Grid>
 
             <!--body-->
             <Grid Grid.Row="1">
-                <TabControl FlowDirection="RightToLeft">
+                <TabControl FlowDirection="RightToLeft" Margin="0,5">
                     <TabItem Cursor="Hand" Padding="5">
                         <TabItem.Header>
                             <StackPanel Orientation="Horizontal">
@@ -92,20 +108,20 @@
                             <StackPanel Grid.Column="0" Orientation="Horizontal">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="10,7" Text="تاریخ شروع :" VerticalAlignment="Center"></TextBlock>
-                                    <persianDateControls:PersianDatePicker x:Name="dpStart" BorderBrush="Gray" VerticalAlignment="Center"
+                                    <persianDateControls:PersianDatePicker x:Name="dpRemittanceStart" BorderBrush="Gray" VerticalAlignment="Center"
                                                                Foreground="{DynamicResource MaterialDesignBody}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="10,10" Text="تاریخ پایان :" VerticalAlignment="Center"></TextBlock>
-                                    <persianDateControls:PersianDatePicker x:Name="dpEnd" BorderBrush="Gray" VerticalAlignment="Center"
+                                    <persianDateControls:PersianDatePicker x:Name="dpRemittanceEnd" BorderBrush="Gray" VerticalAlignment="Center"
                                                                Foreground="{DynamicResource MaterialDesignBody}"/>
                                 </StackPanel>
                                 
                                 <StackPanel Orientation="Horizontal" Margin="30,0,5,0">
-                                    <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text=": جست و جو حواله" VerticalAlignment="Center"></TextBlock>
+                                    <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="جست و جو حواله :" VerticalAlignment="Center"></TextBlock>
                                     <TextBox x:Name="txtSearchRemitanceById" Width="100" Margin="5,5,5,15"
                                                   FlowDirection="RightToLeft" Foreground="{DynamicResource MaterialDesignBody}"
-                                             TextChanged="txtSearchRemitanceById_TextChanged"></TextBox>
+                                             TextChanged="txtSearchRemitanceById_TextChanged" VerticalAlignment="Center"></TextBox>
                                 </StackPanel>
                                 
                             </StackPanel>
@@ -163,22 +179,26 @@
 
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="50" />
+                                <RowDefinition Height="auto" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
 
                             <Grid Grid.Row="0" FlowDirection="LeftToRight">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="403*"/>
-                                    <ColumnDefinition Width="96*"/>
-                                </Grid.ColumnDefinitions>
+
                                 <Button x:Name="btnAddDebtors" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
-                                    Background="#FF28AD43" BorderBrush="{x:Null}" Margin="153,8,0,8" HorizontalAlignment="Left"
+                                    Background="#FF28AD43" BorderBrush="{x:Null}" HorizontalAlignment="Left" Margin="10"
                                         ToolTip="افزودن حواله" Visibility="Visible" Grid.Row="0" Click="btnAddDebtors_Click" Grid.Column="1">
                                     <materialDesign:PackIcon Kind="Add"/>
                                 </Button>
 
-                                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+                                <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
+
+
+                                    <StackPanel VerticalAlignment="Center" Margin="20,0" Orientation="Horizontal">
+                                        <TextBox x:Name="txtSearchDebtorsByName" Width="130" Margin="5,0"
+                                                 TextChanged="txtSearchDebtorsByName_TextChanged" FlowDirection="RightToLeft" Foreground="{DynamicResource MaterialDesignBody}"></TextBox>
+                                        <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text=": جست و جو نام" VerticalAlignment="Center"></TextBlock>
+                                    </StackPanel>
 
                                     <ComboBox x:Name="cmbFilterPaymentStatus"  Width="100" SelectedIndex="0" FlowDirection="RightToLeft" 
                                           SelectionChanged="cmbFilterPaymentStatus_SelectionChanged" Foreground="{DynamicResource MaterialDesignBody}">
@@ -187,11 +207,6 @@
                                         <ComboBoxItem Content="عدم پرداخت"/>
                                     </ComboBox>
 
-                                    <StackPanel VerticalAlignment="Center" Margin="20,0" Orientation="Horizontal">
-                                        <TextBox x:Name="txtSearchDebtorsByName" Width="130" Margin="5,0"
-                                                 TextChanged="txtSearchDebtorsByName_TextChanged" FlowDirection="RightToLeft" Foreground="{DynamicResource MaterialDesignBody}"></TextBox>
-                                        <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text=": جست و جو نام" VerticalAlignment="Center"></TextBlock>
-                                    </StackPanel>
 
                                 </StackPanel>
 
@@ -236,6 +251,11 @@
                                                     <Button x:Name="btnDeleteUser" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Content="{materialDesign:PackIcon Kind=Delete}"
                                                              Background="{x:Null}" MaxWidth="30" MaxHeight="30" ToolTip="حذف" Margin="4,0" Foreground="#FFEA3737" BorderBrush="#FFEA3737"
                                                              Click="btnDeleteDebtor_Click"></Button>
+                                                    
+                                                    <Button x:Name="btnSubmitPayment" Content="{materialDesign:PackIcon Kind=Payment}" Style="{StaticResource SubmitPaymentButtonStyle}"
+                                                             Background="{x:Null}" MaxWidth="30" MaxHeight="30" ToolTip="پرداخت" Margin="4,0" Foreground="#FF2FB31C" BorderBrush="#FF2FB31C"
+                                                                Click="btnSubmitPayment_Click">
+                                                    </Button>
                                                 </StackPanel>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
@@ -273,24 +293,52 @@
                             <StackPanel Grid.Column="0" Orientation="Horizontal">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="10,7" Text="تاریخ شروع :" VerticalAlignment="Center"></TextBlock>
-                                    <persianDateControls:PersianDatePicker x:Name="dpStartPayment" BorderBrush="Gray" VerticalAlignment="Center"
+                                    <persianDateControls:PersianDatePicker x:Name="dpExpensesReportStart" BorderBrush="Gray" VerticalAlignment="Center"
                                                                Foreground="{DynamicResource MaterialDesignBody}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="10,10" Text="تاریخ پایان :" VerticalAlignment="Center"></TextBlock>
-                                    <persianDateControls:PersianDatePicker x:Name="dpEndPayment" BorderBrush="Gray" VerticalAlignment="Center"
+                                    <persianDateControls:PersianDatePicker x:Name="dpExpensesReportEnd" BorderBrush="Gray" VerticalAlignment="Center"
                                                                Foreground="{DynamicResource MaterialDesignBody}"/>
                                 </StackPanel>
 
                             </StackPanel>
 
                             <Grid Grid.Row="0" FlowDirection="LeftToRight">
-                                <Button x:Name="btnAddPayment" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
+                                <Button x:Name="btnAddExpense" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
                                     Background="#FF28AD43" BorderBrush="{x:Null}" Margin="5,5" HorizontalAlignment="Left"
-                                        ToolTip="افزودن مخارج" Visibility="Visible" Grid.Row="0" >
+                                        ToolTip="افزودن مخارج" Visibility="Visible" Grid.Row="0"  Click="btnAddExpense_Click">
                                     <materialDesign:PackIcon Kind="Add"/>
                                 </Button>
                             </Grid>
+
+                            <DataGrid x:Name="dgExpenses" AutoGenerateColumns="False" FlowDirection="RightToLeft" Grid.Row="1" 
+                                      Grid.ColumnSpan="2" SelectedCellsChanged="dgExpenses_SelectedCellsChanged" IsReadOnly="True">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding Id}"  Header="آیدی" Visibility="Hidden"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding ExpensesAmount}" Header="مقدار مخارج" ></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding SubmitDateFa}" Header="تاریخ روز" ></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding Income}" Header="درآمد خالص" ></DataGridTextColumn>
+                                    <DataGridTemplateColumn Header="عملیات">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+
+                                                    <Button x:Name="btnEditExpense" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Content="{materialDesign:PackIcon Kind=Edit}"
+                                                             Background="{x:Null}" MaxWidth="30" MaxHeight="30" ToolTip="ویرایش" Margin="4,0" Foreground="#FF37A6EA" BorderBrush="#FF37A6EA"
+                                                                Click="btnEditExpense_Click"></Button>
+
+                                                    <Button x:Name="btnDeleteExpense" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Content="{materialDesign:PackIcon Kind=Delete}"
+                                                             Background="{x:Null}" MaxWidth="30" MaxHeight="30" ToolTip="حذف" Margin="4,0" Foreground="#FFEA3737" BorderBrush="#FFEA3737"
+                                                             Click="btnDeleteExpense_Click"></Button>
+
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
                         </Grid>
 
                     </TabItem>

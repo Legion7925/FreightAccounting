@@ -7,7 +7,7 @@ public class ExpensesReportModel
     /// <summary>
     /// لیست مخارج
     /// </summary>
-    public List<Expense> Expenses { get; set; } = new();
+    public IEnumerable<ExpenseEntityReportModel> Expenses { get; set; } = new List<ExpenseEntityReportModel>();
 
     /// <summary>
     /// مجموع مخارج بین دو تاریخ
