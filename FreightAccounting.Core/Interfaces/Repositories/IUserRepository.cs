@@ -11,4 +11,5 @@ public interface IUserRepository
     Task UpdatePasswordByAdmin(int userId, string password);
     Task UpdateUserInfo(int userId, UpdateUserInfoModel userModel);
     Task UpdateUserPassword(int userId, UpdateUserPasswordModel passwordModel);
+    Task<User> LoginUser(string username, string password);
 }

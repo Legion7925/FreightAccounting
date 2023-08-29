@@ -3,10 +3,14 @@ using FreightAccounting.Core.Common;
 using FreightAccounting.Core.Entities;
 using FreightAccounting.Core.Interfaces.Repositories;
 using FreightAccounting.Core.Repositories;
+using FreightAccounting.WPF.Helper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.IO;
+using System.Runtime;
+using System.Text.Json;
 using System.Windows;
 
 namespace FreightAccounting.WPF;
@@ -23,6 +27,7 @@ public partial class App : Application
         ServiceCollection services = new ServiceCollection();
         ConfigureServices(services);
         serviceProvider = services.BuildServiceProvider();
+        ReadSettingsFromJsonFile();
     }
 
     private void ConfigureServices(ServiceCollection services)
@@ -46,6 +51,13 @@ public partial class App : Application
 
         services.AddSingleton<MainWindow>();
     }
+
+    private void OnStartup(object sender, StartupEventArgs e)
+    {
+        var mainWindow = serviceProvider.GetService<MainWindow>();
+        mainWindow!.Show();
+    }
+
     private async void MigrateDatabase(ServiceCollection services)
     {
         using (var serviceProvider = services.BuildServiceProvider())
@@ -64,9 +76,26 @@ public partial class App : Application
 
     }
 
-    private void OnStartup(object sender, StartupEventArgs e)
+    /// <summary>
+    /// تنظیمات نرم افزار از یک فایل جیسون از مسیر روت نرم افزار خوانده میشود
+    /// و در نهایت بر روی برنامه اعمال میشود
+    /// </summary>
+    private void ReadSettingsFromJsonFile()
     {
-        var mainWindow = serviceProvider.GetService<MainWindow>();
-        mainWindow!.Show();
+        try
+        {
+            var path = $@"{Environment.CurrentDirectory}\Setting.json";
+            if (!File.Exists(path))
+                return;
+            var JsonString = File.ReadAllText(path);
+            var setting = JsonSerializer.Deserialize<AppSettings>(JsonString);
+            if (setting != null)
+                AppSession.AppSettings = setting;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogException(ex);
+        }
     }
+
 }

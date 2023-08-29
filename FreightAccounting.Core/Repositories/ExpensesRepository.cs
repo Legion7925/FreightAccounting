@@ -1,7 +1,6 @@
 ﻿using FreightAccounting.Core.Entities;
 using FreightAccounting.Core.Exception;
 using FreightAccounting.Core.Interfaces.Repositories;
-using FreightAccounting.Core.Model.Common;
 using FreightAccounting.Core.Model.Expenses;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,13 +15,18 @@ public class ExpensesRepository : IExpensesRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Expense>> GetExpensesReport(QueryParameters queryParameters)
+    public async Task<ExpensesReportModel> GetExpensesReport(ExpensesQueryParameters queryParameters)
     {
-        return await _context.Expenses
+        var expenses = _context.Expenses
            .AsNoTracking()
+           .Where(e => e.SubmitDate.Date >= queryParameters.StartDate.Date && e.SubmitDate <= queryParameters.EndDate.Date)
            .Skip((queryParameters.Page - 1) * queryParameters.Size)
-           .Take(queryParameters.Size)
-           .ToArrayAsync();
+           .Take(queryParameters.Size);
+
+        return new ExpensesReportModel
+        {
+            Expenses = await expenses.ToListAsync()
+        };
     }
 
     public async Task AddExpense(AddUpdateExpenseModel expenseModel)

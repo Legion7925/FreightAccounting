@@ -5,23 +5,41 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FreightAccounting.WPF" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="LoginWindow" WindowStartupLocation="CenterScreen" Height="360" Width="290" AllowsTransparency="True" WindowStyle="None" Background="Transparent" Loaded="Window_Loaded">
-    <materialDesign:Card Background="#e6e6e6">
-        <Grid>
-            <Grid Height="35" VerticalAlignment="Top" MouseDown="Grid_MouseDown" Background="#546b8a"></Grid>
-            <Button x:Name="btnClose" TabIndex="5" VerticalAlignment="Top" HorizontalAlignment="Right" Background="Transparent" BorderBrush="Transparent" Margin="4,2" Foreground="White" Click="btnClose_Click"></Button>
-            <materialDesign:Card VerticalAlignment="Center" HorizontalAlignment="Center" Panel.ZIndex="10" Height="280" Width="250" Background="White">
-                <Grid>
-                    <Button x:Name="submitLogin" Click="submitLogin_Click" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Content="ورود" Background="#546b8a" Width="120" VerticalAlignment="Bottom" HorizontalAlignment="Center" TabIndex="4" Margin="0,5" Padding="0,0,0,5">
-                        
-                    </Button>
-                    <StackPanel VerticalAlignment="Center" FlowDirection="RightToLeft" Margin="5">
-                        <TextBox x:Name="txtUserName" Margin="0,5,0,8" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="نام کاربری" TabIndex="1" KeyDown="txtUserName_KeyDown"></TextBox>
-                        <PasswordBox x:Name="txtPassword" Margin="0,15,0,0" Style="{DynamicResource MaterialDesignFloatingHintRevealPasswordBox}" materialDesign:HintAssist.Hint="کلمه عبور" TabIndex="2" KeyDown="txtPassword_KeyDown"></PasswordBox>
-                        
-                     </StackPanel>
-                </Grid>
-            </materialDesign:Card>
+        Title="LoginWindow"  WindowStartupLocation="CenterScreen" AllowsTransparency="True" WindowStyle="None" Background="Transparent" 
+        FontFamily="./Resources/Fonts/samim-font-v4.0.5/Farsi-Digits/#Samim FD" Height="550" Width="350" FontSize="14" Loaded="Window_Loaded">
+    <Grid Background="#FFE3E4E5">
+        <Ellipse Height="300" Width="300" Margin="0 0 0 45">
+            <Ellipse.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF6CBEFF"/>
+                    <GradientStop Color="#FF65BBFF" Offset="1"/>
+                    <GradientStop Color="#FF1C7BC7  " Offset="0.5"/>
+                </LinearGradientBrush>
+            </Ellipse.Fill>
+
+        </Ellipse>
+        <Ellipse Width="260" Height="260" Fill="#FFF9F9F9" VerticalAlignment="Bottom" Margin="30,0,30,167">
+            <Ellipse.Effect>
+                <DropShadowEffect Color="#FFBBBBBB" BlurRadius="15" RenderingBias="Quality" ShadowDepth="1"/>
+            </Ellipse.Effect>
+        </Ellipse>
+        <Grid Width="280" Height="240" VerticalAlignment="Bottom" Margin="20,0,20,110">
+
+            <StackPanel VerticalAlignment="Center" Margin="10,-18,10,-22" Height="280" FlowDirection="RightToLeft">
+                <TextBox x:Name="txtUsername" VerticalContentAlignment="Center" materialDesign:HintAssist.Hint="نام کاربری"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="13 10"/>
+
+                <PasswordBox  x:Name="txtPassword" materialDesign:HintAssist.Hint="کلمه عبور" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" Margin="15 10"/>
+            </StackPanel>
         </Grid>
-    </materialDesign:Card>
+        <Button x:Name="btnLogin" VerticalAlignment="Bottom" Margin="100,0,95,72" Foreground="White" Content="ورود"  Click="btnLogin_Click" Background="#FF3B90D4"/>
+
+        <Button  x:Name="btnClose" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                 Background="Transparent" BorderBrush="{x:Null}" Foreground="{x:Null}" Height="32"   
+                 FontWeight="Bold" Width="32" Margin="313,5,5,513" Click="btnClose_Click">
+
+            <materialDesign:PackIcon Kind="Close"  Foreground="#FF505050" Width="25" Height="25"/>
+        </Button>
+
+    </Grid>
 </Window>

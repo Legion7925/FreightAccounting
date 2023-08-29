@@ -1,0 +1,46 @@
+﻿<Window x:Class="FreightAccounting.WPF.SubmitDebtWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FreightAccounting.WPF" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:persianDateControls="clr-namespace:Mohsen.PersianDateControls;assembly=Mohsen.PersianDateControls"
+        mc:Ignorable="d"
+        Title="SubmitDebtWindow" SizeToContent="WidthAndHeight" Grid.RowSpan="2" Panel.ZIndex="1" WindowStartupLocation="CenterScreen" WindowStyle="None"
+        AllowsTransparency="True" FontSize="16" ResizeMode="NoResize" Background="Transparent" FontFamily="./Resources/Fonts/samim-font-v4.0.5/Farsi-Digits/#Samim FD"
+        Loaded="Window_Loaded">
+
+    <Border Padding="10" Background="{DynamicResource MaterialDesignPaper}" CornerRadius="7" BorderThickness="3"
+            BorderBrush="#FFC8C8C8">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <StackPanel Orientation="Horizontal" Margin="15">
+                    <persianDateControls:PersianDatePicker x:Name="dpSubmit" BorderBrush="Gray" Foreground="{DynamicResource MaterialDesignBody}"
+                                                           Margin="10,0" Height="28"/>
+                    <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text=": لطفا تاریخ پرداخت را انتخاب کنید"></TextBlock>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" FlowDirection="RightToLeft" Margin="5">
+                    <Button x:Name="btnCancel" Content="{materialDesign:PackIcon Kind=Close}" Margin="7,0" Background="Transparent"
+                                    Foreground="#FFC31F35" BorderBrush="#FFC31F35" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
+                                        Height="30" Width="30" ToolTip="انصراف"
+                            Click="btnCancel_Click"/>
+
+                    <Button x:Name="btnSubmitPayment" Content="{materialDesign:PackIcon Kind=Check}" Background="Transparent"
+                                    Foreground="#FF26A952" BorderBrush="#FF26A952" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
+                                        Height="30" Width="30" ToolTip="ثبت کلمه عبور جدید"
+                            Click="btnSubmitPayment_Click"/>
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+    </Border>
+
+</Window>
+
