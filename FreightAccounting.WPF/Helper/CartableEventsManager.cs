@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 
 namespace FreightAccounting.WPF.Helper;
 
@@ -6,7 +7,7 @@ public class CartableEventsManager
 {
     public static event EventHandler? updateDebtorDatagrid;
     public static event EventHandler? updateRemittanceDatagrid;
-    public static event EventHandler? updateExpensesDatagrid;
+    public static event EventHandler<RoutedEventArgs>? updateExpensesDatagrid;
     public static event EventHandler? updateOperatorUserCombobox;
 
     public static void OnUpdateDebtorDatagrid()
@@ -21,7 +22,7 @@ public class CartableEventsManager
 
     public static void OnUpdateExpensesDatagrid()
     {
-        updateExpensesDatagrid?.Invoke(default!, EventArgs.Empty);
+        updateExpensesDatagrid?.Invoke(default!, default!);
     }
 
     public static void OnUpdateOperatorUserCombobox()

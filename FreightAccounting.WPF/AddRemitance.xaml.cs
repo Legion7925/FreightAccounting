@@ -42,7 +42,7 @@ public partial class AddRemitance : Window
             dpDate.Text = addUpdateRemittanceModel.SubmitDate.ToString();
             cbUserCut.SelectedIndex = addUpdateRemittanceModel.UserCut;
             txtUserCut.Text = addUpdateRemittanceModel.UserCut.ToString();
-            txtInsurance.Text = addUpdateRemittanceModel.InsurancePayment.ToString(); //todo
+            txtProductInsurance.Text = addUpdateRemittanceModel.ProductInsuranceNumber?.ToString() ?? string.Empty; //todo
             txtReceviedCommission.Text = addUpdateRemittanceModel.ReceviedCommission.ToString();
         }
     }
@@ -69,12 +69,13 @@ public partial class AddRemitance : Window
             {
                 await _remittanceRepository.UpdateRemittance(_remittanceId, new AddUpdateRemittanceModel
                 {
+                    ProductInsuranceNumber = txtProductInsurance.Text,
                     RemittanceNumber = txtNumberRemmitance.Text,
                     TransforPayment = Convert.ToInt32(txtTranforPayment.Text),
                     OrganizationPayment = Convert.ToInt32(doubleTranforPayment * .12),
                     InsurancePayment = Convert.ToInt32(doubleTranforPayment * .05),
                     TaxPayment = Convert.ToInt32(doubleTranforPayment * .01),
-                    SubmitDate = dpDate.DisplayDate.ToDateTime(),
+                    SubmitDate = dpDate.SelectedDate.ToDateTime(),
                     OperatorUserId = ((KeyValuePair<int, string>)cbSubmitUser.SelectedItem).Key,
                     UserCut = _userCut,
                     ReceviedCommission = Convert.ToInt32(txtReceviedCommission.Text)
@@ -90,7 +91,7 @@ public partial class AddRemitance : Window
                     OrganizationPayment = Convert.ToInt32(doubleTranforPayment * .12),
                     InsurancePayment = Convert.ToInt32(doubleTranforPayment * .05),
                     TaxPayment = Convert.ToInt32(doubleTranforPayment * .01),
-                    SubmitDate = dpDate.DisplayDate.ToDateTime(),
+                    SubmitDate = dpDate.SelectedDate.ToDateTime(),
                     OperatorUserId = ((KeyValuePair<int, string>)cbSubmitUser.SelectedItem).Key,
                     UserCut = _userCut,
                     ReceviedCommission = Convert.ToInt32(txtReceviedCommission.Text),

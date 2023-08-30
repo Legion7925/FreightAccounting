@@ -90,7 +90,7 @@
                                 <TextBox x:Name="txtUserCut" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15"  IsReadOnly="True"></TextBox>
 
-                                <TextBox x:Name="txtInsurance" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
+                                <TextBox x:Name="txtProductInsurance" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15"></TextBox>
 
                                 <TextBox x:Name="txtReceviedCommission" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
