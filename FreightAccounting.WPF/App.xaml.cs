@@ -7,6 +7,7 @@ using FreightAccounting.WPF.Helper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Stimulsoft.Report;
 using System;
 using System.IO;
 using System.Runtime;
@@ -50,6 +51,15 @@ public partial class App : Application
         MigrateDatabase(services);  
 
         services.AddSingleton<MainWindow>();
+
+        Stimulsoft.Base.StiLicense.Key = "6vJhGtLLLz2GNviWmUTrhSqnOItdDwjBylQzQcAOiHkgpgFGkUl79uxVs8X+uspx6K+tqdtOB5G1S6PFPRrlVNvMUiSiNYl724EZbrUAWwAYHlGL" +
+                "RbvxMviMExTh2l9xZJ2xc4K1z3ZVudRpQpuDdFq+fe0wKXSKlB6okl0hUd2ikQHfyzsAN8fJltqvGRa5LI8BFkA/f7tffwK6jzW5xYYhHxQpU3hy4fmKo/BSg6yKAoUq3yMZTG6tWeKnWc" +
+                "I6ftCDxEHd30EjMISNn1LCdLN0/4YmedTjM7x+0dMiI2Qif/yI+y8gmdbostOE8S2ZjrpKsgxVv2AAZPdzHEkzYSzx81RHDzZBhKRZc5mwWAmXsWBFRQol9PdSQ8BZYLqvJ4Jzrcrext+t1" +
+                "ZD7HE1RZPLPAqErO9eo+7Zn9Cvu5O73+b9dxhE2sRyAv9Tl1lV2WqMezWRsO55Q3LntawkPq0HvBkd9f8uVuq9zk7VKegetCDLb0wszBAs1mjWzN+ACVHiPVKIk94/QlCkj31dWCg8YTrT" +
+                "5btsKcLibxog7pv1+2e4yocZKWsposmcJbgG0";
+
+        //فارسی سازی گزارشات استیمال چه در حالت طراحی چه نمایش
+        //StiOptions.Localization.Load(@"Resources\StimulsoftLanguages\fa.xml");
     }
 
     private void OnStartup(object sender, StartupEventArgs e)
