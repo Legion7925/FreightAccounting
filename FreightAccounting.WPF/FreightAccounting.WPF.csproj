@@ -46,9 +46,6 @@
     <Reference Include="NGM_ANPR_Net5Core">
       <HintPath>Ref\NGM_ANPR_Net5Core.dll</HintPath>
     </Reference>
-    <Reference Include="PlateModel.Wpf">
-      <HintPath>..\..\WpfApp1\WpfApp1\ref\PlateModel.Wpf.dll</HintPath>
-    </Reference>
     <Reference Include="Stimulsoft.Base">
       <HintPath>Ref\StimulCrack\Stimulsoft.Base.dll</HintPath>
     </Reference>

@@ -15,11 +15,11 @@ public class ExpensesRepository : IExpensesRepository
         _context = context;
     }
 
-    public async Task<int> GetExpenseReportCount(DateTime startDate , DateTime endDate)
+    public int GetExpenseReportCount(DateTime startDate , DateTime endDate)
     {
-        return await _context.Expenses
+        return _context.Expenses
            .AsNoTracking()
-           .Where(e => e.SubmitDate.Date >= startDate.Date && e.SubmitDate <= endDate.Date).CountAsync();
+           .Where(e => e.SubmitDate.Date >= startDate.Date && e.SubmitDate <= endDate.Date).Count();
     }
 
     public ExpensesReportModel GetExpensesReport(ExpensesQueryParameters queryParameters)

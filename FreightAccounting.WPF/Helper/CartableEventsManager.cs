@@ -6,7 +6,7 @@ namespace FreightAccounting.WPF.Helper;
 public class CartableEventsManager
 {
     public static event EventHandler? updateDebtorDatagrid;
-    public static event EventHandler? updateRemittanceDatagrid;
+    public static event EventHandler<RoutedEventArgs>? updateRemittanceDatagrid;
     public static event EventHandler<RoutedEventArgs>? updateExpensesDatagrid;
     public static event EventHandler? updateOperatorUserCombobox;
 
@@ -17,7 +17,7 @@ public class CartableEventsManager
 
     public static void OnUpdateRemittanceDatagrid()
     {
-        updateRemittanceDatagrid?.Invoke(default!, EventArgs.Empty);
+        updateRemittanceDatagrid?.Invoke(default!, default!);
     }
 
     public static void OnUpdateExpensesDatagrid()

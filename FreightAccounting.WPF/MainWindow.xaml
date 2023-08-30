@@ -154,42 +154,51 @@
                                     <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
 
-                                <StackPanel Margin="0,5" Grid.Row="0">
-                                    <Separator Background="#FFDFDFDF"/>
-                                    <StackPanel Margin="10" Orientation="Horizontal">
-                                        <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}"  
+                                <Grid Margin="0,5" Grid.Row="0">
+                                    <Button x:Name="btnPrintRemitanceReport" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
+                                     BorderBrush="{x:Null}"  Click="btnPrintRemitanceReport_Click" HorizontalAlignment="Right" Margin="5,2,0,0"
+                                        ToolTip="پرینت">
+                                        <materialDesign:PackIcon Kind="Printer"/>
+                                    </Button>
+                                    <StackPanel >
+                                        <Separator Background="#FFDFDFDF"/>
+                                        <StackPanel Margin="10" Orientation="Horizontal">
+                                            <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}"  
                                                Text="مجموع درآمد :" VerticalAlignment="Center"></TextBlock>
-                                        <TextBlock x:Name="lblTotalIncomeBasedOnComission" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
+                                            <TextBlock x:Name="lblTotalIncomeBasedOnComission" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
                                                Margin="10,0"></TextBlock>
-                                        <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="20,0,0,0" 
+                                            <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="20,0,0,0" 
                                                Text="مجموع سود خالص :" VerticalAlignment="Center"></TextBlock>
-                                        <TextBlock x:Name="lblTotalNetPorfit"  FontSize="14" FontWeight="SemiBold" 
+                                            <TextBlock x:Name="lblTotalNetPorfit"  FontSize="14" FontWeight="SemiBold" 
                                                    Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
                                                Margin="10,0"></TextBlock>
-                                        <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="20,0,0,0" 
+                                            <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="20,0,0,0" 
                                                Text="مجموع مالیات پرداختی :" VerticalAlignment="Center"></TextBlock>
-                                        <TextBlock x:Name="lblTotalTaxPayment" FontSize="14" FontWeight="SemiBold" 
+                                            <TextBlock x:Name="lblTotalTaxPayment" FontSize="14" FontWeight="SemiBold" 
                                                    Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
                                                Margin="10,0"></TextBlock>
-                                        <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="20,0,0,0" 
+                                            <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="20,0,0,0" 
                                                Text="مجموع بیمه پرداختی :" VerticalAlignment="Center"></TextBlock>
-                                        <TextBlock x:Name="lblTotalInsurancePayment" FontSize="14" FontWeight="SemiBold" 
+                                            <TextBlock x:Name="lblTotalInsurancePayment" FontSize="14" FontWeight="SemiBold" 
                                                    Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
                                                Margin="10,0"></TextBlock>
 
-                                        <!--در صورتی ویزیبل شود که گزارش بر اساس کاربر گرفته شود-->
-                                        <!--یا اینکه میتواند در همه صورت ویزیبل باشد و جمع پورسانت بین دو تاریخ همه کاربران را نشان دهد-->
-                                        <StackPanel x:Name="stpUserCut" Visibility="Hidden" Orientation="Horizontal">
-                                            <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="20,0,0,0" 
+                                            <!--در صورتی ویزیبل شود که گزارش بر اساس کاربر گرفته شود-->
+                                            <!--یا اینکه میتواند در همه صورت ویزیبل باشد و جمع پورسانت بین دو تاریخ همه کاربران را نشان دهد-->
+                                            <StackPanel x:Name="stpUserCut" Visibility="Hidden" Orientation="Horizontal">
+                                                <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="20,0,0,0" 
                                                Text="مجموع پورسانت کاربر :" VerticalAlignment="Center"></TextBlock>
-                                            <TextBlock x:Name="lblTotalUserCut"  FontSize="14" FontWeight="SemiBold" 
+                                                <TextBlock x:Name="lblTotalUserCut"  FontSize="14" FontWeight="SemiBold" 
                                                    Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
                                                Margin="10,0"></TextBlock>
+
+                                            </StackPanel>
 
                                         </StackPanel>
+                                        <Separator Background="#FFDFDFDF"/>
                                     </StackPanel>
-                                    <Separator Background="#FFDFDFDF"/>
-                                </StackPanel>
+
+                                </Grid>
 
 
                                 <DataGrid x:Name="dgReport" AutoGenerateColumns="False" FlowDirection="RightToLeft" Grid.Row="1" 
@@ -257,7 +266,7 @@
                                 </Grid>
                             </Grid>
 
-                            
+
 
 
                         </Grid>

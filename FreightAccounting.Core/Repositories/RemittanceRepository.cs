@@ -24,7 +24,7 @@ public class RemittanceRepository : IRemittanceRepository
     /// <param name="endDate"></param>
     /// <param name="operatorUserId"></param>
     /// <returns></returns>
-    public async Task<int> GetRemittanceReportCount(DateTime startDate , DateTime endDate, int? operatorUserId)
+    public int GetRemittanceReportCount(DateTime startDate , DateTime endDate, int? operatorUserId)
     {
         var remittanceList = _context.Remittances
            .AsNoTracking()
@@ -53,7 +53,7 @@ public class RemittanceRepository : IRemittanceRepository
             remittanceList = remittanceList.Where(r => r.OperatorUserId == operatorUserId);
         }
 
-        return await remittanceList.CountAsync();
+        return remittanceList.Count();
     }
 
     /// <summary>

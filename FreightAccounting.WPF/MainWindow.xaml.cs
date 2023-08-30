@@ -58,6 +58,7 @@ public partial class MainWindow : Window
         CartableEventsManager.updateDebtorDatagrid += FillDebtorDatagrid;
         CartableEventsManager.updateRemittanceDatagrid += FillRemitanceDatagrid;
         CartableEventsManager.updateExpensesDatagrid += btnReportExpenses_Click!;
+        CartableEventsManager.updateRemittanceDatagrid += btnReportRemitance_Click!;
 
         dpExpensesReportStart.SelectedDate = Mohsen.PersianDate.Today.AddDays(-3);
         dpExpensesReportEnd.SelectedDate = Mohsen.PersianDate.Today;
@@ -65,13 +66,13 @@ public partial class MainWindow : Window
         dpRemittanceEnd.SelectedDate = Mohsen.PersianDate.Today;
     }
 
-    private async void Window_Loaded(object sender, RoutedEventArgs e)
+    private void Window_Loaded(object sender, RoutedEventArgs e)
     {
         FillDebtorDatagrid(null, null);
         btnReportExpenses_Click(null!, null!);
         btnReportRemitance_Click(null!, null!);
         FillPaginationComboboxes();
-        await FillOperatorUsersCombobox();
+        FillOperatorUsersCombobox();
     }
 
     private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -203,11 +204,11 @@ public partial class MainWindow : Window
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private async void FillDebtorDatagrid(object? sender, EventArgs? e)
+    private void FillDebtorDatagrid(object? sender, EventArgs? e)
     {
         try
         {
-            debtorsList = await _debtorRepository.GetDebtors(new QueryParameters());
+            debtorsList = _debtorRepository.GetDebtors(new QueryParameters());
             dgDebtorsReport.ItemsSource = debtorsList;
         }
         catch (AppException ax)
@@ -337,14 +338,14 @@ public partial class MainWindow : Window
 
     private double _expensesTotalpage = 0;
 
-    private async void btnReportExpenses_Click(object sender, RoutedEventArgs e)
+    private void btnReportExpenses_Click(object sender, RoutedEventArgs e)
     {
         try
         {
             expensesReportModel.Expenses = new List<ExpenseEntityReportModel>();
             dgExpenses.ItemsSource = null;
 
-            _expensesTotalCount = await _expensesRepository
+            _expensesTotalCount = _expensesRepository
                 .GetExpenseReportCount(dpExpensesReportStart.SelectedDate.ToDateTime(), dpExpensesReportEnd.SelectedDate.ToDateTime());
 
             if (_expensesTotalCount is 0)
@@ -555,16 +556,13 @@ public partial class MainWindow : Window
 
     private double _remitanceTotalpage = 0;
 
-    private async void btnReportRemitance_Click(object sender, RoutedEventArgs e)
+    private  void btnReportRemitance_Click(object sender, RoutedEventArgs e)
     {
         try
         {
-            remittanceReportModel.Remittances = new List<RemittanceEntityReportModel>();
-            dgReport.ItemsSource = null;
-
             int? operatorUserId = ((KeyValuePair<int, string>?)cbUserFilter.SelectedItem)?.Key;
 
-            _remitanceTotalCount = await _remittanceRepository.GetRemittanceReportCount(
+            _remitanceTotalCount = _remittanceRepository.GetRemittanceReportCount(
                 dpRemittanceStart.SelectedDate.ToDateTime(),
                 dpRemittanceEnd.SelectedDate.ToDateTime()
                 , operatorUserId);
@@ -701,12 +699,12 @@ public partial class MainWindow : Window
         //todo
     }
 
-    private async Task FillOperatorUsersCombobox()
+    private  void FillOperatorUsersCombobox()
     {
         try
         {
             var userDictionary = new Dictionary<int, string>();
-            _userList = await _operatorUserRepository.GetOperatorUsers();
+            _userList =  _operatorUserRepository.GetOperatorUsers();
             if (_userList.Any())
             {
                 foreach (var item in _userList)
@@ -778,4 +776,32 @@ public partial class MainWindow : Window
         cmbRemitancePaginationSize.ItemsSource = paginationSizeValuePairs;
     }
 
+    private void btnPrintRemitanceReport_Click(object sender, RoutedEventArgs e)
+    {
+       var report=  _remittanceRepository.GetRemittancesBetweenDates(new RemittanceQueryParameter
+        {
+            StartDate = dpRemittanceStart.SelectedDate.ToDateTime(),
+            EndDate = dpRemittanceEnd.SelectedDate.ToDateTime(),
+            OperatorUserId = null,
+            Page = 1,
+            Size = int.MaxValue
+        });
+        if (!report.Remittances.Any())
+        {
+            ShowSnackbarMessage("داده ای برای نمایش پرینت در این تاریخ موجود نیست", MessageTypeEnum.Information);
+            btnPrintRemitanceReport.IsEnabled = true;
+            return;
+        }
+        var reportList = new List<RemittanceEntityReportModel>();
+        foreach (var item in report.Remittances)
+        {
+            reportList.Add(item);
+        }
+        var stiReport = new StiReport();
+        StiOptions.Dictionary.BusinessObjects.MaxLevel = 1;
+        stiReport.Load(@"Report\RemittanceReport.mrt");
+        stiReport.RegData("لیست حواله ها", reportList);
+        stiReport.Show();
+        btnPrintDebtorsReport.IsEnabled = true;
+    }
 }

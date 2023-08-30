@@ -20,18 +20,18 @@ public class DebtorRepository : IDebtorRepository
     /// تعداد کل گزارش برای صفحه بندی
     /// </summary>
     /// <returns></returns>
-    public async Task<int> GetDebtorsReportCount()
+    public int GetDebtorsReportCount()
     {
-        return await _context.Debtors.AsNoTracking().CountAsync();
+        return _context.Debtors.AsNoTracking().Count();
     }
 
     /// <summary>
     /// لیست همه ی بدهکاران
     /// </summary>
     /// <returns></returns>
-    public async Task<IEnumerable<DebtorReportModel>> GetDebtors(QueryParameters queryParameters)
+    public IEnumerable<DebtorReportModel> GetDebtors(QueryParameters queryParameters)
     {
-        return await _context.Debtors.AsNoTracking()
+        return _context.Debtors.AsNoTracking()
             .Skip((queryParameters.Page - 1) * queryParameters.Size)
             .Take(queryParameters.Size)
             .Select(d=> new DebtorReportModel
@@ -44,7 +44,7 @@ public class DebtorRepository : IDebtorRepository
                 DebtAmount = d.DebtAmount,
                 Id = d.Id,
                 PhoneNumber = d.PhoneNumber
-            }).ToArrayAsync();
+            }).ToList();
     }
 
     public async Task AddDebtor(AddUpdateDebtorModel debtorModel)
