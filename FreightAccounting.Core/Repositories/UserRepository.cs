@@ -18,7 +18,7 @@ public class UserRepository : IUserRepository
 
     public async Task<IEnumerable<User>> GetUsers()
     {
-        return await _context.Users.AsNoTracking().ToArrayAsync();
+        return await _context.Users.AsNoTracking().ToListAsync();
     }
 
     public async Task<User> LoginUser(string username, string password)

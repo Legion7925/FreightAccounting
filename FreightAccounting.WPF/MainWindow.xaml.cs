@@ -50,25 +50,26 @@ public partial class MainWindow : Window
         _debtorRepository = debtorRepository;
         _remittanceRepository = remittanceRepository;
         _operatorUserRepository = operatorUserRepository;
+        _expensesRepository = expensesRepository;
 
         NotificationEventsManager.showMessage += ShowSnackbarMessage;
         CartableEventsManager.updateDebtorDatagrid += FillDebtorDatagrid;
         CartableEventsManager.updateRemittanceDatagrid += FillRemitanceDatagrid;
         CartableEventsManager.updateExpensesDatagrid += btnReportExpenses_Click!;
-        _expensesRepository = expensesRepository;
 
-        dpExpensesReportStart.SelectedDate = Mohsen.PersianDate.Today.AddDays(-2);
+        dpExpensesReportStart.SelectedDate = Mohsen.PersianDate.Today.AddDays(-3);
         dpExpensesReportEnd.SelectedDate = Mohsen.PersianDate.Today;
+        dpRemittanceStart.SelectedDate = Mohsen.PersianDate.Today.AddDays(-3);
+        dpRemittanceEnd.SelectedDate = Mohsen.PersianDate.Today;
     }
 
-    private void Window_Loaded(object sender, RoutedEventArgs e)
+    private async void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        FillDebtorDatagrid(null, null);
-        btnReportExpenses_Click(null!, null!);
-        FillPaginationComboboxes();
-
+        //FillDebtorDatagrid(null, null);
+        //btnReportExpenses_Click(null!, null!);
         btnReportRemitance_Click(null!, null!);
-
+        //FillPaginationComboboxes();
+        //await FillOperatorUsersCombobox();
     }
 
     private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -159,7 +160,6 @@ public partial class MainWindow : Window
         new AddRemitance(_remittanceRepository, _operatorUserRepository, false, null, null).ShowDialog();
     }
 
-
     /// <summary>
     /// نمایش پیام سیستم
     /// </summary>
@@ -188,8 +188,6 @@ public partial class MainWindow : Window
                 break;
         }
     }
-
-    
 
     #region Debtors
     private void btnAddDebtors_Click(object sender, RoutedEventArgs e)
@@ -306,6 +304,36 @@ public partial class MainWindow : Window
     private double _expensesTotalCount = 0;
 
     private double _expensesTotalpage = 0;
+    private async void btnReportExpenses_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            expensesReportModel.Expenses = new List<ExpenseEntityReportModel>();
+            dgExpenses.ItemsSource = null;
+
+            _expensesTotalCount = await _expensesRepository
+                .GetExpenseReportCount(dpExpensesReportStart.SelectedDate.ToDateTime(), dpExpensesReportEnd.SelectedDate.ToDateTime());
+
+            if (_expensesTotalCount is 0)
+            {
+                ShowSnackbarMessage("داده ای برای نمایش یافت نشد", MessageTypeEnum.Information);
+                return;
+            }
+
+            FillExpensesDatagrid(null, null);
+
+            gridExpensePagination.IsEnabled = true;
+
+        }
+        catch (AppException ax)
+        {
+            ShowSnackbarMessage(ax.Message, MessageTypeEnum.Warning);
+        }
+        catch (Exception ex)
+        {
+            ShowSnackbarMessage(ex.Message, MessageTypeEnum.Error);
+        }
+    }
 
     private async Task GetPaginatedExpenseReport()
     {
@@ -400,43 +428,12 @@ public partial class MainWindow : Window
         new DeleteExpenseWindow(_expensesRepository, selectedExpense.Id).ShowDialog();
     }
 
-    private async void btnReportExpenses_Click(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            expensesReportModel.Expenses = new List<ExpenseEntityReportModel>();
-            dgExpenses.ItemsSource = null;
-
-            _expensesTotalCount = await _expensesRepository
-                .GetExpenseReportCount(dpExpensesReportStart.SelectedDate.ToDateTime(), dpExpensesReportEnd.SelectedDate.ToDateTime());
-
-            if (_expensesTotalCount is 0)
-            {
-                ShowSnackbarMessage("داده ای برای نمایش یافت نشد", MessageTypeEnum.Information);
-                return;
-            }
-
-            FillExpensesDatagrid(null, null);
-
-            gridExpensePagination.IsEnabled = true;
-
-        }
-        catch (AppException ax)
-        {
-            ShowSnackbarMessage(ax.Message, MessageTypeEnum.Warning);
-        }
-        catch (Exception ex)
-        {
-            ShowSnackbarMessage(ex.Message, MessageTypeEnum.Error);
-        }
-    }
-
     private void cmbExpensePaginationSize_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (!expensesReportModel.Expenses.Any())
             return;
         _expensesPageIndex = 1;
-        FillExpensesDatagrid(null,null);
+        FillExpensesDatagrid(null, null);
     }
 
     private void btnExpenseFirstPage_Click(object sender, RoutedEventArgs e)
@@ -454,7 +451,7 @@ public partial class MainWindow : Window
     private void btnExpenseNextPage_Click(object sender, RoutedEventArgs e)
     {
         _expensesPageIndex++;
-        FillExpensesDatagrid(null , null);
+        FillExpensesDatagrid(null, null);
     }
 
     private void btnExpenseLastPage_Click(object sender, RoutedEventArgs e)
@@ -476,10 +473,44 @@ public partial class MainWindow : Window
     private double _remitanceTotalCount = 0;
 
     private double _remitanceTotalpage = 0;
+
+    private async void btnReportRemitance_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            remittanceReportModel.Remittances = new List<Remittance>();
+            dgReport.ItemsSource = null;
+
+            int? operatorUserId = ((KeyValuePair<int, string>?)cbUserFilter.SelectedItem)?.Key;
+
+            _remitanceTotalCount = await _remittanceRepository.GetRemittanceReportCount(
+                dpRemittanceStart.SelectedDate.ToDateTime(),
+                dpRemittanceEnd.SelectedDate.ToDateTime()
+                , operatorUserId);
+
+
+            if (_remitanceTotalCount == 0)
+            {
+                ShowSnackbarMessage("داده ای برای نمایش یافت نشد", MessageTypeEnum.Information);
+                return;
+            };
+            FillRemitanceDatagrid(null, null);
+            gridRemitancePagination.IsEnabled = true;
+        }
+        catch (AppException ax)
+        {
+            ShowSnackbarMessage(ax.Message, MessageTypeEnum.Warning);
+        }
+        catch (Exception)
+        {
+            ShowSnackbarMessage("در واکشی اطلاعات خطایی رخ داده است", MessageTypeEnum.Error);
+        }
+    }
+
     private async void FillRemitanceDatagrid(object? sender, EventArgs? e)
     {
         _remitancePageSize = Convert.ToInt32(cmbRemitancePaginationSize.SelectedValue);
-        _expensesTotalpage = Math.Ceiling(_remitanceTotalCount / _remitancePageSize);
+        _remitanceTotalpage = Math.Ceiling(_remitanceTotalCount / _remitancePageSize);
         if (_remitanceTotalpage == 0)
             _remitanceTotalpage = 1;
 
@@ -504,7 +535,7 @@ public partial class MainWindow : Window
             btnRemitancePreviousPage.IsEnabled = false;
             btnRemitanceFirstPage.IsEnabled = false;
         }
-        if (_remitancePageIndex == _expensesTotalpage)
+        if (_remitancePageIndex == _remitanceTotalpage)
         {
             btnRemitanceLastPage.IsEnabled = false;
             btnRemitanceNextPage.IsEnabled = false;
@@ -523,11 +554,13 @@ public partial class MainWindow : Window
     {
         try
         {
+            int? operatorUserId = ((KeyValuePair<int, string>?)cbUserFilter.SelectedItem)?.Key;
             remittanceReportModel = await _remittanceRepository.GetRemittancesBetweenDates(
             new RemittanceQueryParameter
             {
-                StartDate = dpRemittanceStart.SelectedDate.ToDateTime().AddDays(-3),
-                EndDate = dpRemittanceEnd.SelectedDate.ToDateTime()
+                StartDate = dpRemittanceStart.SelectedDate.ToDateTime(),
+                EndDate = dpRemittanceEnd.SelectedDate.ToDateTime(),
+                OperatorUserId = operatorUserId
             });
 
             dgReport.ItemsSource = remittanceReportModel.Remittances;
@@ -580,7 +613,7 @@ public partial class MainWindow : Window
         //todo
     }
 
-    private async Task GetUserList()
+    private async Task FillOperatorUsersCombobox()
     {
         try
         {
@@ -605,74 +638,11 @@ public partial class MainWindow : Window
             NotificationEventsManager.OnShowMessage("در واکشی اطلاعات خطایی رخ داده است", MessageTypeEnum.Error);
         }
     }
-    
+
 
     private void btnSettings_Click(object sender, RoutedEventArgs e)
     {
         new SettingsWindow().ShowDialog();
-    }
-
-    
-
-    private void FillPaginationComboboxes()
-    {
-        Dictionary<int, string> paginationSizeValuePairs = new Dictionary<int, string>
-            {
-                { 0, "10" },
-                { 1, "20" },
-                { 2, "30" }
-            };
-        cmbExpensePaginationSize.ItemsSource = paginationSizeValuePairs;
-        cmbRemitancePaginationSize.ItemsSource = paginationSizeValuePairs;
-    }
-
-    
-
-    private async void btnReportRemitance_Click(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            //remittanceReportModel.Remittances = new List<Remittance>();
-            //dgReport.ItemsSource = null;
-
-            //if(cbUserFilter.SelectedItem == null)
-            //{
-            //    cbUserFilter.SelectedItem = 
-            //}
-            //_remitanceTotalCount = await _remittanceRepository.GetRemittanceReportCount(dpExpensesReportStart.SelectedDate.ToDateTime().AddDays(-3), 
-            //    dpExpensesReportEnd.SelectedDate.ToDateTime(), 
-            //    ((KeyValuePair<int, string>)cbUserFilter.SelectedItem).Key)?? null;
-
-
-            //remittanceReportModel = await _remittanceRepository.GetRemittancesBetweenDates(new RemittanceQueryParameter
-            //{
-            //    StartDate = dpRemittanceStart.SelectedDate.ToDateTime().AddDays(-3),
-            //    EndDate = dpRemittanceEnd.SelectedDate.ToDateTime(),
-            //    OperatorUserId = ((KeyValuePair<int, string>)cbUserFilter.SelectedItem).Key,
-            //    Page = Convert.ToInt32(_remitanceTotalCount / 10),
-            //    Size =0
-
-            //});
-
-
-            //if (_remitanceTotalCount == 0)
-            //{
-            //    ShowSnackbarMessage("داده ای برای نمایش یافت نشد", MessageTypeEnum.Information);
-            //    return;
-            //};
-            //FillRemitanceDatagrid(null, null);
-            //gridRemitancePagination.IsEnabled = true;
-
-
-        }
-        catch (AppException ax)
-        {
-            ShowSnackbarMessage(ax.Message, MessageTypeEnum.Warning);
-        }
-        catch (Exception)
-        {
-            ShowSnackbarMessage("در واکشی اطلاعات خطایی رخ داده است", MessageTypeEnum.Error);
-        }
     }
 
     private void btnRemitanceLastPage_Click(object sender, RoutedEventArgs e)
@@ -707,4 +677,17 @@ public partial class MainWindow : Window
         FillRemitanceDatagrid(null, null);
     }
     #endregion Remittance
+
+    private void FillPaginationComboboxes()
+    {
+        Dictionary<int, string> paginationSizeValuePairs = new Dictionary<int, string>
+            {
+                { 0, "10" },
+                { 1, "20" },
+                { 2, "30" }
+            };
+        cmbExpensePaginationSize.ItemsSource = paginationSizeValuePairs;
+        cmbRemitancePaginationSize.ItemsSource = paginationSizeValuePairs;
+    }
+
 }
