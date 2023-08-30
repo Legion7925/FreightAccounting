@@ -90,14 +90,12 @@
 
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="70" />
+                                <RowDefinition Height="50" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
 
                             <Grid Grid.Row="0">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="auto" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="auto" />
@@ -117,54 +115,111 @@
                                                                Foreground="{DynamicResource MaterialDesignBody}"/>
                                 </StackPanel>
 
-                                <StackPanel Orientation="Horizontal" Margin="30,0,5,0">
+                                <StackPanel Orientation="Horizontal" Margin="5,0,5,0">
                                     <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="جست و جو حواله :" VerticalAlignment="Center"></TextBlock>
                                     <TextBox x:Name="txtSearchRemitanceById" Width="100" Margin="5,5,5,15"
                                                   FlowDirection="RightToLeft" Foreground="{DynamicResource MaterialDesignBody}"
                                              TextChanged="txtSearchRemitanceById_TextChanged" VerticalAlignment="Center"></TextBox>
                                 </StackPanel>
 
+                                <StackPanel Orientation="Horizontal" Margin="5,0,5,0">
+                                    <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="جست و جو کاربر :" VerticalAlignment="Center"></TextBlock>
+                                    <!--<TextBox x:Name="txtSearchRemitanceByUser" Width="100" Margin="5,5,5,15"
+                                                  FlowDirection="RightToLeft" Foreground="{DynamicResource MaterialDesignBody}"
+                                             TextChanged="txtSearchRemitanceByUser_TextChanged" VerticalAlignment="Center"></TextBox>-->
+
+                                    <ComboBox x:Name="cbUserFilter" Foreground="{DynamicResource MaterialDesignBody}" Width="140" 
+                                          VerticalAlignment="Center" DisplayMemberPath="Value" Margin="5,5,5,15" IsEditable="True" HorizontalAlignment="Left"></ComboBox>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="5,0,5,0">
+                                    <Button x:Name="btnReportRemitance" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Content="گزارش" Margin="5"
+                                    Click="btnReportRemitance_Click"></Button>
+                                </StackPanel>
                             </StackPanel>
 
+                            <Grid Grid.Row="0" FlowDirection="LeftToRight">
+                                <Button x:Name="btnAddRemittance" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
+                                    Background="#FF28AD43" BorderBrush="{x:Null}" HorizontalAlignment="Left"
+                                        ToolTip="افزودن حواله" Visibility="Visible" Margin="5,2,0,0" Click="btnAddRemittance_Click">
+                                    <materialDesign:PackIcon Kind="Add"/>
+                                </Button>
+                            </Grid>
 
 
-                            <Button x:Name="btnAddRemittance" Grid.Column="3" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
-                                    Background="#FF28AD43" BorderBrush="{x:Null}" Margin="5,5" HorizontalAlignment="Right"
-                                        ToolTip="افزودن حواله" Visibility="Visible" Grid.Row="0" Click="btnAddRemittance_Click">
-                                <materialDesign:PackIcon Kind="Add"/>
-                            </Button>
+                            <Grid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
 
-                            <DataGrid x:Name="dgReport" AutoGenerateColumns="False" FlowDirection="RightToLeft" Grid.Row="1" 
-                                      Grid.ColumnSpan="2" SelectedCellsChanged="dgReport_SelectedCellsChanged">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding Id}"  Header="آیدی" Visibility="Hidden"></DataGridTextColumn>
-                                    <DataGridTextColumn Binding="{Binding RemittanceNumber}"   Header="شماره حواله" ></DataGridTextColumn>
-                                    <DataGridTextColumn Binding="{Binding TransforPayment}" Header="کرایه"></DataGridTextColumn>
-                                    <DataGridTextColumn Binding="{Binding OrganizationPayment}" Header="کمیسیون سازمان"></DataGridTextColumn>
-                                    <DataGridTextColumn Binding="{Binding InsurancePayment}" Header="کمیسیون بیمه"></DataGridTextColumn>
-                                    <DataGridTextColumn Binding="{Binding TaxPayment}" Header="کمیسون مالیات"></DataGridTextColumn>
-                                    <DataGridTextColumn Binding="{Binding SubmittedUsername}" Header="نام کاربر"></DataGridTextColumn>
-                                    <DataGridTextColumn Binding="{Binding UserCut}" Header="کمیسیون کاربر"></DataGridTextColumn>
-                                    <DataGridTextColumn Binding="{Binding ReceviedCommission}" Header="کمیسیون دریافتی"></DataGridTextColumn>
-                                    <DataGridTextColumn Binding="{Binding NetProfit}" Header="سود خاص"></DataGridTextColumn>
-                                    <DataGridTemplateColumn Header="عملیات">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+                                <DataGrid x:Name="dgReport" AutoGenerateColumns="False" FlowDirection="RightToLeft" Grid.Row="0" 
+                                      Grid.ColumnSpan="2" SelectedCellsChanged="dgReport_SelectedCellsChanged" IsReadOnly="True">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding Id}"  Header="آیدی" Visibility="Hidden"></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding RemittanceNumber}"   Header="شماره حواله" ></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding TransforPayment}" Header="کرایه"></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding OrganizationPayment}" Header="کمیسیون سازمان"></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding InsurancePayment}" Header="کمیسیون بیمه"></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding TaxPayment}" Header="کمیسون مالیات"></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding SubmittedUsername}" Header="نام کاربر"></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding UserCut}" Header="کمیسیون کاربر"></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding ReceviedCommission}" Header="کمیسیون دریافتی"></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding NetProfit}" Header="سود خاص"></DataGridTextColumn>
+                                        <DataGridTemplateColumn Header="عملیات">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
 
-                                                    <Button x:Name="btnEditRemitance" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Content="{materialDesign:PackIcon Kind=Edit}"
+                                                        <Button x:Name="btnEditRemitance" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Content="{materialDesign:PackIcon Kind=Edit}"
                                                              Background="{x:Null}" MaxWidth="30" MaxHeight="30" ToolTip="ویرایش" Margin="4,0" Foreground="#FF37A6EA" BorderBrush="#FF37A6EA"
                                                                 Click="btnEditRemitance_Click"></Button>
 
-                                                    <Button x:Name="btnDeleteRemitance" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Content="{materialDesign:PackIcon Kind=Delete}"
+                                                        <Button x:Name="btnDeleteRemitance" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Content="{materialDesign:PackIcon Kind=Delete}"
                                                              Background="{x:Null}" MaxWidth="30" MaxHeight="30" ToolTip="حذف" Margin="4,0" Foreground="#FFEA3737" BorderBrush="#FFEA3737"
                                                              Click="btnDeleteRemitance_Click"></Button>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                </DataGrid.Columns>
-                            </DataGrid>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+
+                                <Grid x:Name="gridRemitancePagination" Grid.Row="1" IsEnabled="False" FlowDirection="LeftToRight">
+                                    <StackPanel HorizontalAlignment="Left" Margin="5" Orientation="Horizontal">
+                                        <Button x:Name="btnRemitanceLastPage" Margin="10,0,0,0" Cursor="Hand" HorizontalAlignment="Left" Click="btnRemitanceLastPage_Click"
+                                        Style="{DynamicResource MaterialDesignFlatButton}" Foreground="{DynamicResource MaterialDesignBody}">
+                                            <materialDesign:PackIcon Kind="PageFirst" />
+                                        </Button>
+
+                                        <Button x:Name="btnRemitanceNextPage" Margin="10,0,0,0" Cursor="Hand" Click="btnRemitanceNextPage_Click" HorizontalAlignment="Left"
+                                        Style="{DynamicResource MaterialDesignFlatButton}" Foreground="{DynamicResource MaterialDesignBody}">
+                                            <materialDesign:PackIcon Kind="LessThan" />
+                                        </Button>
+
+                                        <Button x:Name="btnRemitancePreviousPage" Margin="10,0,0,0" Cursor="Hand" Click="btnRemitancePreviousPage_Click"  HorizontalAlignment="Left" 
+                                        Style="{DynamicResource MaterialDesignFlatButton}" Foreground="{DynamicResource MaterialDesignBody}">
+                                            <materialDesign:PackIcon Kind="GreaterThan"/>
+                                        </Button>
+
+                                        <Button x:Name="btnRemitanceFirstPage" Margin="10,0,0,0" Cursor="Hand" Click="btnRemitanceFirstPage_Click" HorizontalAlignment="Left"
+                                        Style="{DynamicResource MaterialDesignFlatButton}" Foreground="{DynamicResource MaterialDesignBody}">
+                                            <materialDesign:PackIcon Kind="PageLast" />
+                                        </Button>
+
+                                        <TextBlock Foreground="{DynamicResource MaterialDesignBody}" x:Name="lblRemitancePageNumberInfo" Text="0 - 0" VerticalAlignment="Center" Margin="20,0,5,0"  FontSize="13"/>
+                                        <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="از" VerticalAlignment="Center"  FontSize="13"/>
+                                        <TextBlock Foreground="{DynamicResource MaterialDesignBody}" x:Name="lblRemitanceTotalCount" Text="0" VerticalAlignment="Center" Margin="5,0,3,0"  FontSize="13"/>
+
+                                        <ComboBox x:Name="cmbRemitancePaginationSize"  Margin="25,0,20,0" SelectedValuePath="Value" VerticalAlignment="Center"
+                          DisplayMemberPath="Value" SelectedIndex="0" SelectionChanged="cmbRemitancePaginationSize_SelectionChanged" Foreground="{DynamicResource MaterialDesignBody}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+
+                            
+
+
                         </Grid>
                     </TabItem>
 
@@ -276,12 +331,16 @@
                         </TabItem.Header>
 
                         <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="297*"/>
+                                <ColumnDefinition Width="701*"/>
+                            </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="50" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
 
-                            <Grid Grid.Row="0">
+                            <Grid Grid.Row="0" Grid.ColumnSpan="2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto" />
                                     <ColumnDefinition Width="*" />
@@ -290,7 +349,7 @@
                                 </Grid.ColumnDefinitions>
                             </Grid>
 
-                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="2">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="10,7" Text="تاریخ شروع :" VerticalAlignment="Center"></TextBlock>
                                     <persianDateControls:PersianDatePicker x:Name="dpExpensesReportStart" BorderBrush="Gray" VerticalAlignment="Center"
@@ -306,7 +365,7 @@
                                     Click="btnReportExpenses_Click" HorizontalAlignment="Left"></Button>
                             </StackPanel>
 
-                            <Grid Grid.Row="0" FlowDirection="LeftToRight">
+                            <Grid Grid.Row="0" FlowDirection="LeftToRight" Grid.ColumnSpan="2">
                                 <Button x:Name="btnAddExpense" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
                                     Background="#FF28AD43" BorderBrush="{x:Null}" Margin="5,5" HorizontalAlignment="Left"
                                         ToolTip="افزودن مخارج" Visibility="Visible" Grid.Row="0"  Click="btnAddExpense_Click">
@@ -314,7 +373,7 @@
                                 </Button>
                             </Grid>
 
-                            <Grid Grid.Row="1">
+                            <Grid Grid.Row="1" Grid.ColumnSpan="2">
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
                                     <RowDefinition Height="auto"/>
