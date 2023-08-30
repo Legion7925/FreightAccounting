@@ -32,6 +32,7 @@ public partial class MainWindow : Window
     private readonly IOperatorUserRepository _operatorUserRepository;
     private readonly IExpensesRepository _expensesRepository;
     private IEnumerable<DebtorReportModel> debtorsList = new List<DebtorReportModel>();
+    private static IEnumerable<OperatorUser> _userList = new List<OperatorUser>();
     private ExpensesReportModel expensesReportModel = new ExpensesReportModel();
     private RemittanceReportModel remittanceReportModel = new RemittanceReportModel();
     private DebtorReportModel selectedDebtor = new DebtorReportModel();
@@ -185,34 +186,7 @@ public partial class MainWindow : Window
         }
     }
 
-    private async void FillRemitanceDatagrid(object? sender, EventArgs? e)
-    {
-        try
-        {
-            remittanceReportModel = await _remittanceRepository.GetRemittancesBetweenDates(
-            new RemittanceQueryParameter
-            {
-                StartDate = dpRemittanceStart.SelectedDate.ToDateTime(),
-                EndDate = dpRemittanceEnd.SelectedDate.ToDateTime(),
-            });
-
-            dgReport.ItemsSource = remittanceReportModel.Remittances;
-        }
-        catch (AppException ax)
-        {
-            ShowSnackbarMessage(ax.Message, MessageTypeEnum.Warning);
-        }
-        catch (Exception ex)
-        {
-            ShowSnackbarMessage(ex.Message, MessageTypeEnum.Error);
-        }
-    }
-
-    private void dgReport_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
-    {
-        if (dgReport.SelectedItems.Count > 0)
-            selectedRemittance = dgReport.SelectedItem as Remittance ?? new Remittance() { RemittanceNumber = string.Empty };
-    }
+    
 
     #region Debtors
     private void btnAddDebtors_Click(object sender, RoutedEventArgs e)
@@ -492,12 +466,83 @@ public partial class MainWindow : Window
 
     #region Remittance
 
+    private int _remitancePageSize = 5;
 
-    #endregion Remittance
+    private int _remitancePageIndex = 1;
 
-    private void btnSettings_Click(object sender, RoutedEventArgs e)
+    private double _remitanceTotalCount = 0;
+
+    private double _remitanceTotalpage = 0;
+    private async void FillRemitanceDatagrid(object? sender, EventArgs? e)
     {
-        new SettingsWindow().ShowDialog();
+        _remitancePageSize = Convert.ToInt32(cmbRemitancePaginationSize.SelectedValue);
+        _expensesTotalpage = Math.Ceiling(_remitanceTotalCount / _remitancePageSize);
+        if (_remitanceTotalpage == 0)
+            _remitanceTotalpage = 1;
+
+        await GetPaginatedRemitanceReport();
+
+        if (_remitanceTotalCount == 0)
+        {
+            btnRemitanceLastPage.IsEnabled = false;
+            btnRemitanceNextPage.IsEnabled = false;
+            btnRemitancePreviousPage.IsEnabled = false;
+            btnRemitanceFirstPage.IsEnabled = false;
+        }
+        else
+        {
+            btnRemitanceLastPage.IsEnabled = true;
+            btnRemitanceNextPage.IsEnabled = true;
+            btnRemitancePreviousPage.IsEnabled = true;
+            btnRemitanceFirstPage.IsEnabled = true;
+        }
+        if (_remitancePageIndex == 1)
+        {
+            btnRemitancePreviousPage.IsEnabled = false;
+            btnRemitanceFirstPage.IsEnabled = false;
+        }
+        if (_remitancePageIndex == _expensesTotalpage)
+        {
+            btnRemitanceLastPage.IsEnabled = false;
+            btnRemitanceNextPage.IsEnabled = false;
+        }
+        else
+        {
+            btnRemitanceLastPage.IsEnabled = true;
+            btnRemitanceNextPage.IsEnabled = true;
+        }
+        lblRemitanceTotalCount.Text = _remitanceTotalCount.ToString();
+        lblRemitancePageNumberInfo.Text = $"{((_remitancePageIndex - 1) * _remitancePageSize)} - {((_remitancePageIndex - 1) * _remitancePageSize) + remittanceReportModel.Remittances.Count()}";
+        dgReport.ItemsSource = remittanceReportModel.Remittances;
+    }
+
+    private async Task GetPaginatedRemitanceReport()
+    {
+        try
+        {
+            remittanceReportModel = await _remittanceRepository.GetRemittancesBetweenDates(
+            new RemittanceQueryParameter
+            {
+                StartDate = dpRemittanceStart.SelectedDate.ToDateTime().AddDays(-3),
+                EndDate = dpRemittanceEnd.SelectedDate.ToDateTime()
+            });
+
+            dgReport.ItemsSource = remittanceReportModel.Remittances;
+        }
+        catch (AppException ax)
+        {
+            ShowSnackbarMessage(ax.Message, MessageTypeEnum.Warning);
+        }
+        catch (Exception ex)
+        {
+            ShowSnackbarMessage(ex.Message, MessageTypeEnum.Error);
+        }
+    }
+
+    private void dgReport_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+    {
+        if (dgReport.SelectedItems.Count > 0)
+            selectedRemittance = dgReport.SelectedItem as Remittance ?? new Remittance() { RemittanceNumber = string.Empty };
     }
 
     private void btnDeleteRemitance_Click(object sender, RoutedEventArgs e)
@@ -532,6 +577,40 @@ public partial class MainWindow : Window
         //todo
     }
 
+    private async Task GetUserList()
+    {
+        try
+        {
+            var userDictionary = new Dictionary<int, string>();
+            _userList = await _operatorUserRepository.GetOperatorUsers();
+            if (_userList.Any())
+            {
+                foreach (var item in _userList)
+                {
+                    userDictionary.Add(item.Id, item.Name + " " + item.Family);
+                }
+            }
+            cbUserFilter.ItemsSource = userDictionary;
+        }
+        catch (AppException ne)
+        {
+            NotificationEventsManager.OnShowMessage(ne.Message, MessageTypeEnum.Warning);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogException(ex);
+            NotificationEventsManager.OnShowMessage("در واکشی اطلاعات خطایی رخ داده است", MessageTypeEnum.Error);
+        }
+    }
+    #endregion Remittance
+
+    private void btnSettings_Click(object sender, RoutedEventArgs e)
+    {
+        new SettingsWindow().ShowDialog();
+    }
+
+    
+
     private void FillPaginationComboboxes()
     {
         Dictionary<int, string> paginationSizeValuePairs = new Dictionary<int, string>
@@ -543,4 +622,80 @@ public partial class MainWindow : Window
         cmbExpensePaginationSize.ItemsSource = paginationSizeValuePairs;
     }
 
+    
+
+    private async void btnReportRemitance_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            //remittanceReportModel.Remittances = new List<Remittance>();
+            //dgReport.ItemsSource = null;
+
+            //_remitanceTotalCount = await _remittanceRepository.GetRemittancesBetweenDates(new RemittanceQueryParameter
+            //{
+            //    StartDate = dpRemittanceStart.SelectedDate.ToDateTime(),
+            //    EndDate = dpRemittanceEnd.SelectedDate.ToDateTime(),
+            //    OperatorUserId = ((KeyValuePair<int, string>)cbUserFilter.SelectedItem).Key
+
+            //});
+
+            //_remitanceTotalCount = await _remittanceRepository.
+
+            //if(_remitanceTotalCount = 0)
+            //{
+            //    ShowSnackbarMessage("داده ای برای نمایش یافت نشد", MessageTypeEnum.Information);
+            //    return;
+            //}
+            //FillRemitanceDatagrid(null, null);
+            //gridRemitancePagination.IsEnabled = true;
+
+            //expensesReportModel.Expenses = new List<ExpenseEntityReportModel>();
+            //dgExpenses.ItemsSource = null;
+
+            //_expensesTotalCount = await _expensesRepository
+            //    .GetExpenseReportCount(dpExpensesReportStart.SelectedDate.ToDateTime(), dpExpensesReportEnd.SelectedDate.ToDateTime());
+
+
+        }
+        catch(AppException ax)
+        {
+            ShowSnackbarMessage(ax.Message, MessageTypeEnum.Warning);
+        }
+        catch (Exception)
+        {
+            ShowSnackbarMessage("در واکشی اطلاعات خطایی رخ داده است", MessageTypeEnum.Error);
+        }
+    }
+
+    private void btnRemitanceLastPage_Click(object sender, RoutedEventArgs e)
+    {
+        _remitancePageIndex = Convert.ToInt32(_remitanceTotalpage);
+        FillRemitanceDatagrid(null, null);
+    }
+
+    private void btnRemitanceNextPage_Click(object sender, RoutedEventArgs e)
+    {
+        _remitancePageIndex++;
+        FillRemitanceDatagrid(null, null);
+    }
+
+    private void btnRemitancePreviousPage_Click(object sender, RoutedEventArgs e)
+    {
+        _remitancePageIndex--;
+        FillRemitanceDatagrid(null, null);
+    }
+
+    private void btnRemitanceFirstPage_Click(object sender, RoutedEventArgs e)
+    {
+        _remitancePageIndex = 1;
+        FillRemitanceDatagrid(null, null);
+    }
+
+    private void cmbRemitancePaginationSize_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (!remittanceReportModel.Remittances.Any())
+            return;
+        _remitancePageIndex = 1;
+        FillRemitanceDatagrid(null, null);
+    }
 }
