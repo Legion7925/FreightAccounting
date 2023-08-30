@@ -68,6 +68,7 @@ namespace FreightAccounting.WPF
                     Family = txtFamily.Text
                 });
                 NotificationEventsManager.OnShowMessage("کاربر با موفقیت ثبت شد", MessageTypeEnum.Success);
+                CartableEventsManager.OnUpdateOperatorUserCombobox();
                 Close();
             }
             catch (AppException ne)
