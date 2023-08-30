@@ -65,11 +65,11 @@ public partial class MainWindow : Window
 
     private async void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        //FillDebtorDatagrid(null, null);
-        //btnReportExpenses_Click(null!, null!);
+        FillDebtorDatagrid(null, null);
+        btnReportExpenses_Click(null!, null!);
         btnReportRemitance_Click(null!, null!);
-        //FillPaginationComboboxes();
-        //await FillOperatorUsersCombobox();
+        FillPaginationComboboxes();
+        await FillOperatorUsersCombobox();
     }
 
     private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
