@@ -10,4 +10,5 @@ public interface IRemittanceRepository
     Task<Remittance> GetRemittanceByRettmianceNumber(string remittanceNumber);
     Task<RemittanceReportModel> GetRemittancesBetweenDates(RemittanceQueryParameter queryParameters);
     Task UpdateRemittance(int remittanceId, AddUpdateRemittanceModel remittanceModel);
+    Task<int> GetRemittanceReportCount(DateTime startDate, DateTime endDate, int? operatorUserId);
 }

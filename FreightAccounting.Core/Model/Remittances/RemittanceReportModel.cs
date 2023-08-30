@@ -7,18 +7,18 @@ public class RemittanceReportModel
     public List<Remittance> Remittances { get; set; } = new();
 
     //درآمد بین دو تاریخ
-    public int SumIncome => Remittances.Select(r => r.ReceviedCommission).Sum();
+    public int SumIncome { get; set; } 
 
     //سود خالص بین دو تاریخ
-    public int SumNetProfit => Remittances.Select(r => r.NetProfit).Sum();
+    public int SumNetProfit { get; set; } 
 
     //مالیات پرداختی بین دو تاریخ
-    public int SumTaxPayment => Remittances.Select(r => r.TaxPayment).Sum();
+    public int SumTaxPayment { get; set; } 
 
     //جمع پرداختی به بیمه
-    public int SumInsurancePayment => Remittances.Select(r => r.InsurancePayment).Sum();
+    public int SumInsurancePayment { get; set; } 
 
     //جمع کارکرد کاربر بین دو تاریخ این مقدار فقط وقتی برای نمایش مناسبه که گزارش بر اساس آیدی یک کاربر باشه
-    public int SumUserCut => Remittances.Select(r => r.UserCut).Sum();
+    public int SumUserCut { get; set; } 
 
 }

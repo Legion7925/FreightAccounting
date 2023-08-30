@@ -1,6 +1,7 @@
 ﻿using FreightAccounting.Core.Entities;
 using FreightAccounting.Core.Exception;
 using FreightAccounting.Core.Interfaces.Repositories;
+using FreightAccounting.Core.Model.Common;
 using FreightAccounting.Core.Model.Remittances;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,45 @@ public class RemittanceRepository : IRemittanceRepository
     public RemittanceRepository(FreightAccountingContext context)
     {
         _context = context;
+    }
+
+    /// <summary>
+    /// تعداد کل گزارشات برای صفحه بندی
+    /// </summary>
+    /// <param name="startDate"></param>
+    /// <param name="endDate"></param>
+    /// <param name="operatorUserId"></param>
+    /// <returns></returns>
+    public async Task<int> GetRemittanceReportCount(DateTime startDate , DateTime endDate, int? operatorUserId)
+    {
+        var remittanceList = _context.Remittances
+           .AsNoTracking()
+           .Include(x => x.OperatorUser)
+           .Where(r => r.SubmitDate.Date >= startDate.Date
+           && r.SubmitDate.Date <= endDate.Date).Select(r => new Remittance
+           {
+               RemittanceNumber = r.RemittanceNumber,
+               Id = r.Id,
+               ReceviedCommission = r.ReceviedCommission,
+               InsurancePayment = r.InsurancePayment,
+               NetProfit = r.NetProfit,
+               OperatorUserId = r.OperatorUserId,
+               SubmittedUsername = r.OperatorUser!.Name + " " + r.OperatorUser.Family,
+               OrganizationPayment = r.OrganizationPayment,
+               SubmitDate = r.SubmitDate,
+               TaxPayment = r.TaxPayment,
+               TransforPayment = r.TransforPayment,
+               ProductInsuranceNumber = r.ProductInsuranceNumber,
+               UserCut = r.UserCut
+           });
+
+        //اگر آیدی کاربر نال نباشه بر اساس اون کاربر گزارش میاد بیرون
+        if (operatorUserId is not null)
+        {
+            remittanceList = remittanceList.Where(r => r.OperatorUserId == operatorUserId);
+        }
+
+        return await remittanceList.CountAsync();
     }
 
     /// <summary>
@@ -45,20 +85,31 @@ public class RemittanceRepository : IRemittanceRepository
                 UserCut = r.UserCut
             });
 
+        var remittanceReportModel = new RemittanceReportModel();
+
         //اگر آیدی کاربر نال نباشه بر اساس اون کاربر گزارش میاد بیرون
         if (queryParameters.OperatorUserId is not null)
         {
             remittanceList = remittanceList.Where(r => r.OperatorUserId == queryParameters.OperatorUserId);
         }
 
+        //اینجا پر میکنیم اینارو چون که وقتی از خط پایین رد بشه صفحه بندی میشه مقادیر درست در نمیاد دیگه
+        remittanceReportModel.SumIncome = remittanceList.Select(r => r.ReceviedCommission).Sum();
+        remittanceReportModel.SumNetProfit = remittanceList.Select(r => r.NetProfit).Sum();
+        remittanceReportModel.SumUserCut = remittanceList.Select(r => r.UserCut).Sum();
+        remittanceReportModel.SumInsurancePayment = remittanceList.Select(r => r.InsurancePayment).Sum();
+        remittanceReportModel.SumTaxPayment = remittanceList.Select(r => r.TaxPayment).Sum();
+
+
         remittanceList = remittanceList
             .Skip((queryParameters.Page - 1) * queryParameters.Size)
             .Take(queryParameters.Size);
 
-        return new RemittanceReportModel
-        {
-            Remittances = await remittanceList.ToListAsync()
-        };
+
+         remittanceReportModel.Remittances = await remittanceList.ToListAsync();
+
+        return remittanceReportModel;
+
     }
 
     /// <summary>

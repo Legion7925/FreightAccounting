@@ -17,6 +17,15 @@ public class DebtorRepository : IDebtorRepository
     }
 
     /// <summary>
+    /// تعداد کل گزارش برای صفحه بندی
+    /// </summary>
+    /// <returns></returns>
+    public async Task<int> GetDebtorsReportCount()
+    {
+        return await _context.Debtors.AsNoTracking().CountAsync();
+    }
+
+    /// <summary>
     /// لیست همه ی بدهکاران
     /// </summary>
     /// <returns></returns>

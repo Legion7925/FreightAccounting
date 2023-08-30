@@ -11,4 +11,5 @@ public interface IDebtorRepository
     Task<IEnumerable<DebtorReportModel>> GetDebtors(QueryParameters queryParameters);
     Task SubmitPayment(int debtorId, DateTime paymentDate);
     Task UpdateDebtor(int debtorId, AddUpdateDebtorModel debtorModel);
+    Task<int> GetDebtorsReportCount();
 }
