@@ -212,4 +212,12 @@ public partial class AddRemitance : Window
         txtInsurancePayment.Text = insurePayment.ToString();
         cbUserCut_SelectionChanged(null, null);
     }
+
+    private void txtReceviedCommission_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    {
+        var totalPayment = double.Parse(txtOrganizationPayment.Text + txtTaxPayment.Text + txtInsurancePayment.Text + txtUserCut.Text 
+            + txtProductInsurance.Text);
+        var netProfit = double.Parse(txtReceviedCommission.Text) - totalPayment;
+        txtNetProfit.Text = netProfit.ToString();
+    }
 }

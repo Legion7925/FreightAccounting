@@ -94,7 +94,7 @@
                                          HorizontalAlignment="Left" MaxLength="15"></TextBox>
 
                                 <TextBox x:Name="txtReceviedCommission" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
-                                         HorizontalAlignment="Left" MaxLength="15" InputScope="Number"></TextBox>
+                                         HorizontalAlignment="Left" MaxLength="15" InputScope="Number" TextChanged="txtReceviedCommission_TextChanged"></TextBox>
 
                                 <TextBox x:Name="txtNetProfit" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,15,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15" IsReadOnly="True"></TextBox>

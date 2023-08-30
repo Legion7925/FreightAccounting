@@ -66,6 +66,9 @@ public partial class MainWindow : Window
         FillDebtorDatagrid(null, null);
         btnReportExpenses_Click(null!, null!);
         FillPaginationComboboxes();
+
+        btnReportRemitance_Click(null!, null!);
+
     }
 
     private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -602,7 +605,7 @@ public partial class MainWindow : Window
             NotificationEventsManager.OnShowMessage("در واکشی اطلاعات خطایی رخ داده است", MessageTypeEnum.Error);
         }
     }
-    #endregion Remittance
+    
 
     private void btnSettings_Click(object sender, RoutedEventArgs e)
     {
@@ -620,6 +623,7 @@ public partial class MainWindow : Window
                 { 2, "30" }
             };
         cmbExpensePaginationSize.ItemsSource = paginationSizeValuePairs;
+        cmbRemitancePaginationSize.ItemsSource = paginationSizeValuePairs;
     }
 
     
@@ -631,33 +635,37 @@ public partial class MainWindow : Window
             //remittanceReportModel.Remittances = new List<Remittance>();
             //dgReport.ItemsSource = null;
 
-            //_remitanceTotalCount = await _remittanceRepository.GetRemittancesBetweenDates(new RemittanceQueryParameter
+            //if(cbUserFilter.SelectedItem == null)
             //{
-            //    StartDate = dpRemittanceStart.SelectedDate.ToDateTime(),
+            //    cbUserFilter.SelectedItem = 
+            //}
+            //_remitanceTotalCount = await _remittanceRepository.GetRemittanceReportCount(dpExpensesReportStart.SelectedDate.ToDateTime().AddDays(-3), 
+            //    dpExpensesReportEnd.SelectedDate.ToDateTime(), 
+            //    ((KeyValuePair<int, string>)cbUserFilter.SelectedItem).Key)?? null;
+
+
+            //remittanceReportModel = await _remittanceRepository.GetRemittancesBetweenDates(new RemittanceQueryParameter
+            //{
+            //    StartDate = dpRemittanceStart.SelectedDate.ToDateTime().AddDays(-3),
             //    EndDate = dpRemittanceEnd.SelectedDate.ToDateTime(),
-            //    OperatorUserId = ((KeyValuePair<int, string>)cbUserFilter.SelectedItem).Key
+            //    OperatorUserId = ((KeyValuePair<int, string>)cbUserFilter.SelectedItem).Key,
+            //    Page = Convert.ToInt32(_remitanceTotalCount / 10),
+            //    Size =0
 
             //});
 
-            //_remitanceTotalCount = await _remittanceRepository.
 
-            //if(_remitanceTotalCount = 0)
+            //if (_remitanceTotalCount == 0)
             //{
             //    ShowSnackbarMessage("داده ای برای نمایش یافت نشد", MessageTypeEnum.Information);
             //    return;
-            //}
+            //};
             //FillRemitanceDatagrid(null, null);
             //gridRemitancePagination.IsEnabled = true;
 
-            //expensesReportModel.Expenses = new List<ExpenseEntityReportModel>();
-            //dgExpenses.ItemsSource = null;
-
-            //_expensesTotalCount = await _expensesRepository
-            //    .GetExpenseReportCount(dpExpensesReportStart.SelectedDate.ToDateTime(), dpExpensesReportEnd.SelectedDate.ToDateTime());
-
 
         }
-        catch(AppException ax)
+        catch (AppException ax)
         {
             ShowSnackbarMessage(ax.Message, MessageTypeEnum.Warning);
         }
@@ -698,4 +706,5 @@ public partial class MainWindow : Window
         _remitancePageIndex = 1;
         FillRemitanceDatagrid(null, null);
     }
+    #endregion Remittance
 }
