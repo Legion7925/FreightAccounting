@@ -22,7 +22,7 @@ public class ExpensesRepository : IExpensesRepository
            .Where(e => e.SubmitDate.Date >= startDate.Date && e.SubmitDate <= endDate.Date).CountAsync();
     }
 
-    public async Task<ExpensesReportModel> GetExpensesReport(ExpensesQueryParameters queryParameters)
+    public ExpensesReportModel GetExpensesReport(ExpensesQueryParameters queryParameters)
     {
         var expenses = _context.Expenses
            .AsNoTracking()
@@ -42,7 +42,7 @@ public class ExpensesRepository : IExpensesRepository
 
         return new ExpensesReportModel
         {
-            Expenses = await paginatedExpenses.ToListAsync(),
+            Expenses = paginatedExpenses.ToList(),
             TotalExpensesAmount = expenses.Select(e => e.ExpensesAmount).Sum(),
             TotalIncome = expenses.Select(e=> e.Income).Sum(),
         };

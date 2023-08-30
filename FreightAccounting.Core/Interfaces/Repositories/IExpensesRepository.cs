@@ -7,7 +7,7 @@ public interface IExpensesRepository
 {
     Task AddExpense(AddUpdateExpenseModel expenseModel);
     Task DeleteExpense(int expenseId);
-    Task<ExpensesReportModel> GetExpensesReport(ExpensesQueryParameters queryParameters);
+    ExpensesReportModel GetExpensesReport(ExpensesQueryParameters queryParameters);
     Task UpdateExpense(int expenseId, AddUpdateExpenseModel expenseModel);
     Task<int> GetExpenseReportCount(DateTime startDate, DateTime endDate);
 }

@@ -37,7 +37,7 @@ public partial class MainWindow : Window
     private RemittanceReportModel remittanceReportModel = new RemittanceReportModel();
     private DebtorReportModel selectedDebtor = new DebtorReportModel();
     //private RemittanceReportModel selectedRemitance = new RemittanceReportModel();
-    private Remittance selectedRemittance = new Remittance() { RemittanceNumber = string.Empty };
+    private RemittanceEntityReportModel selectedRemittance = new RemittanceEntityReportModel() { RemittanceNumber = string.Empty };
     private ExpenseEntityReportModel selectedExpense = new ExpenseEntityReportModel();
     private int _selectedId;
 
@@ -237,13 +237,13 @@ public partial class MainWindow : Window
         switch (cmbFilterPaymentStatus.SelectedIndex)
         {
             case 0:
-                dgDebtorsReport.ItemsSource = debtorsList;
+                FillDebtorDatagrid(null,null);
                 break;
             case 1:
-                dgDebtorsReport.ItemsSource = debtorsList.Where(d => d.Paid == true).ToList();
+                dgDebtorsReport.ItemsSource =  debtorsList = debtorsList.Where(d => d.Paid == true).ToList();
                 break;
             case 2:
-                dgDebtorsReport.ItemsSource = debtorsList.Where(d => d.Paid == false).ToList();
+                dgDebtorsReport.ItemsSource =  debtorsList = debtorsList.Where(d => d.Paid == false).ToList();
                 break;
         }
     }
@@ -304,6 +304,7 @@ public partial class MainWindow : Window
     private double _expensesTotalCount = 0;
 
     private double _expensesTotalpage = 0;
+
     private async void btnReportExpenses_Click(object sender, RoutedEventArgs e)
     {
         try
@@ -335,11 +336,11 @@ public partial class MainWindow : Window
         }
     }
 
-    private async Task GetPaginatedExpenseReport()
+    private void GetPaginatedExpenseReport()
     {
         try
         {
-            expensesReportModel = await _expensesRepository.GetExpensesReport(
+            expensesReportModel = _expensesRepository.GetExpensesReport(
             new ExpensesQueryParameters
             {
                 StartDate = dpExpensesReportStart.SelectedDate.ToDateTime(),
@@ -349,6 +350,8 @@ public partial class MainWindow : Window
             });
 
             dgExpenses.ItemsSource = expensesReportModel.Expenses;
+            lblTotalExpenses.Text = expensesReportModel.TotalExpensesAmount.ToString();
+            lblTotalIncomeWithExpenses.Text = expensesReportModel.TotalIncome.ToString();
         }
         catch (AppException ax)
         {
@@ -360,14 +363,14 @@ public partial class MainWindow : Window
         }
     }
 
-    private async void FillExpensesDatagrid(object? sender, EventArgs? e)
+    private void FillExpensesDatagrid(object? sender, EventArgs? e)
     {
         _expensesPageSize = Convert.ToInt32(cmbExpensePaginationSize.SelectedValue);
         _expensesTotalpage = Math.Ceiling(_expensesTotalCount / _expensesPageSize);
         if (_expensesTotalpage == 0)
             _expensesTotalpage = 1;
 
-        await GetPaginatedExpenseReport();
+        GetPaginatedExpenseReport();
 
         if (_expensesTotalCount == 0)
         {
@@ -399,7 +402,7 @@ public partial class MainWindow : Window
             btnExpenseNextPage.IsEnabled = true;
         }
         lblExpenseTotalCount.Text = _expensesTotalCount.ToString();
-        lblExpensePageNumberInfo.Text = $"{((_expensesPageIndex - 1) * _expensesPageSize)} - {((_expensesPageIndex - 1) * _expensesPageSize) + expensesReportModel.Expenses.Count()}";
+        lblExpensePageNumberInfo.Text = $"{((_expensesPageIndex - 1) * _expensesPageSize) + 1} - {((_expensesPageIndex - 1) * _expensesPageSize) + expensesReportModel.Expenses.Count()}";
         dgExpenses.ItemsSource = expensesReportModel.Expenses;
     }
 
@@ -478,7 +481,7 @@ public partial class MainWindow : Window
     {
         try
         {
-            remittanceReportModel.Remittances = new List<Remittance>();
+            remittanceReportModel.Remittances = new List<RemittanceEntityReportModel>();
             dgReport.ItemsSource = null;
 
             int? operatorUserId = ((KeyValuePair<int, string>?)cbUserFilter.SelectedItem)?.Key;
@@ -501,20 +504,21 @@ public partial class MainWindow : Window
         {
             ShowSnackbarMessage(ax.Message, MessageTypeEnum.Warning);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             ShowSnackbarMessage("در واکشی اطلاعات خطایی رخ داده است", MessageTypeEnum.Error);
+            Logger.LogException(ex);
         }
     }
 
-    private async void FillRemitanceDatagrid(object? sender, EventArgs? e)
+    private void FillRemitanceDatagrid(object? sender, EventArgs? e)
     {
         _remitancePageSize = Convert.ToInt32(cmbRemitancePaginationSize.SelectedValue);
         _remitanceTotalpage = Math.Ceiling(_remitanceTotalCount / _remitancePageSize);
         if (_remitanceTotalpage == 0)
             _remitanceTotalpage = 1;
 
-        await GetPaginatedRemitanceReport();
+        GetPaginatedRemitanceReport();
 
         if (_remitanceTotalCount == 0)
         {
@@ -546,16 +550,16 @@ public partial class MainWindow : Window
             btnRemitanceNextPage.IsEnabled = true;
         }
         lblRemitanceTotalCount.Text = _remitanceTotalCount.ToString();
-        lblRemitancePageNumberInfo.Text = $"{((_remitancePageIndex - 1) * _remitancePageSize)} - {((_remitancePageIndex - 1) * _remitancePageSize) + remittanceReportModel.Remittances.Count()}";
+        lblRemitancePageNumberInfo.Text = $"{((_remitancePageIndex - 1) * _remitancePageSize) + 1} - {((_remitancePageIndex - 1) * _remitancePageSize) + remittanceReportModel.Remittances.Count()}";
         dgReport.ItemsSource = remittanceReportModel.Remittances;
     }
 
-    private async Task GetPaginatedRemitanceReport()
+    private void GetPaginatedRemitanceReport()
     {
         try
         {
             int? operatorUserId = ((KeyValuePair<int, string>?)cbUserFilter.SelectedItem)?.Key;
-            remittanceReportModel = await _remittanceRepository.GetRemittancesBetweenDates(
+            remittanceReportModel = _remittanceRepository.GetRemittancesBetweenDates(
             new RemittanceQueryParameter
             {
                 StartDate = dpRemittanceStart.SelectedDate.ToDateTime(),
@@ -563,6 +567,12 @@ public partial class MainWindow : Window
                 OperatorUserId = operatorUserId
             });
 
+            lblTotalIncomeBasedOnComission.Text = remittanceReportModel.SumIncome.ToString();
+            lblTotalInsurancePayment.Text = remittanceReportModel.SumInsurancePayment.ToString();
+            lblTotalTaxPayment.Text = remittanceReportModel.SumTaxPayment.ToString();
+            lblTotalNetPorfit.Text = remittanceReportModel.SumNetProfit.ToString();
+            lblTotalUserCut.Text = remittanceReportModel.SumUserCut.ToString();
+            //todo اگر نیاز است که جمه پورسانت کاربران نمایش داده شود اینجا باید استک پنل آن ویزیبل شود
             dgReport.ItemsSource = remittanceReportModel.Remittances;
         }
         catch (AppException ax)
@@ -578,7 +588,7 @@ public partial class MainWindow : Window
     private void dgReport_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
     {
         if (dgReport.SelectedItems.Count > 0)
-            selectedRemittance = dgReport.SelectedItem as Remittance ?? new Remittance() { RemittanceNumber = string.Empty };
+            selectedRemittance = dgReport.SelectedItem as RemittanceEntityReportModel ?? new RemittanceEntityReportModel() { RemittanceNumber = string.Empty };
     }
 
     private void btnDeleteRemitance_Click(object sender, RoutedEventArgs e)

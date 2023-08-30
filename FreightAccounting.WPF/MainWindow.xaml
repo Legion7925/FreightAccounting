@@ -149,11 +149,50 @@
 
                             <Grid Grid.Row="1">
                                 <Grid.RowDefinitions>
+                                    <RowDefinition  Height="auto"/>
                                     <RowDefinition />
                                     <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
 
-                                <DataGrid x:Name="dgReport" AutoGenerateColumns="False" FlowDirection="RightToLeft" Grid.Row="0" 
+                                <StackPanel Margin="0,5" Grid.Row="0">
+                                    <Separator Background="#FFDFDFDF"/>
+                                    <StackPanel Margin="10" Orientation="Horizontal">
+                                        <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}"  
+                                               Text="مجموع درآمد :" VerticalAlignment="Center"></TextBlock>
+                                        <TextBlock x:Name="lblTotalIncomeBasedOnComission" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
+                                               Margin="10,0"></TextBlock>
+                                        <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="20,0,0,0" 
+                                               Text="مجموع سود خالص :" VerticalAlignment="Center"></TextBlock>
+                                        <TextBlock x:Name="lblTotalNetPorfit"  FontSize="14" FontWeight="SemiBold" 
+                                                   Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
+                                               Margin="10,0"></TextBlock>
+                                        <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="20,0,0,0" 
+                                               Text="مجموع مالیات پرداختی :" VerticalAlignment="Center"></TextBlock>
+                                        <TextBlock x:Name="lblTotalTaxPayment" FontSize="14" FontWeight="SemiBold" 
+                                                   Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
+                                               Margin="10,0"></TextBlock>
+                                        <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="20,0,0,0" 
+                                               Text="مجموع بیمه پرداختی :" VerticalAlignment="Center"></TextBlock>
+                                        <TextBlock x:Name="lblTotalInsurancePayment" FontSize="14" FontWeight="SemiBold" 
+                                                   Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
+                                               Margin="10,0"></TextBlock>
+
+                                        <!--در صورتی ویزیبل شود که گزارش بر اساس کاربر گرفته شود-->
+                                        <!--یا اینکه میتواند در همه صورت ویزیبل باشد و جمع پورسانت بین دو تاریخ همه کاربران را نشان دهد-->
+                                        <StackPanel x:Name="stpUserCut" Visibility="Hidden" Orientation="Horizontal">
+                                            <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="20,0,0,0" 
+                                               Text="مجموع پورسانت کاربر :" VerticalAlignment="Center"></TextBlock>
+                                            <TextBlock x:Name="lblTotalUserCut"  FontSize="14" FontWeight="SemiBold" 
+                                                   Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
+                                               Margin="10,0"></TextBlock>
+
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <Separator Background="#FFDFDFDF"/>
+                                </StackPanel>
+
+
+                                <DataGrid x:Name="dgReport" AutoGenerateColumns="False" FlowDirection="RightToLeft" Grid.Row="1" 
                                       Grid.ColumnSpan="2" SelectedCellsChanged="dgReport_SelectedCellsChanged" IsReadOnly="True">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Binding="{Binding Id}"  Header="آیدی" Visibility="Hidden"></DataGridTextColumn>
@@ -166,6 +205,7 @@
                                         <DataGridTextColumn Binding="{Binding UserCut}" Header="کمیسیون کاربر"></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding ReceviedCommission}" Header="کمیسیون دریافتی"></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding NetProfit}" Header="سود خاص"></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding SubmitDateFa}" Header="تاریخ ثبت"></DataGridTextColumn>
                                         <DataGridTemplateColumn Header="عملیات">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
@@ -185,7 +225,7 @@
                                     </DataGrid.Columns>
                                 </DataGrid>
 
-                                <Grid x:Name="gridRemitancePagination" Grid.Row="1" IsEnabled="False" FlowDirection="LeftToRight">
+                                <Grid x:Name="gridRemitancePagination" Grid.Row="2" IsEnabled="False" FlowDirection="LeftToRight">
                                     <StackPanel HorizontalAlignment="Left" Margin="5" Orientation="Horizontal">
                                         <Button x:Name="btnRemitanceLastPage" Margin="10,0,0,0" Cursor="Hand" HorizontalAlignment="Left" Click="btnRemitanceLastPage_Click"
                                         Style="{DynamicResource MaterialDesignFlatButton}" Foreground="{DynamicResource MaterialDesignBody}">
@@ -375,10 +415,26 @@
 
                             <Grid Grid.Row="1" Grid.ColumnSpan="2">
                                 <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
                                     <RowDefinition/>
                                     <RowDefinition Height="auto"/>
                                 </Grid.RowDefinitions>
-                                <DataGrid x:Name="dgExpenses" AutoGenerateColumns="False" FlowDirection="RightToLeft" Grid.Row="0" 
+                                <StackPanel Margin="0,5" Grid.Row="0">
+                                    <Separator Background="#FFDFDFDF"/>
+                                    <StackPanel Margin="10" Orientation="Horizontal">
+                                        <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}"  
+                                               Text="مجموع مخارج :" VerticalAlignment="Center"></TextBlock>
+                                        <TextBlock x:Name="lblTotalExpenses" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
+                                               Margin="10,0"></TextBlock>
+                                        <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="20,0,0,0" 
+                                               Text="مجموع درآمد خالص :" VerticalAlignment="Center"></TextBlock>
+                                        <TextBlock x:Name="lblTotalIncomeWithExpenses" FontSize="14" FontWeight="SemiBold" 
+                                                   Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
+                                               Margin="10,0"></TextBlock>
+                                    </StackPanel>
+                                    <Separator Background="#FFDFDFDF"/>
+                                </StackPanel>
+                                <DataGrid x:Name="dgExpenses" AutoGenerateColumns="False" FlowDirection="RightToLeft" Grid.Row="1" 
                                       Grid.ColumnSpan="2" SelectedCellsChanged="dgExpenses_SelectedCellsChanged" IsReadOnly="True">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Binding="{Binding Id}"  Header="آیدی" Visibility="Hidden"></DataGridTextColumn>
@@ -404,7 +460,7 @@
                                         </DataGridTemplateColumn>
                                     </DataGrid.Columns>
                                 </DataGrid>
-                                <Grid x:Name="gridExpensePagination" Grid.Row="1" IsEnabled="False" FlowDirection="LeftToRight">
+                                <Grid x:Name="gridExpensePagination" Grid.Row="2" IsEnabled="False" FlowDirection="LeftToRight">
                                     <StackPanel HorizontalAlignment="Left" Margin="5" Orientation="Horizontal">
                                         <Button x:Name="btnExpenseLastPage" Margin="10,0,0,0" Cursor="Hand" Click="btnExpenseLastPage_Click" HorizontalAlignment="Left"
                                         Style="{DynamicResource MaterialDesignFlatButton}" Foreground="{DynamicResource MaterialDesignBody}">

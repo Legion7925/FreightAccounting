@@ -62,13 +62,13 @@ public class RemittanceRepository : IRemittanceRepository
     /// <param name="startDate"></param>
     /// <param name="endDate"></param>
     /// <returns></returns>
-    public async Task<RemittanceReportModel> GetRemittancesBetweenDates(RemittanceQueryParameter queryParameters)
+    public RemittanceReportModel GetRemittancesBetweenDates(RemittanceQueryParameter queryParameters)
     {
         var remittanceList = _context.Remittances
             .AsNoTracking()
             .Include(x => x.OperatorUser)
             .Where(r => r.SubmitDate.Date >= queryParameters.StartDate.Date
-            && r.SubmitDate.Date <= queryParameters.EndDate.Date).Select(r => new Remittance
+            && r.SubmitDate.Date <= queryParameters.EndDate.Date).Select(r => new RemittanceEntityReportModel
             {
                 RemittanceNumber = r.RemittanceNumber,
                 Id = r.Id,
@@ -82,7 +82,7 @@ public class RemittanceRepository : IRemittanceRepository
                 TaxPayment = r.TaxPayment,
                 TransforPayment = r.TransforPayment,
                 ProductInsuranceNumber = r.ProductInsuranceNumber,
-                UserCut = r.UserCut
+                UserCut = r.UserCut,
             });
 
         var remittanceReportModel = new RemittanceReportModel();
@@ -106,7 +106,7 @@ public class RemittanceRepository : IRemittanceRepository
             .Take(queryParameters.Size);
 
 
-         remittanceReportModel.Remittances = await remittanceList.ToListAsync();
+         remittanceReportModel.Remittances = remittanceList.ToList();
 
         return remittanceReportModel;
 

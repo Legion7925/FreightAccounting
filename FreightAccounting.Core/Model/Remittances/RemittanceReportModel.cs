@@ -4,7 +4,7 @@ namespace FreightAccounting.Core.Model.Remittances;
 
 public class RemittanceReportModel
 {
-    public List<Remittance> Remittances { get; set; } = new();
+    public IEnumerable<RemittanceEntityReportModel> Remittances { get; set; } = new List<RemittanceEntityReportModel>();
 
     //درآمد بین دو تاریخ
     public int SumIncome { get; set; } 
@@ -18,7 +18,7 @@ public class RemittanceReportModel
     //جمع پرداختی به بیمه
     public int SumInsurancePayment { get; set; } 
 
-    //جمع کارکرد کاربر بین دو تاریخ این مقدار فقط وقتی برای نمایش مناسبه که گزارش بر اساس آیدی یک کاربر باشه
+    //جمع پورسانت کاربر یا کاربران
     public int SumUserCut { get; set; } 
 
 }
