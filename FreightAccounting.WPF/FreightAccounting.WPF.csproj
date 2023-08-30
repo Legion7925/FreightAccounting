@@ -108,6 +108,9 @@
     <None Update="Report\ExpensesReport.mrt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Report\RemittanceReport.mrt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\StimulsoftLanguages\fa.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

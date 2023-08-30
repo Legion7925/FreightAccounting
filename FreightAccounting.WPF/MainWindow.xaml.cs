@@ -792,15 +792,24 @@ public partial class MainWindow : Window
             btnPrintRemitanceReport.IsEnabled = true;
             return;
         }
-        var reportList = new List<RemittanceEntityReportModel>();
-        foreach (var item in report.Remittances)
-        {
-            reportList.Add(item);
-        }
+
         var stiReport = new StiReport();
         StiOptions.Dictionary.BusinessObjects.MaxLevel = 1;
         stiReport.Load(@"Report\RemittanceReport.mrt");
-        stiReport.RegData("لیست حواله ها", reportList);
+        stiReport.RegData("لیست حواله ها" , report.Remittances);
+        stiReport.RegData("تاریخ گزارش", new
+        {
+            تاریخ_شروع = dpExpensesReportStart.SelectedDate.ToDateTime().ToFa(),
+            تاریخ_پایان = dpExpensesReportEnd.SelectedDate.ToDateTime().ToFa(),
+        });
+        stiReport.RegData("مجموع پرداختی و درآمد ها", new
+        {
+            report.SumIncome,
+            report.SumNetProfit,
+            report.SumInsurancePayment,
+            report.SumTaxPayment,
+            report.SumUserCut
+        });
         stiReport.Show();
         btnPrintDebtorsReport.IsEnabled = true;
     }
