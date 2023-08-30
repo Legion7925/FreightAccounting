@@ -15,24 +15,36 @@ public class ExpensesRepository : IExpensesRepository
         _context = context;
     }
 
+    public async Task<int> GetExpenseReportCount(DateTime startDate , DateTime endDate)
+    {
+        return await _context.Expenses
+           .AsNoTracking()
+           .Where(e => e.SubmitDate.Date >= startDate.Date && e.SubmitDate <= endDate.Date).CountAsync();
+    }
+
     public async Task<ExpensesReportModel> GetExpensesReport(ExpensesQueryParameters queryParameters)
     {
         var expenses = _context.Expenses
            .AsNoTracking()
-           .Where(e => e.SubmitDate.Date >= queryParameters.StartDate.Date && e.SubmitDate <= queryParameters.EndDate.Date)
+           .Where(e => e.SubmitDate.Date >= queryParameters.StartDate.Date && e.SubmitDate <= queryParameters.EndDate.Date);
+
+        var paginatedExpenses = expenses
            .Skip((queryParameters.Page - 1) * queryParameters.Size)
            .Take(queryParameters.Size)
-           .Select(e=> new ExpenseEntityReportModel
+           .Select(e => new ExpenseEntityReportModel
            {
-               Id = e.Id,   
+               Id = e.Id,
                SubmitDate = e.SubmitDate,
                ExpensesAmount = e.ExpensesAmount,
                Income = e.Income,
            });
 
+
         return new ExpensesReportModel
         {
-            Expenses = await expenses.ToListAsync()
+            Expenses = await paginatedExpenses.ToListAsync(),
+            TotalExpensesAmount = expenses.Select(e => e.ExpensesAmount).Sum(),
+            TotalIncome = expenses.Select(e=> e.Income).Sum(),
         };
     }
 

@@ -14,6 +14,7 @@ using Microsoft.Xaml.Behaviors.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -52,7 +53,7 @@ public partial class MainWindow : Window
         NotificationEventsManager.showMessage += ShowSnackbarMessage;
         CartableEventsManager.updateDebtorDatagrid += FillDebtorDatagrid;
         CartableEventsManager.updateRemittanceDatagrid += FillRemitanceDatagrid;
-        CartableEventsManager.updateExpensesDatagrid += FillExpensesDatagrid;
+        CartableEventsManager.updateExpensesDatagrid += btnReportExpenses_Click!;
         _expensesRepository = expensesRepository;
 
         dpExpensesReportStart.SelectedDate = Mohsen.PersianDate.Today.AddDays(-2);
@@ -62,7 +63,8 @@ public partial class MainWindow : Window
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
         FillDebtorDatagrid(null, null);
-        FillExpensesDatagrid(null, null);
+        btnReportExpenses_Click(null!, null!);
+        FillPaginationComboboxes();
     }
 
     private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -190,8 +192,8 @@ public partial class MainWindow : Window
             remittanceReportModel = await _remittanceRepository.GetRemittancesBetweenDates(
             new RemittanceQueryParameter
             {
-                StartDate = dpRemittanceStart.DisplayDate.ToDateTime(),
-                EndDate = dpRemittanceEnd.DisplayDate.ToDateTime(),
+                StartDate = dpRemittanceStart.SelectedDate.ToDateTime(),
+                EndDate = dpRemittanceEnd.SelectedDate.ToDateTime(),
             });
 
             dgReport.ItemsSource = remittanceReportModel.Remittances;
@@ -319,15 +321,26 @@ public partial class MainWindow : Window
     #endregion Debtors
 
     #region Expenses
-    private async void FillExpensesDatagrid(object? sender, EventArgs? e)
+
+    private int _expensesPageSize = 5;
+
+    private int _expensesPageIndex = 1;
+
+    private double _expensesTotalCount = 0;
+
+    private double _expensesTotalpage = 0;
+
+    private async Task GetPaginatedExpenseReport()
     {
         try
         {
             expensesReportModel = await _expensesRepository.GetExpensesReport(
             new ExpensesQueryParameters
             {
-                StartDate = dpExpensesReportStart.DisplayDate.ToDateTime(),
-                EndDate = dpExpensesReportEnd.DisplayDate.ToDateTime()
+                StartDate = dpExpensesReportStart.SelectedDate.ToDateTime(),
+                EndDate = dpExpensesReportEnd.SelectedDate.ToDateTime(),
+                Page = _expensesPageIndex,
+                Size = _expensesPageSize
             });
 
             dgExpenses.ItemsSource = expensesReportModel.Expenses;
@@ -340,6 +353,49 @@ public partial class MainWindow : Window
         {
             ShowSnackbarMessage(ex.Message, MessageTypeEnum.Error);
         }
+    }
+
+    private async void FillExpensesDatagrid(object? sender, EventArgs? e)
+    {
+        _expensesPageSize = Convert.ToInt32(cmbExpensePaginationSize.SelectedValue);
+        _expensesTotalpage = Math.Ceiling(_expensesTotalCount / _expensesPageSize);
+        if (_expensesTotalpage == 0)
+            _expensesTotalpage = 1;
+
+        await GetPaginatedExpenseReport();
+
+        if (_expensesTotalCount == 0)
+        {
+            btnExpenseLastPage.IsEnabled = false;
+            btnExpenseNextPage.IsEnabled = false;
+            btnExpensePreviousPage.IsEnabled = false;
+            btnExpenseFirstPage.IsEnabled = false;
+        }
+        else
+        {
+            btnExpenseLastPage.IsEnabled = true;
+            btnExpenseNextPage.IsEnabled = true;
+            btnExpensePreviousPage.IsEnabled = true;
+            btnExpenseFirstPage.IsEnabled = true;
+        }
+        if (_expensesPageIndex == 1)
+        {
+            btnExpensePreviousPage.IsEnabled = false;
+            btnExpenseFirstPage.IsEnabled = false;
+        }
+        if (_expensesPageIndex == _expensesTotalpage)
+        {
+            btnExpenseLastPage.IsEnabled = false;
+            btnExpenseNextPage.IsEnabled = false;
+        }
+        else
+        {
+            btnExpenseLastPage.IsEnabled = true;
+            btnExpenseNextPage.IsEnabled = true;
+        }
+        lblExpenseTotalCount.Text = _expensesTotalCount.ToString();
+        lblExpensePageNumberInfo.Text = $"{((_expensesPageIndex - 1) * _expensesPageSize)} - {((_expensesPageIndex - 1) * _expensesPageSize) + expensesReportModel.Expenses.Count()}";
+        dgExpenses.ItemsSource = expensesReportModel.Expenses;
     }
 
     private void btnAddExpense_Click(object sender, RoutedEventArgs e)
@@ -367,7 +423,77 @@ public partial class MainWindow : Window
         new DeleteExpenseWindow(_expensesRepository, selectedExpense.Id).ShowDialog();
     }
 
+    private async void btnReportExpenses_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            expensesReportModel.Expenses = new List<ExpenseEntityReportModel>();
+            dgExpenses.ItemsSource = null;
+
+            _expensesTotalCount = await _expensesRepository
+                .GetExpenseReportCount(dpExpensesReportStart.SelectedDate.ToDateTime(), dpExpensesReportEnd.SelectedDate.ToDateTime());
+
+            if (_expensesTotalCount is 0)
+            {
+                ShowSnackbarMessage("داده ای برای نمایش یافت نشد", MessageTypeEnum.Information);
+                return;
+            }
+
+            FillExpensesDatagrid(null, null);
+
+            gridExpensePagination.IsEnabled = true;
+
+        }
+        catch (AppException ax)
+        {
+            ShowSnackbarMessage(ax.Message, MessageTypeEnum.Warning);
+        }
+        catch (Exception ex)
+        {
+            ShowSnackbarMessage(ex.Message, MessageTypeEnum.Error);
+        }
+    }
+
+    private void cmbExpensePaginationSize_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (!expensesReportModel.Expenses.Any())
+            return;
+        _expensesPageIndex = 1;
+        FillExpensesDatagrid(null,null);
+    }
+
+    private void btnExpenseFirstPage_Click(object sender, RoutedEventArgs e)
+    {
+        _expensesPageIndex = 1;
+        FillExpensesDatagrid(null, null);
+    }
+
+    private void btnExpensePreviousPage_Click(object sender, RoutedEventArgs e)
+    {
+        _expensesPageIndex--;
+        FillExpensesDatagrid(null, null);
+    }
+
+    private void btnExpenseNextPage_Click(object sender, RoutedEventArgs e)
+    {
+        _expensesPageIndex++;
+        FillExpensesDatagrid(null , null);
+    }
+
+    private void btnExpenseLastPage_Click(object sender, RoutedEventArgs e)
+    {
+        _expensesPageIndex = Convert.ToInt32(_expensesTotalpage);
+        FillExpensesDatagrid(null, null);
+    }
+
+
+
     #endregion Expenses
+
+    #region Remittance
+
+
+    #endregion Remittance
 
     private void btnSettings_Click(object sender, RoutedEventArgs e)
     {
@@ -404,6 +530,17 @@ public partial class MainWindow : Window
         //    return;
         //}
         //todo
+    }
+
+    private void FillPaginationComboboxes()
+    {
+        Dictionary<int, string> paginationSizeValuePairs = new Dictionary<int, string>
+            {
+                { 0, "10" },
+                { 1, "20" },
+                { 2, "30" }
+            };
+        cmbExpensePaginationSize.ItemsSource = paginationSizeValuePairs;
     }
 
 }

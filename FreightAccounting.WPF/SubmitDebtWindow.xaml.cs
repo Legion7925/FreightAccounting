@@ -40,7 +40,7 @@ public partial class SubmitDebtWindow : Window
                 return;
             }
 
-            await debtorRepository.SubmitPayment(debtorId , dpSubmit.DisplayDate.ToDateTime());
+            await debtorRepository.SubmitPayment(debtorId , dpSubmit.SelectedDate.ToDateTime());
             NotificationEventsManager.OnShowMessage("پرداخت بدهی با موفقیت انجام شد", MessageTypeEnum.Success);
             CartableEventsManager.OnUpdateDebtorDatagrid();
             this.Close();
