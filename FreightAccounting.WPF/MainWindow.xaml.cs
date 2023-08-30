@@ -11,6 +11,8 @@ using FreightAccounting.WPF.Helper;
 using MaterialDesignColors;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Xaml.Behaviors.Core;
+using PersianDate.Standard;
+using Stimulsoft.Report;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -293,6 +295,36 @@ public partial class MainWindow : Window
         new SubmitDebtWindow(_debtorRepository, selectedDebtor.Id).ShowDialog();
     }
 
+    private void btnPrintDebtorsReport_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (!debtorsList.Any())
+            {
+                ShowSnackbarMessage("داده ای برای نمایش پرینت در این تاریخ موجود نیست", MessageTypeEnum.Information);
+                btnPrintDebtorsReport.IsEnabled = true;
+                return;
+            }
+
+            var stiReport = new StiReport();
+            StiOptions.Dictionary.BusinessObjects.MaxLevel = 1;
+            stiReport.Load(@"Report\DebtorsReport.mrt");
+            stiReport.RegData("لیست بدهکاران", debtorsList);
+            stiReport.Show();
+            btnPrintDebtorsReport.IsEnabled = true;
+
+        }
+        catch (AppException ax)
+        {
+            ShowSnackbarMessage(ax.Message, MessageTypeEnum.Warning);
+        }
+        catch (Exception ex)
+        {
+            ShowSnackbarMessage(ex.Message, MessageTypeEnum.Error);
+        }
+    }
+
+
     #endregion Debtors
 
     #region Expenses
@@ -463,6 +495,52 @@ public partial class MainWindow : Window
         FillExpensesDatagrid(null, null);
     }
 
+    private void btnPrintExpenseReport_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            btnPrintExpenseReport.IsEnabled = false;
+            var result = _expensesRepository.GetExpensesReport(new ExpensesQueryParameters 
+            { 
+                Page = 1,
+                Size = int.MaxValue,
+                StartDate = dpExpensesReportStart.SelectedDate.ToDateTime() , 
+                EndDate = dpExpensesReportEnd.SelectedDate.ToDateTime() 
+            });
+
+
+            if(result.Expenses.Any() is not true)
+            {
+                ShowSnackbarMessage("داده ای برای نمایش پرینت در این تاریخ موجود نیست", MessageTypeEnum.Information);
+                btnPrintExpenseReport.IsEnabled = true;
+                return;
+            }
+
+            var stiReport = new StiReport();
+            StiOptions.Dictionary.BusinessObjects.MaxLevel = 1;
+            stiReport.Load(@"Report\ExpensesReport.mrt");
+            stiReport.RegData("لیست مخارج", result.Expenses);
+            stiReport.RegData("مجموع مخارج", result.TotalExpensesAmount);
+            stiReport.RegData("مجموع درآمد خالص", result.TotalIncome);
+            stiReport.RegData("تاریخ", new
+            {
+                تاریخ_شروع = dpExpensesReportStart.SelectedDate.ToDateTime().ToFa(),
+                تاریخ_پایان = dpExpensesReportEnd.SelectedDate.ToDateTime().ToFa(),
+            });
+
+            stiReport.Show();
+            btnPrintExpenseReport.IsEnabled = true;
+
+        }
+        catch (AppException ax)
+        {
+            ShowSnackbarMessage(ax.Message, MessageTypeEnum.Warning);
+        }
+        catch (Exception ex)
+        {
+            ShowSnackbarMessage(ex.Message, MessageTypeEnum.Error);
+        }
+    }
 
 
     #endregion Expenses

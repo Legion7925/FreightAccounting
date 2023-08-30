@@ -280,11 +280,20 @@
 
                             <Grid Grid.Row="0" FlowDirection="LeftToRight">
 
-                                <Button x:Name="btnAddDebtors" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
-                                    Background="#FF28AD43" BorderBrush="{x:Null}" HorizontalAlignment="Left" Margin="10"
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <Button x:Name="btnAddDebtors" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
+                                    Background="#FF28AD43" BorderBrush="{x:Null}"  Margin="10"
                                         ToolTip="افزودن حواله" Visibility="Visible" Grid.Row="0" Click="btnAddDebtors_Click" Grid.Column="1">
-                                    <materialDesign:PackIcon Kind="Add"/>
-                                </Button>
+                                        <materialDesign:PackIcon Kind="Add"/>
+                                    </Button>
+
+                                    <Button x:Name="btnPrintDebtorsReport" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
+                                     BorderBrush="{x:Null}" Margin="0" Click="btnPrintDebtorsReport_Click" 
+                                        ToolTip="پرینت">
+                                        <materialDesign:PackIcon Kind="Printer"/>
+                                    </Button>
+
+                                </StackPanel>
 
                                 <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
 
@@ -419,21 +428,29 @@
                                     <RowDefinition/>
                                     <RowDefinition Height="auto"/>
                                 </Grid.RowDefinitions>
-                                <StackPanel Margin="0,5" Grid.Row="0">
-                                    <Separator Background="#FFDFDFDF"/>
-                                    <StackPanel Margin="10" Orientation="Horizontal">
-                                        <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}"  
+                                <Grid Grid.Row="0">
+                                    <Button x:Name="btnPrintExpenseReport" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
+                                     BorderBrush="{x:Null}" Margin="5" Click="btnPrintExpenseReport_Click" HorizontalAlignment="Right"
+                                        ToolTip="پرینت">
+                                        <materialDesign:PackIcon Kind="Printer"/>
+                                    </Button>
+                                    <StackPanel Margin="0,5" Grid.Row="0">
+                                        <Separator Background="#FFDFDFDF"/>
+                                        <StackPanel Margin="10" Orientation="Horizontal">
+                                            <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}"  
                                                Text="مجموع مخارج :" VerticalAlignment="Center"></TextBlock>
-                                        <TextBlock x:Name="lblTotalExpenses" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
+                                            <TextBlock x:Name="lblTotalExpenses" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
                                                Margin="10,0"></TextBlock>
-                                        <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="20,0,0,0" 
+                                            <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="20,0,0,0" 
                                                Text="مجموع درآمد خالص :" VerticalAlignment="Center"></TextBlock>
-                                        <TextBlock x:Name="lblTotalIncomeWithExpenses" FontSize="14" FontWeight="SemiBold" 
+                                            <TextBlock x:Name="lblTotalIncomeWithExpenses" FontSize="14" FontWeight="SemiBold" 
                                                    Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
                                                Margin="10,0"></TextBlock>
+                                        </StackPanel>
+                                        <Separator Background="#FFDFDFDF"/>
                                     </StackPanel>
-                                    <Separator Background="#FFDFDFDF"/>
-                                </StackPanel>
+
+                                </Grid>
                                 <DataGrid x:Name="dgExpenses" AutoGenerateColumns="False" FlowDirection="RightToLeft" Grid.Row="1" 
                                       Grid.ColumnSpan="2" SelectedCellsChanged="dgExpenses_SelectedCellsChanged" IsReadOnly="True">
                                     <DataGrid.Columns>
