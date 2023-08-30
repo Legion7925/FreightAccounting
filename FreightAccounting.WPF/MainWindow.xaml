@@ -204,7 +204,7 @@
                                         <DataGridTextColumn Binding="{Binding SubmittedUsername}" Header="نام کاربر"></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding UserCut}" Header="کمیسیون کاربر"></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding ReceviedCommission}" Header="کمیسیون دریافتی"></DataGridTextColumn>
-                                        <DataGridTextColumn Binding="{Binding NetProfit}" Header="سود خاص"></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding NetProfit}" Header="سود خالص"></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding SubmitDateFa}" Header="تاریخ ثبت"></DataGridTextColumn>
                                         <DataGridTemplateColumn Header="عملیات">
                                             <DataGridTemplateColumn.CellTemplate>
