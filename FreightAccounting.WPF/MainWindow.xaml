@@ -154,7 +154,7 @@
                                     <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
 
-                                <Grid Margin="0,5" Grid.Row="0">
+                                <Grid Margin="5,5" Grid.Row="0">
                                     <Button x:Name="btnPrintRemitanceReport" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
                                      BorderBrush="{x:Null}"  Click="btnPrintRemitanceReport_Click" HorizontalAlignment="Right" Margin="5,2,0,0"
                                         ToolTip="پرینت">
