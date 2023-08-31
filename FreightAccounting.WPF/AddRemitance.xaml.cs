@@ -186,14 +186,19 @@ public partial class AddRemitance : Window
             switch (cbUserCut.SelectedIndex)
             {
                 case 0:
-                    _userCut = Convert.ToInt32(doubleTranforPayment * .005);
+                    _userCut = 0;
                     txtUserCut.Text = _userCut.ToString();
                     break;
                 case 1:
-                    _userCut = Convert.ToInt32(doubleTranforPayment * .03);
+                    _userCut = Convert.ToInt32(doubleTranforPayment * .01);
+                    _userCut = _userCut / 2;
                     txtUserCut.Text = _userCut.ToString();
                     break;
                 case 2:
+                    _userCut = Convert.ToInt32(doubleTranforPayment * .03);
+                    txtUserCut.Text = _userCut.ToString();
+                    break;
+                case 3:
                     _userCut = Convert.ToInt32(doubleTranforPayment * .05);
                     txtUserCut.Text = _userCut.ToString();
                     break;
