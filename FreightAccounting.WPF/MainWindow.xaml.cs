@@ -68,10 +68,10 @@ public partial class MainWindow : Window
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
+        FillPaginationComboboxes();
         FillDebtorDatagrid(null, null);
         btnReportExpenses_Click(null!, null!);
         btnReportRemitance_Click(null!, null!);
-        FillPaginationComboboxes();
         FillOperatorUsersCombobox();
     }
 
@@ -351,6 +351,8 @@ public partial class MainWindow : Window
             if (_expensesTotalCount is 0)
             {
                 ShowSnackbarMessage("داده ای برای نمایش یافت نشد", MessageTypeEnum.Information);
+                lblTotalExpenses.Text = "-";
+                lblTotalIncomeWithExpenses.Text = "-";
                 return;
             }
 
