@@ -30,9 +30,36 @@ public partial class AddRemitance : Window
         _remittanceRepository = remittanceRepository;
         _operatorUserRepository = operatorUserRepository;
         _isEdit = isEdit;
+        GetUserList();
 
         if (_isEdit)
         {
+            var o = addUpdateRemittanceModel!.UserCut * 100 / addUpdateRemittanceModel.TransforPayment;
+            var selectedUser = _userList.FirstOrDefault(u => u.Id == addUpdateRemittanceModel.OperatorUserId);
+            cbSubmitUser.SelectedItem = new KeyValuePair<int, string>(selectedUser!.Id, selectedUser.Name + " " + selectedUser.Family);
+            switch (o)
+            {
+                case 0:
+                    txtUserCut.Text = 0.ToString();
+                    cbUserCut.SelectedIndex = 0;
+                    _userCut = 0;
+                    break;
+                case 1:
+                    cbUserCut.SelectedIndex = 1;
+                    txtUserCut.Text = (addUpdateRemittanceModel.TransforPayment / 200).ToString();
+                    _userCut = addUpdateRemittanceModel.TransforPayment / 200;
+                    break;
+                case 3:
+                    cbUserCut.SelectedIndex = 2;
+                    txtUserCut.Text = (addUpdateRemittanceModel.TransforPayment * 3 / 100).ToString();
+                    _userCut = addUpdateRemittanceModel.TransforPayment * 3 / 100;
+                    break;
+                case 5:
+                    cbUserCut.SelectedIndex = 3;
+                    txtUserCut.Text = (addUpdateRemittanceModel.TransforPayment * 5 / 100).ToString();
+                    _userCut = addUpdateRemittanceModel.TransforPayment * 5 / 100;
+                    break;
+            }
             _remittanceId = remitanceId!.Value;
             txtNumberRemmitance.Text = addUpdateRemittanceModel!.RemittanceNumber;
             txtTranforPayment.Text = addUpdateRemittanceModel.TransforPayment.ToString();
@@ -40,16 +67,16 @@ public partial class AddRemitance : Window
             txtInsurancePayment.Text = addUpdateRemittanceModel.InsurancePayment.ToString();
             txtTaxPayment.Text = addUpdateRemittanceModel.TaxPayment.ToString();
             dpDate.SelectedDate = new Mohsen.PersianDate(addUpdateRemittanceModel.SubmitDate);
-            cbUserCut.SelectedIndex = addUpdateRemittanceModel.UserCut;
-            txtUserCut.Text = addUpdateRemittanceModel.UserCut.ToString();
-            txtProductInsurance.Text = addUpdateRemittanceModel.ProductInsuranceNumber?.ToString() ?? string.Empty; //todo
+            //cbUserCut.SelectedIndex = addUpdateRemittanceModel.UserCut;
+            //txtUserCut.Text = addUpdateRemittanceModel.UserCut.ToString();
+            txtProductInsurance.Text = addUpdateRemittanceModel.ProductInsuranceNumber.ToString(); //todo
             txtReceviedCommission.Text = addUpdateRemittanceModel.ReceviedCommission.ToString();
+            CalculateNetProfitAndTaxes(null!, null!);
         }
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        GetUserList();
     }
 
     private void btnCancel_Click(object sender, RoutedEventArgs e)

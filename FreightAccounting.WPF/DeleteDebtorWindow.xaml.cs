@@ -12,38 +12,23 @@ namespace FreightAccounting.WPF;
 public partial class DeleteDebtorWindow : Window
 {
     private readonly IDebtorRepository debtorRepository;
-    private readonly IRemittanceRepository remitanceRepository;
     private readonly int debtorId;
-    private readonly int remitanceId;
-    private bool _isDebtors;
 
 
-    public DeleteDebtorWindow(IDebtorRepository debtorRepository, int debtorId, bool isDebtors, IRemittanceRepository remittanceRepository, int remitanceId)
+    public DeleteDebtorWindow(IDebtorRepository debtorRepository, int debtorId)
     {
         InitializeComponent();
         this.debtorRepository = debtorRepository;
         this.debtorId = debtorId;
-        this.remitanceRepository = remittanceRepository;
-        _isDebtors = isDebtors;
-        this.remitanceId = remitanceId;
     }
 
     private async void btnSubmitDelete_Click(object sender, RoutedEventArgs e)
     {
         try
         {
-            if (_isDebtors)
-            {
-                await debtorRepository.DeleteDebtor(debtorId);
-                NotificationEventsManager.OnShowMessage("حذف نسیه با موفقیت انجام شد!", MessageTypeEnum.Success);
-                CartableEventsManager.OnUpdateDebtorDatagrid();
-            }
-            else
-            {
-                await remitanceRepository.DeleteRemittance(remitanceId);
-                NotificationEventsManager.OnShowMessage("حذف حواله با موفقیت انجام شد!", MessageTypeEnum.Success);
-                CartableEventsManager.OnUpdateRemittanceDatagrid();
-            }
+            await debtorRepository.DeleteDebtor(debtorId);
+            NotificationEventsManager.OnShowMessage("حذف نسیه با موفقیت انجام شد!", MessageTypeEnum.Success);
+            CartableEventsManager.OnUpdateDebtorDatagrid();
 
             Close();
         }

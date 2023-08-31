@@ -68,7 +68,7 @@
                             <StackPanel Grid.Column="3">
                                 <StackPanel Orientation="Horizontal" Margin="0,12,0,10">
                                     <ComboBox x:Name="cbSubmitUser" Foreground="{DynamicResource MaterialDesignBody}" Width="140" 
-                                          VerticalAlignment="Center" DisplayMemberPath="Value"  IsEditable="True" HorizontalAlignment="Left"></ComboBox>
+                                          VerticalAlignment="Center" DisplayMemberPath="Value" SelectedValuePath="Key"  IsEditable="True" HorizontalAlignment="Left"></ComboBox>
 
                                     <Button x:Name="btnAddUser" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
                                             Height="25" Width="25"

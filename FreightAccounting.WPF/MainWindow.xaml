@@ -375,7 +375,7 @@
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
 
-                                                    <Button x:Name="btnEditUser" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Content="{materialDesign:PackIcon Kind=Edit}"
+                                                    <Button x:Name="btnEditDebtor" Style="{StaticResource SubmitPaymentButtonStyle}" Content="{materialDesign:PackIcon Kind=Edit}"
                                                              Background="{x:Null}" MaxWidth="30" MaxHeight="30" ToolTip="ویرایش" Margin="4,0" Foreground="#FF37A6EA" BorderBrush="#FF37A6EA"
                                                                 Click="btnEditDebtor_Click"></Button>
 

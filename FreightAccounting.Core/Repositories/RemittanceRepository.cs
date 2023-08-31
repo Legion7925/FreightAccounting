@@ -196,6 +196,9 @@ public class RemittanceRepository : IRemittanceRepository
     /// <returns></returns>
     private int CalculateTaxes(AddUpdateRemittanceModel remittanceModel)
     {
-        return remittanceModel.InsurancePayment + remittanceModel.TaxPayment + remittanceModel.OrganizationPayment + remittanceModel.UserCut;
+        var sum = remittanceModel.InsurancePayment +
+            remittanceModel.ProductInsuranceNumber+
+            remittanceModel.TaxPayment + remittanceModel.OrganizationPayment + remittanceModel.UserCut;
+        return sum;
     }
 }

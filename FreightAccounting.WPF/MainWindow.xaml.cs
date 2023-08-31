@@ -41,7 +41,7 @@ public partial class MainWindow : Window
     //private RemittanceReportModel selectedRemitance = new RemittanceReportModel();
     private RemittanceEntityReportModel selectedRemittance = new RemittanceEntityReportModel() { RemittanceNumber = string.Empty };
     private ExpenseEntityReportModel selectedExpense = new ExpenseEntityReportModel();
-    private int _selectedId;
+    //private int _selectedId;
 
     public MainWindow(IDebtorRepository debtorRepository,
         IRemittanceRepository remittanceRepository,
@@ -288,7 +288,7 @@ public partial class MainWindow : Window
     /// <param name="e"></param>
     private void btnDeleteDebtor_Click(object sender, RoutedEventArgs e)
     {
-        new DeleteDebtorWindow(_debtorRepository, selectedDebtor.Id, true, _remittanceRepository, 0).ShowDialog();
+        new DeleteDebtorWindow(_debtorRepository, selectedDebtor.Id).ShowDialog();
     }
 
     private void btnSubmitPayment_Click(object sender, RoutedEventArgs e)
@@ -671,7 +671,7 @@ public partial class MainWindow : Window
 
     private void btnDeleteRemitance_Click(object sender, RoutedEventArgs e)
     {
-        new DeleteDebtorWindow(_debtorRepository, 0, false, _remittanceRepository, selectedDebtor.Id).ShowDialog();
+        new DeleteRemitanceWindow(_remittanceRepository, selectedRemittance.Id).ShowDialog();
     }
 
     private void btnEditRemitance_Click(object sender, RoutedEventArgs e)
@@ -685,7 +685,7 @@ public partial class MainWindow : Window
             ProductInsuranceNumber = selectedRemittance.ProductInsuranceNumber,
             ReceviedCommission = selectedRemittance.ReceviedCommission,
             SubmitDate = selectedRemittance.SubmitDate,
-            TransforPayment = selectedRemittance.InsurancePayment,
+            TransforPayment = selectedRemittance.TransforPayment,
             UserCut = selectedRemittance.UserCut,
             TaxPayment = selectedRemittance.TaxPayment
         }).ShowDialog();
@@ -814,6 +814,11 @@ public partial class MainWindow : Window
             return;
         }
         var s = remittanceReportModel.Remittances.Where(b => b.RemittanceNumber.Contains(txtSearchRemitanceById.Text)).ToList();
+        if (s.Count is 0)
+        {
+            dgReport.ItemsSource = null;
+            ShowSnackbarMessage("برای این شماره ،حواله ای ثبت نشده", MessageTypeEnum.Information);
+        }
         dgReport.ItemsSource = s;
     }
 
@@ -821,7 +826,7 @@ public partial class MainWindow : Window
     {
         txtSearchRemitanceById.Text = string.Empty;
         cbUserFilter.Text = string.Empty;
-        btnReportRemitance_Click(null!,null!);
+        btnReportRemitance_Click(null!, null!);
         dgReport.ItemsSource = remittanceReportModel.Remittances;
     }
     #endregion Remittance
