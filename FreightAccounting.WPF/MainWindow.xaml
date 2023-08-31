@@ -115,12 +115,7 @@
                                                                Foreground="{DynamicResource MaterialDesignBody}"/>
                                 </StackPanel>
 
-                                <StackPanel Orientation="Horizontal" Margin="5,0,5,0">
-                                    <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="جست و جو حواله :" VerticalAlignment="Center"></TextBlock>
-                                    <TextBox x:Name="txtSearchRemitanceById" Width="100" Margin="5,5,5,15"
-                                                  FlowDirection="RightToLeft" Foreground="{DynamicResource MaterialDesignBody}"
-                                             TextChanged="txtSearchRemitanceById_TextChanged" VerticalAlignment="Center"></TextBox>
-                                </StackPanel>
+                                
 
                                 <StackPanel Orientation="Horizontal" Margin="5,0,5,0">
                                     <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="جست و جو کاربر :" VerticalAlignment="Center"></TextBlock>
@@ -135,6 +130,11 @@
                                 <StackPanel Orientation="Horizontal" Margin="5,0,5,0">
                                     <Button x:Name="btnReportRemitance" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Content="گزارش" Margin="5"
                                     Click="btnReportRemitance_Click"></Button>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="5,0,5,0">
+                                    <Button x:Name="btnReportRemoveFilter" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Content="حذف فیلتر" Margin="5"
+                                    Click="btnReportRemoveFilter_Click" Background="#d9534f"></Button>
                                 </StackPanel>
                             </StackPanel>
 
@@ -154,12 +154,13 @@
                                     <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
 
-                                <Grid Margin="0,5" Grid.Row="0">
+                                <Grid Margin="5,5" Grid.Row="0">
                                     <Button x:Name="btnPrintRemitanceReport" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
                                      BorderBrush="{x:Null}"  Click="btnPrintRemitanceReport_Click" HorizontalAlignment="Right" Margin="5,2,0,0"
                                         ToolTip="پرینت">
                                         <materialDesign:PackIcon Kind="Printer"/>
                                     </Button>
+
                                     <StackPanel >
                                         <Separator Background="#FFDFDFDF"/>
                                         <StackPanel Margin="10" Orientation="Horizontal">
@@ -183,6 +184,19 @@
                                                    Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
                                                Margin="10,0"></TextBlock>
 
+                                            <StackPanel Orientation="Horizontal" Margin="10,0">
+                                                <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="جست و جو حواله :" VerticalAlignment="Center"></TextBlock>
+                                            <TextBox x:Name="txtSearchRemitanceById" Width="70" Margin="5,5,5,15"
+                                                  FlowDirection="RightToLeft" Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Center"></TextBox>
+                                                
+                                            <Button x:Name="btnSearchNumberRemitance" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
+                                            Height="25" Width="25" BorderBrush="{x:Null}" HorizontalAlignment="Left" ToolTip="گزارش بر اساس شماره بارنامه" VerticalAlignment="Bottom" 
+                                            Margin="0,0,0,12" Click="btnSearchNumberRemitance_Click">
+                                                <materialDesign:PackIcon Kind="Search"/>
+                                            </Button>
+                                            </StackPanel>
+                                            
+                                            
                                             <!--در صورتی ویزیبل شود که گزارش بر اساس کاربر گرفته شود-->
                                             <!--یا اینکه میتواند در همه صورت ویزیبل باشد و جمع پورسانت بین دو تاریخ همه کاربران را نشان دهد-->
                                             <StackPanel x:Name="stpUserCut" Visibility="Hidden" Orientation="Horizontal">
@@ -193,6 +207,10 @@
                                                Margin="10,0"></TextBlock>
 
                                             </StackPanel>
+
+                                            
+                                            
+
 
                                         </StackPanel>
                                         <Separator Background="#FFDFDFDF"/>
