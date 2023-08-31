@@ -7,14 +7,15 @@ public static class Logger
 {
     public static void LogException(Exception exception)
     {
-        // Get the current directory
-        string currentDirectory = Directory.GetCurrentDirectory();
 
         // Create a unique file name using the current date and time
         string fileName = $"ErrorLog_{DateTime.Now:yyyyMMdd_HHmmss}.txt";
 
         // Combine the current directory and file name
-        string filePath = Path.Combine(currentDirectory, fileName);
+        string logFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppLogs");
+        Directory.CreateDirectory(logFolderPath);
+
+        string filePath = Path.Combine(logFolderPath, fileName);
 
         try
         {
