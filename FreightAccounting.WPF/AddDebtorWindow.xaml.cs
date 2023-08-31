@@ -98,7 +98,7 @@ public partial class AddDebtorWindow : Window
             return false;
         }
 
-        if (string.IsNullOrWhiteSpace(txtDriverFirstName.Text) || string.IsNullOrWhiteSpace(txtDestination.Text))
+        if (string.IsNullOrWhiteSpace(txtDriverFirstName.Text) || string.IsNullOrWhiteSpace(txtDriverLastName.Text))
         {
             MessageBox.Show("نام و نام خانوادگی نمیتواند خالی باشد");
             return false;
