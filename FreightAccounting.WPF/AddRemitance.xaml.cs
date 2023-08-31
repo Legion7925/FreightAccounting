@@ -49,7 +49,7 @@ public partial class AddRemitance : Window
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-         GetUserList();
+        GetUserList();
     }
 
     private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -69,7 +69,7 @@ public partial class AddRemitance : Window
             {
                 await _remittanceRepository.UpdateRemittance(_remittanceId, new AddUpdateRemittanceModel
                 {
-                    ProductInsuranceNumber = txtProductInsurance.Text,
+                    ProductInsuranceNumber = Convert.ToInt32(txtProductInsurance.Text),
                     RemittanceNumber = txtNumberRemmitance.Text,
                     TransforPayment = Convert.ToInt32(txtTranforPayment.Text),
                     OrganizationPayment = Convert.ToInt32(doubleTranforPayment * .12),
@@ -94,7 +94,7 @@ public partial class AddRemitance : Window
                     SubmitDate = dpDate.SelectedDate.ToDateTime(),
                     OperatorUserId = ((KeyValuePair<int, string>)cbSubmitUser.SelectedItem).Key,
                     UserCut = _userCut,
-                    ProductInsuranceNumber = txtProductInsurance.Text,
+                    ProductInsuranceNumber = Convert.ToInt32(txtProductInsurance.Text),
                     ReceviedCommission = Convert.ToInt32(txtReceviedCommission.Text),
                 });
                 NotificationEventsManager.OnShowMessage("حواله جدید با موفقیت اضافه شد!", MessageTypeEnum.Success);
@@ -118,7 +118,7 @@ public partial class AddRemitance : Window
         try
         {
             var userDictionary = new Dictionary<int, string>();
-            _userList =  _operatorUserRepository.GetOperatorUsers();
+            _userList = _operatorUserRepository.GetOperatorUsers();
             if (_userList.Any())
             {
                 foreach (var item in _userList)
@@ -199,28 +199,43 @@ public partial class AddRemitance : Window
                     break;
             }
         }
+        CalculateNetProfitAndTaxes(null!, null!);
 
     }
 
-    private void txtTranforPayment_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-    {
-        var doubleTranforPayment = Convert.ToInt32(txtTranforPayment.Text);
-        var organizationPayment = AppSession.AppSettings.OrganizationPercentage * doubleTranforPayment / 100;
-        txtOrganizationPayment.Text = organizationPayment.ToString();
-        var taxPayment = AppSession.AppSettings.TaxPercentage * doubleTranforPayment / 100;
-        txtTaxPayment.Text = taxPayment.ToString();
-        var insurePayment = AppSession.AppSettings.InsurancePercentage * doubleTranforPayment / 100;
-        txtInsurancePayment.Text = insurePayment.ToString();
-    }
+    //private void txtTranforPayment_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    //{
+    //    var doubleTranforPayment = Convert.ToInt32(txtTranforPayment.Text);
+    //    var organizationPayment = AppSession.AppSettings.OrganizationPercentage * doubleTranforPayment / 100;
+    //    txtOrganizationPayment.Text = organizationPayment.ToString();
+    //    var taxPayment = AppSession.AppSettings.TaxPercentage * doubleTranforPayment / 100;
+    //    txtTaxPayment.Text = taxPayment.ToString();
+    //    var insurePayment = AppSession.AppSettings.InsurancePercentage * doubleTranforPayment / 100;
+    //    txtInsurancePayment.Text = insurePayment.ToString();
+    //}
 
-    private void txtReceviedCommission_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    private void CalculateNetProfitAndTaxes(object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
+
+        if (string.IsNullOrWhiteSpace(txtTranforPayment.Text))
+            return;
         var doubleTranforPayment = int.Parse(txtTranforPayment.Text);
         var organizationPayment = AppSession.AppSettings.OrganizationPercentage * doubleTranforPayment / 100;
+        txtOrganizationPayment.Text = organizationPayment.ToString();
+
         var taxPayment = AppSession.AppSettings.TaxPercentage * doubleTranforPayment / 100;
+        txtTaxPayment.Text = taxPayment.ToString();
+
         var insurePayment = AppSession.AppSettings.InsurancePercentage * doubleTranforPayment / 100;
+        txtInsurancePayment.Text = insurePayment.ToString();
+
+        if (string.IsNullOrWhiteSpace(txtProductInsurance.Text))
+            return;
         var productInsurance = int.Parse(txtProductInsurance.Text);
-        var totalPayment = organizationPayment + taxPayment + insurePayment + productInsurance +_userCut;
+        var totalPayment = organizationPayment + taxPayment + insurePayment + productInsurance + _userCut;
+
+        if (string.IsNullOrWhiteSpace(txtReceviedCommission.Text))
+            return;
         var receveComision = int.Parse(txtReceviedCommission.Text);
         txtNetProfit.Text = (receveComision - totalPayment).ToString();
     }

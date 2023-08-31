@@ -5,7 +5,7 @@ public class AddUpdateRemittanceModel
     /// <summary>
     /// شماره بارنامه
     /// </summary>
-    public required string RemittanceNumber { get; set; }
+    public string RemittanceNumber { get; set; } = string.Empty;    
 
     /// <summary>
     /// کرایه راننده
@@ -50,7 +50,7 @@ public class AddUpdateRemittanceModel
     /// <summary>
     /// شماره بیمه کالا
     /// </summary>
-    public string? ProductInsuranceNumber { get; set; }
+    public int? ProductInsuranceNumber { get; set; }
 
 
 

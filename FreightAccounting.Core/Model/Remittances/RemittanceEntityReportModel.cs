@@ -31,7 +31,7 @@ namespace FreightAccounting.Core.Model.Remittances
         /// <summary>
         /// شماره بیمه کالا
         /// </summary>
-        public string? ProductInsuranceNumber { get; set; }
+        public int? ProductInsuranceNumber { get; set; }
 
         /// <summary>
         /// مالیات دارایی
