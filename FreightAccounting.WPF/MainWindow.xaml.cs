@@ -240,13 +240,13 @@ public partial class MainWindow : Window
         switch (cmbFilterPaymentStatus.SelectedIndex)
         {
             case 0:
-                FillDebtorDatagrid(null,null);
+                FillDebtorDatagrid(null, null);
                 break;
             case 1:
-                dgDebtorsReport.ItemsSource =  debtorsList = debtorsList.Where(d => d.Paid == true).ToList();
+                dgDebtorsReport.ItemsSource = debtorsList = debtorsList.Where(d => d.Paid == true).ToList();
                 break;
             case 2:
-                dgDebtorsReport.ItemsSource =  debtorsList = debtorsList.Where(d => d.Paid == false).ToList();
+                dgDebtorsReport.ItemsSource = debtorsList = debtorsList.Where(d => d.Paid == false).ToList();
                 break;
         }
     }
@@ -501,16 +501,16 @@ public partial class MainWindow : Window
         try
         {
             btnPrintExpenseReport.IsEnabled = false;
-            var result = _expensesRepository.GetExpensesReport(new ExpensesQueryParameters 
-            { 
+            var result = _expensesRepository.GetExpensesReport(new ExpensesQueryParameters
+            {
                 Page = 1,
                 Size = int.MaxValue,
-                StartDate = dpExpensesReportStart.SelectedDate.ToDateTime() , 
-                EndDate = dpExpensesReportEnd.SelectedDate.ToDateTime() 
+                StartDate = dpExpensesReportStart.SelectedDate.ToDateTime(),
+                EndDate = dpExpensesReportEnd.SelectedDate.ToDateTime()
             });
 
 
-            if(result.Expenses.Any() is not true)
+            if (result.Expenses.Any() is not true)
             {
                 ShowSnackbarMessage("داده ای برای نمایش پرینت در این تاریخ موجود نیست", MessageTypeEnum.Information);
                 btnPrintExpenseReport.IsEnabled = true;
@@ -556,7 +556,7 @@ public partial class MainWindow : Window
 
     private double _remitanceTotalpage = 0;
 
-    private  void btnReportRemitance_Click(object sender, RoutedEventArgs e)
+    private void btnReportRemitance_Click(object sender, RoutedEventArgs e)
     {
         try
         {
@@ -689,22 +689,12 @@ public partial class MainWindow : Window
         }).ShowDialog();
     }
 
-    private void txtSearchRemitanceById_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        //if (string.IsNullOrEmpty(txtSearchDebtorsByName.Text))
-        //{
-        //    dgReport.ItemsSource = remittanceList;
-        //    return;
-        //}
-        //todo
-    }
-
-    private  void FillOperatorUsersCombobox()
+    private void FillOperatorUsersCombobox()
     {
         try
         {
             var userDictionary = new Dictionary<int, string>();
-            _userList =  _operatorUserRepository.GetOperatorUsers();
+            _userList = _operatorUserRepository.GetOperatorUsers();
             if (_userList.Any())
             {
                 foreach (var item in _userList)
@@ -762,7 +752,7 @@ public partial class MainWindow : Window
         _remitancePageIndex = 1;
         FillRemitanceDatagrid(null, null);
     }
-    #endregion Remittance
+
 
     private void FillPaginationComboboxes()
     {
@@ -778,7 +768,7 @@ public partial class MainWindow : Window
 
     private void btnPrintRemitanceReport_Click(object sender, RoutedEventArgs e)
     {
-       var report=  _remittanceRepository.GetRemittancesBetweenDates(new RemittanceQueryParameter
+        var report = _remittanceRepository.GetRemittancesBetweenDates(new RemittanceQueryParameter
         {
             StartDate = dpRemittanceStart.SelectedDate.ToDateTime(),
             EndDate = dpRemittanceEnd.SelectedDate.ToDateTime(),
@@ -796,7 +786,7 @@ public partial class MainWindow : Window
         var stiReport = new StiReport();
         StiOptions.Dictionary.BusinessObjects.MaxLevel = 1;
         stiReport.Load(@"Report\RemittanceReport.mrt");
-        stiReport.RegData("لیست حواله ها" , report.Remittances);
+        stiReport.RegData("لیست حواله ها", report.Remittances);
         stiReport.RegData("تاریخ گزارش", new
         {
             تاریخ_شروع = dpExpensesReportStart.SelectedDate.ToDateTime().ToFa(),
@@ -813,4 +803,24 @@ public partial class MainWindow : Window
         stiReport.Show();
         btnPrintDebtorsReport.IsEnabled = true;
     }
+
+    private void btnSearchNumberRemitance_Click(object sender, RoutedEventArgs e)
+    {
+        if (string.IsNullOrEmpty(txtSearchRemitanceById.Text))
+        {
+            ShowSnackbarMessage("شماره حواله را ابتدا وارد کنید", MessageTypeEnum.Warning);
+            return;
+        }
+        var s = remittanceReportModel.Remittances.Where(b => b.RemittanceNumber.Contains(txtSearchRemitanceById.Text)).ToList();
+        dgReport.ItemsSource = s;
+    }
+
+    private void btnReportRemoveFilter_Click(object sender, RoutedEventArgs e)
+    {
+        txtSearchRemitanceById.Text = string.Empty;
+        cbUserFilter.Text = string.Empty;
+        btnReportRemitance_Click(null!,null!);
+        dgReport.ItemsSource = remittanceReportModel.Remittances;
+    }
+    #endregion Remittance
 }
