@@ -351,6 +351,8 @@ public partial class MainWindow : Window
             if (_expensesTotalCount is 0)
             {
                 ShowSnackbarMessage("داده ای برای نمایش یافت نشد", MessageTypeEnum.Information);
+                lblTotalExpenses.Text = "0";
+                lblTotalIncomeWithExpenses.Text = "0";
                 return;
             }
 
