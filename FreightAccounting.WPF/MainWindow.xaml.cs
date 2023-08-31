@@ -68,10 +68,10 @@ public partial class MainWindow : Window
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
+        FillPaginationComboboxes();
         FillDebtorDatagrid(null, null);
         btnReportExpenses_Click(null!, null!);
         btnReportRemitance_Click(null!, null!);
-        FillPaginationComboboxes();
         FillOperatorUsersCombobox();
     }
 
