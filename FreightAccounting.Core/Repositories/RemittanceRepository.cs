@@ -106,7 +106,7 @@ public class RemittanceRepository : IRemittanceRepository
             .Take(queryParameters.Size);
 
 
-        remittanceReportModel.Remittances = remittanceList.ToList();
+        remittanceReportModel.Remittances = remittanceList.OrderByDescending(i=>i.SubmitDate).ToList();
 
         return remittanceReportModel;
 

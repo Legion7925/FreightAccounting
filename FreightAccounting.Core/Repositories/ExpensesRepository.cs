@@ -42,7 +42,7 @@ public class ExpensesRepository : IExpensesRepository
 
         return new ExpensesReportModel
         {
-            Expenses = paginatedExpenses.ToList(),
+            Expenses = paginatedExpenses.OrderByDescending(e=> e.SubmitDate).ToList(),
             TotalExpensesAmount = expenses.Select(e => e.ExpensesAmount).Sum(),
             TotalIncome = expenses.Select(e=> e.Income).Sum(),
         };

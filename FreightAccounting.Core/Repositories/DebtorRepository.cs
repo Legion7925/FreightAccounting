@@ -60,7 +60,7 @@ public class DebtorRepository : IDebtorRepository
             DebtAmount = d.DebtAmount,
             Id = d.Id,
             PhoneNumber = d.PhoneNumber
-        }).ToList();
+        }).OrderByDescending(i=> i.Id).ToList();
     }
 
     public async Task AddDebtor(AddUpdateDebtorModel debtorModel)
