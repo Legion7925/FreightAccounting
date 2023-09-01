@@ -38,6 +38,7 @@ namespace FreightAccounting.WPF
                 await remitanceRepository.DeleteRemittance(_remitanceId);
                 NotificationEventsManager.OnShowMessage("حذف حواله با موفقیت انجام شد!", MessageTypeEnum.Success);
                 CartableEventsManager.OnUpdateRemittanceDatagrid();
+                CartableEventsManager.OnUpdateExpensesDatagrid();
 
                 Close();
             }

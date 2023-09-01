@@ -29,22 +29,38 @@ public class DebtorRepository : IDebtorRepository
     /// لیست همه ی بدهکاران
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<DebtorReportModel> GetDebtors(QueryParameters queryParameters)
+    public IEnumerable<DebtorReportModel> GetDebtors(DebtorsQueryParameters queryParameters)
     {
-        return _context.Debtors.AsNoTracking()
-            .Skip((queryParameters.Page - 1) * queryParameters.Size)
-            .Take(queryParameters.Size)
-            .Select(d=> new DebtorReportModel
+        var debtors = _context.Debtors.AsNoTracking();
+
+        if (queryParameters.Paid is not null)
+        {
+            if (queryParameters.Paid.Value is true)
             {
-                Destination = d.Destination,
-                DriverFirstName = d.DriverFirstName,
-                DriverLastName = d.DriverLastName,
-                PlateNumber = d.PlateNumber,
-                PaymentDate = d.PaymentDate,
-                DebtAmount = d.DebtAmount,
-                Id = d.Id,
-                PhoneNumber = d.PhoneNumber
-            }).ToList();
+                debtors = debtors.Where(d => d.PaymentDate != null);
+            }
+            else
+            {
+                debtors = debtors.Where(d => d.PaymentDate == null);
+            }
+        }
+
+
+        debtors = debtors
+            .Skip((queryParameters.Page - 1) * queryParameters.Size)
+            .Take(queryParameters.Size);
+
+        return debtors.Select(d => new DebtorReportModel
+        {
+            Destination = d.Destination,
+            DriverFirstName = d.DriverFirstName,
+            DriverLastName = d.DriverLastName,
+            PlateNumber = d.PlateNumber,
+            PaymentDate = d.PaymentDate,
+            DebtAmount = d.DebtAmount,
+            Id = d.Id,
+            PhoneNumber = d.PhoneNumber
+        }).ToList();
     }
 
     public async Task AddDebtor(AddUpdateDebtorModel debtorModel)
@@ -67,7 +83,7 @@ public class DebtorRepository : IDebtorRepository
     /// </summary>
     /// <param name="debtorId"></param>
     /// <returns></returns>
-    public async Task SubmitPayment(int debtorId , DateTime paymentDate)
+    public async Task SubmitPayment(int debtorId, DateTime paymentDate)
     {
         var debtor = await GetDebtorById(debtorId);
 

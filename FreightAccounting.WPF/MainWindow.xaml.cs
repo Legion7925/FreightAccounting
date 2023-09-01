@@ -204,11 +204,11 @@ public partial class MainWindow : Window
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void FillDebtorDatagrid(object? sender, EventArgs? e)
+    private void FillDebtorDatagrid(object? sender, bool? e)
     {
         try
         {
-            debtorsList = _debtorRepository.GetDebtors(new QueryParameters());
+            debtorsList = _debtorRepository.GetDebtors(new DebtorsQueryParameters() {  Page = 1 , Size = int.MaxValue , Paid = e});
             dgDebtorsReport.ItemsSource = debtorsList;
         }
         catch (AppException ax)
@@ -243,10 +243,10 @@ public partial class MainWindow : Window
                 FillDebtorDatagrid(null, null);
                 break;
             case 1:
-                dgDebtorsReport.ItemsSource = debtorsList = debtorsList.Where(d => d.Paid == true).ToList();
+                FillDebtorDatagrid(null, true);
                 break;
             case 2:
-                dgDebtorsReport.ItemsSource = debtorsList = debtorsList.Where(d => d.Paid == false).ToList();
+                FillDebtorDatagrid(null, false);
                 break;
         }
     }
@@ -642,7 +642,9 @@ public partial class MainWindow : Window
             {
                 StartDate = dpRemittanceStart.SelectedDate.ToDateTime(),
                 EndDate = dpRemittanceEnd.SelectedDate.ToDateTime(),
-                OperatorUserId = operatorUserId
+                OperatorUserId = operatorUserId, 
+                Page = _remitancePageIndex,
+                Size = _remitancePageSize
             });
 
             lblTotalIncomeBasedOnComission.Text = remittanceReportModel.SumIncome.ToString();

@@ -56,7 +56,8 @@ public partial class LoginWindow : Window
             AppSession.LoggedInUsername = userInfo.Username;
             AppSession.LoggedInUserId = userInfo.Id;
 
-            new MainWindow(debtorRepository,remittanceRepository,operatorUserRepository,expensesRepository).ShowDialog();
+            new MainWindow(debtorRepository,remittanceRepository,operatorUserRepository,expensesRepository).Show();
+            this.Close();
         }
         catch (AppException ax)
         {

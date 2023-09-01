@@ -24,7 +24,7 @@ public class RemittanceRepository : IRemittanceRepository
     /// <param name="endDate"></param>
     /// <param name="operatorUserId"></param>
     /// <returns></returns>
-    public int GetRemittanceReportCount(DateTime startDate , DateTime endDate, int? operatorUserId)
+    public int GetRemittanceReportCount(DateTime startDate, DateTime endDate, int? operatorUserId)
     {
         var remittanceList = _context.Remittances
            .AsNoTracking()
@@ -106,7 +106,7 @@ public class RemittanceRepository : IRemittanceRepository
             .Take(queryParameters.Size);
 
 
-         remittanceReportModel.Remittances = remittanceList.ToList();
+        remittanceReportModel.Remittances = remittanceList.ToList();
 
         return remittanceReportModel;
 
@@ -130,36 +130,56 @@ public class RemittanceRepository : IRemittanceRepository
     {
         //محاسبه جمع مالیات ها که بعدا از کمیسیون کسر خواهد شد
         var dailyIncome = CalculateTaxes(remittanceModel);
+        //سود خالص
+        var netProfit = remittanceModel.ReceviedCommission - dailyIncome;
         var remittance = new Remittance
         {
             InsurancePayment = remittanceModel.InsurancePayment,
             RemittanceNumber = remittanceModel.RemittanceNumber,
             OperatorUserId = remittanceModel.OperatorUserId,
             //محاسبه سود خالص با کم کردن درصد ها از میزان کمیسیون
-            NetProfit = remittanceModel.ReceviedCommission - dailyIncome,
+            NetProfit = netProfit,
             UserCut = remittanceModel.UserCut,
             ReceviedCommission = remittanceModel.ReceviedCommission,
             OrganizationPayment = remittanceModel.OrganizationPayment,
             TaxPayment = remittanceModel.TaxPayment,
             TransforPayment = remittanceModel.TransforPayment,
             SubmitDate = remittanceModel.SubmitDate,
-            ProductInsuranceNumber = remittanceModel.ProductInsuranceNumber,         
+            ProductInsuranceNumber = remittanceModel.ProductInsuranceNumber,
         };
 
         await _context.Remittances.AddAsync(remittance);
+
+        await UpdateExpenseIncome(remittanceModel.SubmitDate, netProfit);
+
         await _context.SaveChangesAsync();
     }
 
     public async Task UpdateRemittance(int remittanceId, AddUpdateRemittanceModel remittanceModel)
     {
         var remittance = await GetRemittanceById(remittanceId);
+
         var dailyIncome = CalculateTaxes(remittanceModel);
+
+        var NewNetProfit = remittanceModel.ReceviedCommission - dailyIncome;
+
+        //تفاوت سود خالص قبلی با جدید آیا سود خالص اضافه شده یا کم شده
+        var netProfitDifference = NewNetProfit - remittance.NetProfit;
+
+        if(remittance.NetProfit > NewNetProfit)
+        {
+            await UpdateExpenseIncome(remittanceModel.SubmitDate, netProfitDifference);
+        }
+        else
+        {
+            await UpdateExpenseIncome(remittanceModel.SubmitDate, netProfitDifference);
+        }
 
         remittance.InsurancePayment = remittanceModel.InsurancePayment;
         remittance.RemittanceNumber = remittanceModel.RemittanceNumber;
         remittance.OperatorUserId = remittanceModel.OperatorUserId;
         //محاسبه سود خالص با کم کردن درصد ها از میزان کمیسیون
-        remittance.NetProfit = remittanceModel.ReceviedCommission - dailyIncome;
+        remittance.NetProfit = NewNetProfit;
         remittance.UserCut = remittanceModel.UserCut;
         remittance.ReceviedCommission = remittanceModel.ReceviedCommission;
         remittance.OrganizationPayment = remittanceModel.OrganizationPayment;
@@ -168,12 +188,15 @@ public class RemittanceRepository : IRemittanceRepository
         remittance.SubmitDate = remittanceModel.SubmitDate;
         remittance.ProductInsuranceNumber = remittanceModel.ProductInsuranceNumber;
 
+
         await _context.SaveChangesAsync();
     }
 
     public async Task DeleteRemittance(int remittanceId)
     {
         var remittance = await GetRemittanceById(remittanceId);
+
+        await UpdateExpenseIncome(remittance.SubmitDate, -remittance.NetProfit);
 
         _context.Remittances.Remove(remittance);
         await _context.SaveChangesAsync();
@@ -189,6 +212,17 @@ public class RemittanceRepository : IRemittanceRepository
         return remittance;
     }
 
+    private async Task UpdateExpenseIncome(DateTime submitDate , int netProfit)
+    {
+        //اگر تو تاریخی که داره حواله ثبت میشه مخارج هم ثبت شده باشه میریم در آمد محاسبه شده
+        //اون روز را آپدیت میکنیم چون یه سود خالص جدید اضافه شده به تاریخ روز
+        var expense = await _context.Expenses.FirstOrDefaultAsync(e => e.SubmitDate == submitDate);
+        if (expense is not null)
+        {
+            expense.Income = expense.Income + netProfit;
+        }
+    }
+
     /// <summary>
     /// جمع مبالغ بیمه ، مالیات ، دارایی و غیره 
     /// </summary>
@@ -197,7 +231,7 @@ public class RemittanceRepository : IRemittanceRepository
     private int CalculateTaxes(AddUpdateRemittanceModel remittanceModel)
     {
         var sum = remittanceModel.InsurancePayment +
-            remittanceModel.ProductInsuranceNumber+
+            remittanceModel.ProductInsuranceNumber +
             remittanceModel.TaxPayment + remittanceModel.OrganizationPayment + remittanceModel.UserCut;
         return sum;
     }

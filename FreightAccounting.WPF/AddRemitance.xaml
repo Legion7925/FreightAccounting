@@ -29,7 +29,7 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <StackPanel>
-                                <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="شماره بارنامه :" VerticalAlignment="Center" />
+                                <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="شماره حواله :" VerticalAlignment="Center" />
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="کرایه راننده :" VerticalAlignment="Center" />
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="هزینه سازمان :" VerticalAlignment="Center" />
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="هزینه بیمه :" VerticalAlignment="Center" />
@@ -37,15 +37,15 @@
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="تاریخ ثبت :" VerticalAlignment="Center" />
                             </StackPanel>
 
-                            <StackPanel Grid.Column="1">
-                                <TextBox x:Name="txtNumberRemmitance" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,12,0,10"  
+                            <StackPanel Grid.Column="1" Margin="10,0">
+                                <TextBox x:Name="txtNumberRemmitance" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,15,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15"></TextBox>
-                                <TextBox x:Name="txtTranforPayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,12,0,10"  
+                                <TextBox x:Name="txtTranforPayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,15,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15" InputScope="Number" TextChanged="CalculateNetProfitAndTaxes"></TextBox>
-                                
-                                <TextBox x:Name="txtOrganizationPayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,14,0,10"  
+
+                                <TextBox x:Name="txtOrganizationPayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,15,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15"  IsReadOnly="True"></TextBox>
-                                <TextBox x:Name="txtInsurancePayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,14,0,10"  
+                                <TextBox x:Name="txtInsurancePayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,15,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15"  IsReadOnly="True"></TextBox>
                                 <TextBox x:Name="txtTaxPayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,15,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15"  IsReadOnly="True"></TextBox>

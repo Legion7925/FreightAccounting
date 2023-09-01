@@ -77,6 +77,7 @@ public partial class AddRemitance : Window
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
+        txtUserCut.Text = "0";
     }
 
     private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -99,9 +100,9 @@ public partial class AddRemitance : Window
                     ProductInsuranceNumber = Convert.ToInt32(txtProductInsurance.Text),
                     RemittanceNumber = txtNumberRemmitance.Text,
                     TransforPayment = Convert.ToInt32(txtTranforPayment.Text),
-                    OrganizationPayment = Convert.ToInt32(doubleTranforPayment * .12),
-                    InsurancePayment = Convert.ToInt32(doubleTranforPayment * .05),
-                    TaxPayment = Convert.ToInt32(doubleTranforPayment * .01),
+                    OrganizationPayment = Convert.ToInt32(AppSession.AppSettings.OrganizationPercentage * doubleTranforPayment / 100),
+                    InsurancePayment = Convert.ToInt32(AppSession.AppSettings.InsurancePercentage * doubleTranforPayment / 100),
+                    TaxPayment = Convert.ToInt32(AppSession.AppSettings.TaxPercentage * doubleTranforPayment / 100),
                     SubmitDate = dpDate.SelectedDate.ToDateTime(),
                     OperatorUserId = ((KeyValuePair<int, string>)cbSubmitUser.SelectedItem).Key,
                     UserCut = _userCut,
@@ -115,9 +116,9 @@ public partial class AddRemitance : Window
                 {
                     RemittanceNumber = txtNumberRemmitance.Text,
                     TransforPayment = Convert.ToInt32(txtTranforPayment.Text),
-                    OrganizationPayment = Convert.ToInt32(doubleTranforPayment * .12),
-                    InsurancePayment = Convert.ToInt32(doubleTranforPayment * .05),
-                    TaxPayment = Convert.ToInt32(doubleTranforPayment * .01),
+                    OrganizationPayment = Convert.ToInt32(AppSession.AppSettings.OrganizationPercentage * doubleTranforPayment / 100),
+                    InsurancePayment = Convert.ToInt32(AppSession.AppSettings.InsurancePercentage * doubleTranforPayment / 100),
+                    TaxPayment = Convert.ToInt32(AppSession.AppSettings.TaxPercentage * doubleTranforPayment / 100),
                     SubmitDate = dpDate.SelectedDate.ToDateTime(),
                     OperatorUserId = ((KeyValuePair<int, string>)cbSubmitUser.SelectedItem).Key,
                     UserCut = _userCut,
@@ -127,6 +128,7 @@ public partial class AddRemitance : Window
                 NotificationEventsManager.OnShowMessage("حواله جدید با موفقیت اضافه شد!", MessageTypeEnum.Success);
             }
             CartableEventsManager.OnUpdateRemittanceDatagrid();
+            CartableEventsManager.OnUpdateExpensesDatagrid();
             Close();
         }
         catch (AppException ne)
@@ -173,11 +175,11 @@ public partial class AddRemitance : Window
 
     private bool ValidateInputs()
     {
-        //if(selectedUserOperatorId is 0)
-        //{
-        //    MessageBox.Show("لطفا کاربر ثبت کننده را انتخاب کنید");
-        //    return false;
-        //}
+        if (cbSubmitUser.SelectedItem is null)
+        {
+            MessageBox.Show("لطفا کاربر ثبت کننده را انتخاب کنید");
+            return false;
+        }
 
         if (string.IsNullOrWhiteSpace(txtNumberRemmitance.Text))
         {
@@ -194,6 +196,12 @@ public partial class AddRemitance : Window
         if (string.IsNullOrWhiteSpace(txtReceviedCommission.Text))
         {
             MessageBox.Show("مقدار کمیسیون دریافتی نمیتواند خالی باشد");
+            return false;
+        }
+
+        if (string.IsNullOrWhiteSpace(txtProductInsurance.Text))
+        {
+            MessageBox.Show("مقدار بیمه کالا نمیتواند خالی باشد");
             return false;
         }
 
@@ -248,7 +256,6 @@ public partial class AddRemitance : Window
 
     private void CalculateNetProfitAndTaxes(object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
-
         if (string.IsNullOrWhiteSpace(txtTranforPayment.Text))
             return;
         var doubleTranforPayment = int.Parse(txtTranforPayment.Text);
