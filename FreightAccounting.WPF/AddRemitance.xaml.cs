@@ -171,6 +171,7 @@ public partial class AddRemitance : Window
     private void btnAddUser_Click(object sender, RoutedEventArgs e)
     {
         new AddUser(_operatorUserRepository).ShowDialog();
+        GetUserList();
     }
 
     private bool ValidateInputs()

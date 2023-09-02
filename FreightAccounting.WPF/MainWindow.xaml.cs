@@ -560,6 +560,10 @@ public partial class MainWindow : Window
 
     private void btnReportRemitance_Click(object sender, RoutedEventArgs e)
     {
+        if (!string.IsNullOrEmpty(cbUserFilter.Text))
+        {
+            stpUserCut.Visibility = Visibility.Visible;
+        }
         try
         {
             int? operatorUserId = ((KeyValuePair<int, string>?)cbUserFilter.SelectedItem)?.Key;
@@ -573,6 +577,7 @@ public partial class MainWindow : Window
             if (_remitanceTotalCount == 0)
             {
                 ShowSnackbarMessage("داده ای برای نمایش یافت نشد", MessageTypeEnum.Information);
+                dgReport.ItemsSource = null;
                 return;
             };
             FillRemitanceDatagrid(null, null);
@@ -826,6 +831,7 @@ public partial class MainWindow : Window
 
     private void btnReportRemoveFilter_Click(object sender, RoutedEventArgs e)
     {
+        stpUserCut.Visibility = Visibility.Hidden;
         txtSearchRemitanceById.Text = string.Empty;
         cbUserFilter.Text = string.Empty;
         btnReportRemitance_Click(null!, null!);

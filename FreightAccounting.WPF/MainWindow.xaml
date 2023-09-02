@@ -7,7 +7,7 @@
         xmlns:persianDateControls="clr-namespace:Mohsen.PersianDateControls;assembly=Mohsen.PersianDateControls"
         xmlns:local="clr-namespace:FreightAccounting.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="760" Width="1024" MinHeight="760" MinWidth="1024" WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="CanResizeWithGrip"
+        Title="MainWindow" Height="760" Width="1024" MinHeight="780" MinWidth="1064" WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="CanResizeWithGrip"
         WindowStyle="None" Background="Transparent" WindowState="Normal" Loaded="Window_Loaded" Closing="Window_Closing"
         FontFamily="./Resources/Fonts/samim-font-v4.0.5/Farsi-Digits/#Samim FD">
     <Window.Resources>
@@ -115,7 +115,7 @@
                                                                Foreground="{DynamicResource MaterialDesignBody}"/>
                                 </StackPanel>
 
-                                
+
 
                                 <StackPanel Orientation="Horizontal" Margin="5,0,5,0">
                                     <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="جست و جو کاربر :" VerticalAlignment="Center"></TextBlock>
@@ -139,11 +139,19 @@
                             </StackPanel>
 
                             <Grid Grid.Row="0" FlowDirection="LeftToRight">
-                                <Button x:Name="btnAddRemittance" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
+                                <StackPanel Orientation="Horizontal">
+                                    <Button x:Name="btnAddRemittance" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
                                     Background="#FF28AD43" BorderBrush="{x:Null}" HorizontalAlignment="Left"
                                         ToolTip="افزودن حواله" Visibility="Visible" Margin="5,2,0,0" Click="btnAddRemittance_Click">
-                                    <materialDesign:PackIcon Kind="Add"/>
-                                </Button>
+                                        <materialDesign:PackIcon Kind="Add"/>
+                                    </Button>
+
+                                    <Button x:Name="btnPrintRemitanceReport" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
+                                     BorderBrush="{x:Null}"  Click="btnPrintRemitanceReport_Click" HorizontalAlignment="Left" Margin="10,2,0,0"
+                                        ToolTip="پرینت">
+                                        <materialDesign:PackIcon Kind="Printer"/>
+                                    </Button>
+                                </StackPanel>
                             </Grid>
 
 
@@ -155,30 +163,26 @@
                                 </Grid.RowDefinitions>
 
                                 <Grid Margin="5,5" Grid.Row="0">
-                                    <Button x:Name="btnPrintRemitanceReport" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
-                                     BorderBrush="{x:Null}"  Click="btnPrintRemitanceReport_Click" HorizontalAlignment="Right" Margin="5,2,0,0"
-                                        ToolTip="پرینت">
-                                        <materialDesign:PackIcon Kind="Printer"/>
-                                    </Button>
+
 
                                     <StackPanel >
                                         <Separator Background="#FFDFDFDF"/>
-                                        <StackPanel Margin="10" Orientation="Horizontal">
+                                        <StackPanel Margin="5" Orientation="Horizontal">
                                             <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}"  
                                                Text="مجموع درآمد :" VerticalAlignment="Center"></TextBlock>
                                             <TextBlock x:Name="lblTotalIncomeBasedOnComission" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
                                                Margin="10,0"></TextBlock>
-                                            <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="20,0,0,0" 
+                                            <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="5,0,0,0" 
                                                Text="مجموع سود خالص :" VerticalAlignment="Center"></TextBlock>
                                             <TextBlock x:Name="lblTotalNetPorfit"  FontSize="14" FontWeight="SemiBold" 
                                                    Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
                                                Margin="10,0"></TextBlock>
-                                            <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="20,0,0,0" 
+                                            <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="5,0,0,0" 
                                                Text="مجموع مالیات پرداختی :" VerticalAlignment="Center"></TextBlock>
                                             <TextBlock x:Name="lblTotalTaxPayment" FontSize="14" FontWeight="SemiBold" 
                                                    Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
                                                Margin="10,0"></TextBlock>
-                                            <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="20,0,0,0" 
+                                            <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="5,0,0,0" 
                                                Text="مجموع بیمه پرداختی :" VerticalAlignment="Center"></TextBlock>
                                             <TextBlock x:Name="lblTotalInsurancePayment" FontSize="14" FontWeight="SemiBold" 
                                                    Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
@@ -186,21 +190,21 @@
 
                                             <StackPanel Orientation="Horizontal" Margin="10,0">
                                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="جست و جو حواله :" VerticalAlignment="Center"></TextBlock>
-                                            <TextBox x:Name="txtSearchRemitanceById" Width="70" Margin="5,5,5,15"
+                                                <TextBox x:Name="txtSearchRemitanceById" Width="70" Margin="5,5,5,10"
                                                   FlowDirection="RightToLeft" Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Center"></TextBox>
-                                                
-                                            <Button x:Name="btnSearchNumberRemitance" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
+
+                                                <Button x:Name="btnSearchNumberRemitance" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
                                             Height="25" Width="25" BorderBrush="{x:Null}" HorizontalAlignment="Left" ToolTip="گزارش بر اساس شماره بارنامه" VerticalAlignment="Bottom" 
                                             Margin="0,0,0,12" Click="btnSearchNumberRemitance_Click">
-                                                <materialDesign:PackIcon Kind="Search"/>
-                                            </Button>
+                                                    <materialDesign:PackIcon Kind="Search"/>
+                                                </Button>
                                             </StackPanel>
-                                            
-                                            
+
+
                                             <!--در صورتی ویزیبل شود که گزارش بر اساس کاربر گرفته شود-->
                                             <!--یا اینکه میتواند در همه صورت ویزیبل باشد و جمع پورسانت بین دو تاریخ همه کاربران را نشان دهد-->
                                             <StackPanel x:Name="stpUserCut" Visibility="Hidden" Orientation="Horizontal">
-                                                <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="20,0,0,0" 
+                                                <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="10,0,0,0" 
                                                Text="مجموع پورسانت کاربر :" VerticalAlignment="Center"></TextBlock>
                                                 <TextBlock x:Name="lblTotalUserCut"  FontSize="14" FontWeight="SemiBold" 
                                                    Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
@@ -208,8 +212,8 @@
 
                                             </StackPanel>
 
-                                            
-                                            
+
+
 
 
                                         </StackPanel>
