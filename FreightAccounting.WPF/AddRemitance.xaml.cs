@@ -24,6 +24,8 @@ public partial class AddRemitance : Window
     private static IEnumerable<OperatorUser> _userList = new List<OperatorUser>();
     private int _userCut;
 
+    private int _contentUserCut;
+
     public AddRemitance(IRemittanceRepository remittanceRepository, IOperatorUserRepository operatorUserRepository,
         bool isEdit, int? remitanceId, AddUpdateRemittanceModel? addUpdateRemittanceModel)
     {
@@ -35,10 +37,30 @@ public partial class AddRemitance : Window
 
         if (_isEdit)
         {
-            var o = addUpdateRemittanceModel!.UserCut * 100 / addUpdateRemittanceModel.TransforPayment;
+            if (addUpdateRemittanceModel!.UserCut == 1)
+            {
+                _contentUserCut = 1;
+            }
+            else if(addUpdateRemittanceModel!.UserCut == 0)
+            {
+                _contentUserCut = 0;
+            }
+            else
+            {
+                var o = addUpdateRemittanceModel!.UserCut * 100 / addUpdateRemittanceModel.TransforPayment;
+                if(o == 0)
+                {
+                    _contentUserCut = 1;
+                }
+                else
+                {
+                    _contentUserCut = o;
+                }
+            }
+
             var selectedUser = _userList.FirstOrDefault(u => u.Id == addUpdateRemittanceModel.OperatorUserId);
             cbSubmitUser.SelectedItem = new KeyValuePair<int, string>(selectedUser!.Id, selectedUser.Name + " " + selectedUser.Family);
-            switch (o)
+            switch (_contentUserCut)
             {
                 case 0:
                     txtUserCut.Text = 0.ToString();
@@ -89,6 +111,7 @@ public partial class AddRemitance : Window
     {
         try
         {
+            btnSubmit.IsEnabled = false;
             var valid = ValidateInputs();
             if (!valid) return;
 
@@ -129,6 +152,7 @@ public partial class AddRemitance : Window
             }
             CartableEventsManager.OnUpdateRemittanceDatagrid();
             CartableEventsManager.OnUpdateExpensesDatagrid();
+            btnSubmit.IsEnabled = true;
             Close();
         }
         catch (AppException ne)
