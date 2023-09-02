@@ -82,11 +82,13 @@ public partial class AddDebtorWindow : Window
         catch (AppException ax)
         {
             NotificationEventsManager.OnShowMessage(ax.Message, MessageTypeEnum.Warning);
+            btnSubmitDebtor.IsEnabled = true;
         }
         catch (Exception ex)
         {
             Logger.LogException(ex);
             NotificationEventsManager.OnShowMessage("در عملیات ثبت خطایی رخ داده", MessageTypeEnum.Error);
+            btnSubmitDebtor.IsEnabled = true;
         }
     }
 

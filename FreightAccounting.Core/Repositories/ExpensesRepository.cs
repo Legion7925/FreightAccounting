@@ -50,6 +50,12 @@ public class ExpensesRepository : IExpensesRepository
 
     public async Task AddExpense(AddUpdateExpenseModel expenseModel)
     {
+        var expenseExist = _context.Expenses.Where(e=> e.SubmitDate == expenseModel.SubmitDate).Any();
+        if(expenseExist)
+        {
+            throw new AppException("مخارج این تاریخ قبلا ثبت شده است");
+        }
+
         //سود خالص روزی که وارد کرده رو از دیتا بیس میکشیم بیرون همرو با هم جمع میزنیم
         var submittedDateNetProfit = _context.Remittances.Where(r => r.SubmitDate.Date == expenseModel.SubmitDate.Date).Select(r => r.NetProfit).Sum();
 
