@@ -53,7 +53,7 @@
                                 <TextBox x:Name="txtPhoneNumber" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="0,15,0,10"  
                                          HorizontalAlignment="Left" MaxLength="11"></TextBox>
                                 <TextBox x:Name="txtDebtAmount" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="0,17,0,10"  
-                                         HorizontalAlignment="Left" InputScope="Number"></TextBox>
+                                         HorizontalAlignment="Left" InputScope="Number" TextChanged="txtDebtAmount_TextChanged"></TextBox>
                             </StackPanel>
 
 

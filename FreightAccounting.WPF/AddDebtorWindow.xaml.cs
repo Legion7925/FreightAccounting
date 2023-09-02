@@ -57,7 +57,7 @@ public partial class AddDebtorWindow : Window
                     DriverFirstName = txtDriverFirstName.Text,
                     Destination = txtDestination.Text,
                     DriverLastName = txtDriverLastName.Text,
-                    DebtAmount = Convert.ToInt32(txtDebtAmount.Text),
+                    DebtAmount = Convert.ToInt32(txtDebtAmount.Text.Replace(",", "")),
                     PhoneNumber = txtPhoneNumber.Text.ToEnglishNumber(),
                     PlateNumber = txtPlate.PlateText
                 });
@@ -70,7 +70,7 @@ public partial class AddDebtorWindow : Window
                     DriverFirstName = txtDriverFirstName.Text,
                     Destination = txtDestination.Text,
                     DriverLastName = txtDriverLastName.Text,
-                    DebtAmount = Convert.ToInt32(txtDebtAmount.Text),
+                    DebtAmount = Convert.ToInt32(txtDebtAmount.Text.Replace(",", "")),
                     PhoneNumber = txtPhoneNumber.Text,
                     PlateNumber = txtPlate.PlateText.ToEnglishNumber()
                 });
@@ -117,7 +117,7 @@ public partial class AddDebtorWindow : Window
         }
 
 
-        var isNumeric = int.TryParse(txtDebtAmount.Text, out _);
+        var isNumeric = int.TryParse(txtDebtAmount.Text.Replace(",", ""), out _);
         if (!isNumeric)
         {
             MessageBox.Show("لطفا مقدار بدهی را به درستی وارد کنید");
@@ -130,5 +130,27 @@ public partial class AddDebtorWindow : Window
     private void btnCancel_Click(object sender, RoutedEventArgs e)
     {
         Close();
+    }
+
+    private void txtDebtAmount_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    {
+        // Remove existing separators (commas) from the user's input
+        string userInput = txtDebtAmount.Text.Replace(",", "");
+
+        // Convert the user's input to a numeric value
+        if (int.TryParse(userInput, out int amount))
+        {
+            // Apply the separator to the numeric value
+            string formattedAmount = amount.ToString("N0");
+
+            // Update the TextBox with the formatted text
+            if (txtDebtAmount.Text != formattedAmount)
+            {
+                txtDebtAmount.Text = formattedAmount;
+
+                // Set the caret position at the end of the TextBox
+                txtDebtAmount.CaretIndex = txtDebtAmount.Text.Length;
+            }
+        }
     }
 }

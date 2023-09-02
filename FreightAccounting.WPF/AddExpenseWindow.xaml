@@ -21,7 +21,7 @@
                 <StackPanel Margin="15" FlowDirection="RightToLeft">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="مقدار مخارج : " VerticalAlignment="Center"></TextBlock>
-                        <TextBox x:Name="txtExpensesAmount" Foreground="{DynamicResource MaterialDesignBody}" Width="100" Margin="10,0"></TextBox>
+                        <TextBox x:Name="txtExpensesAmount" Foreground="{DynamicResource MaterialDesignBody}" Width="130" Margin="10,0" TextChanged="txtExpensesAmount_TextChanged"></TextBox>
                         <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="تاریخ روز : " VerticalAlignment="Center"></TextBlock>
                         <persianDateControls:PersianDatePicker x:Name="dpExpense" BorderBrush="Gray" VerticalAlignment="Center" Height="28"
                                                                Foreground="{DynamicResource MaterialDesignBody}"/>

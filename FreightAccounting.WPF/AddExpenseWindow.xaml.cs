@@ -3,7 +3,9 @@ using FreightAccounting.Core.Interfaces.Repositories;
 using FreightAccounting.Core.Model.Expenses;
 using FreightAccounting.WPF.Helper;
 using System;
+using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 
 namespace FreightAccounting.WPF;
 
@@ -47,7 +49,7 @@ public partial class AddExpenseWindow : Window
             {
                 await expensesRepository.UpdateExpense(expenseId, new AddUpdateExpenseModel
                 {
-                    ExpensesAmount = Convert.ToInt32(txtExpensesAmount.Text),
+                    ExpensesAmount = Convert.ToInt32(txtExpensesAmount.Text.Replace(",", "")),
                     SubmitDate = dpExpense.SelectedDate.ToDateTime(),
                 });
                 NotificationEventsManager.OnShowMessage("عملیات ویرایش با موفقیت انجام شد!", MessageTypeEnum.Success);
@@ -56,7 +58,7 @@ public partial class AddExpenseWindow : Window
             {
                 await expensesRepository.AddExpense(new AddUpdateExpenseModel
                 {
-                    ExpensesAmount = Convert.ToInt32(txtExpensesAmount.Text),
+                    ExpensesAmount = Convert.ToInt32(txtExpensesAmount.Text.Replace(",", "")),
                     SubmitDate = dpExpense.SelectedDate.ToDateTime(),
                 });
                 NotificationEventsManager.OnShowMessage("مورد جدید با موفقیت اضافه شد!", MessageTypeEnum.Success);
@@ -78,7 +80,7 @@ public partial class AddExpenseWindow : Window
 
     private bool ValidateInputs()
     {
-        var isNumeric = int.TryParse(txtExpensesAmount.Text, out _);
+        var isNumeric = int.TryParse(txtExpensesAmount.Text.Replace(",", ""), out _);
         if (!isNumeric)
         {
             MessageBox.Show("لطفا مقدار مخارج را به درستی وارد کنید");
@@ -90,5 +92,26 @@ public partial class AddExpenseWindow : Window
     private void btnCancel_Click(object sender, RoutedEventArgs e)
     {
         Close();
+    }
+    private void txtExpensesAmount_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    {
+        // Remove existing separators (commas) from the user's input
+        string userInput = txtExpensesAmount.Text.Replace(",", "");
+
+        // Convert the user's input to a numeric value
+        if (int.TryParse(userInput, out int amount))
+        {
+            // Apply the separator to the numeric value
+            string formattedAmount = amount.ToString("N0");
+
+            // Update the TextBox with the formatted text
+            if (txtExpensesAmount.Text != formattedAmount)
+            {
+                txtExpensesAmount.Text = formattedAmount;
+
+                // Set the caret position at the end of the TextBox
+                txtExpensesAmount.CaretIndex = txtExpensesAmount.Text.Length;
+            }
+        }
     }
 }
