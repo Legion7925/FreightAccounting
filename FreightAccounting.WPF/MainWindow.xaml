@@ -188,6 +188,20 @@
                                                    Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
                                                Margin="10,0"></TextBlock>
 
+                                     
+
+
+                                            <!--در صورتی ویزیبل شود که گزارش بر اساس کاربر گرفته شود-->
+                                            <!--یا اینکه میتواند در همه صورت ویزیبل باشد و جمع پورسانت بین دو تاریخ همه کاربران را نشان دهد-->
+                                            <StackPanel x:Name="stpUserCut" Visibility="Collapsed" Orientation="Horizontal">
+                                                <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="10,0,0,0" 
+                                               Text="مجموع پورسانت کاربر :" VerticalAlignment="Center"></TextBlock>
+                                                <TextBlock x:Name="lblTotalUserCut"  FontSize="14" FontWeight="SemiBold" 
+                                                   Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
+                                               Margin="10,0"></TextBlock>
+
+                                            </StackPanel>
+
                                             <StackPanel Orientation="Horizontal" Margin="10,0">
                                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="جست و جو حواله :" VerticalAlignment="Center"></TextBlock>
                                                 <TextBox x:Name="txtSearchRemitanceById" Width="70" Margin="5,5,5,10"
@@ -198,18 +212,6 @@
                                             Margin="0,0,0,12" Click="btnSearchNumberRemitance_Click">
                                                     <materialDesign:PackIcon Kind="Search"/>
                                                 </Button>
-                                            </StackPanel>
-
-
-                                            <!--در صورتی ویزیبل شود که گزارش بر اساس کاربر گرفته شود-->
-                                            <!--یا اینکه میتواند در همه صورت ویزیبل باشد و جمع پورسانت بین دو تاریخ همه کاربران را نشان دهد-->
-                                            <StackPanel x:Name="stpUserCut" Visibility="Hidden" Orientation="Horizontal">
-                                                <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="10,0,0,0" 
-                                               Text="مجموع پورسانت کاربر :" VerticalAlignment="Center"></TextBlock>
-                                                <TextBlock x:Name="lblTotalUserCut"  FontSize="14" FontWeight="SemiBold" 
-                                                   Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
-                                               Margin="10,0"></TextBlock>
-
                                             </StackPanel>
 
 

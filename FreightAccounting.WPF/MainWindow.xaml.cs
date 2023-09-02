@@ -578,6 +578,11 @@ public partial class MainWindow : Window
             {
                 ShowSnackbarMessage("داده ای برای نمایش یافت نشد", MessageTypeEnum.Information);
                 dgReport.ItemsSource = null;
+                lblTotalIncomeBasedOnComission.Text = "0";
+                lblTotalNetPorfit.Text = "0";
+                lblTotalTaxPayment.Text = "0";
+                lblTotalInsurancePayment.Text = "0";
+                lblTotalUserCut.Text = "0";
                 return;
             };
             FillRemitanceDatagrid(null, null);
@@ -831,7 +836,7 @@ public partial class MainWindow : Window
 
     private void btnReportRemoveFilter_Click(object sender, RoutedEventArgs e)
     {
-        stpUserCut.Visibility = Visibility.Hidden;
+        stpUserCut.Visibility = Visibility.Collapsed;
         txtSearchRemitanceById.Text = string.Empty;
         cbUserFilter.Text = string.Empty;
         btnReportRemitance_Click(null!, null!);
