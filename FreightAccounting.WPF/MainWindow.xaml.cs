@@ -43,6 +43,8 @@ public partial class MainWindow : Window
     private ExpenseEntityReportModel selectedExpense = new ExpenseEntityReportModel();
     //private int _selectedId;
 
+    private bool? _debtorPaidFilter = null;
+
     public MainWindow(IDebtorRepository debtorRepository,
         IRemittanceRepository remittanceRepository,
         IOperatorUserRepository operatorUserRepository,
@@ -55,11 +57,9 @@ public partial class MainWindow : Window
         _expensesRepository = expensesRepository;
 
         NotificationEventsManager.showMessage += ShowSnackbarMessage;
-        //CartableEventsManager.updateDebtorDatagrid += FillDebtorDatagrid;
-        CartableEventsManager.updateRemittanceDatagrid += FillRemitanceDatagrid;
         CartableEventsManager.updateExpensesDatagrid += btnReportExpenses_Click!;
         CartableEventsManager.updateRemittanceDatagrid += btnReportRemitance_Click!;
-        CartableEventsManager.updateDebtorDatagrid += FillDebtorDatagrid!;
+        CartableEventsManager.updateDebtorDatagrid += GetDebtorsReport!;
 
         dpExpensesReportStart.SelectedDate = Mohsen.PersianDate.Today.AddDays(-3);
         dpExpensesReportEnd.SelectedDate = Mohsen.PersianDate.Today;
@@ -70,7 +70,7 @@ public partial class MainWindow : Window
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
         FillPaginationComboboxes();
-        FillDebtorDatagrid(null, null);
+        GetDebtorsReport(null, null!);
         btnReportExpenses_Click(null!, null!);
         btnReportRemitance_Click(null!, null!);
         FillOperatorUsersCombobox();
@@ -154,9 +154,6 @@ public partial class MainWindow : Window
         //todo -- save to app setting for when user open after change theme -- todo
     }
 
-
-    
-
     /// <summary>
     /// نمایش پیام سیستم
     /// </summary>
@@ -196,11 +193,35 @@ public partial class MainWindow : Window
 
     private double _debtorsTotalpage = 0;
 
-    private void btnAddDebtors_Click(object sender, RoutedEventArgs e)
+    private void GetDebtorsReport(object? sender, EventArgs e)
     {
-        var addDebtorWindow = new AddDebtorWindow(_debtorRepository, false, null, null);
-        addDebtorWindow.ShowDialog();
+        try
+        {
+            debtorsList = new List<DebtorReportModel>();
+            dgDebtorsReport.ItemsSource = null;
 
+            _debtorsTotalCount = _debtorRepository.GetDebtorsReportCount(_debtorPaidFilter);
+
+            if (_debtorsTotalCount is 0)
+            {
+                ShowSnackbarMessage("داده ای برای نمایش یافت نشد", MessageTypeEnum.Information);
+                return;
+            }
+
+            FillDebtorDatagrid(null, null);
+
+            gridDebtorsPagination.IsEnabled = true;
+        }
+        catch (AppException ax)
+        {
+            ShowSnackbarMessage(ax.Message, MessageTypeEnum.Warning);
+            btnPrintDebtorsReport.IsEnabled = true;
+        }
+        catch (Exception ex)
+        {
+            ShowSnackbarMessage("خطا در واکشی داده", MessageTypeEnum.Error);
+            Logger.LogException(ex);
+        }
     }
 
     /// <summary>
@@ -208,7 +229,7 @@ public partial class MainWindow : Window
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void FillDebtorDatagrid(object? sender, bool? e)
+    private void FillDebtorDatagrid(object? sender, EventArgs? e)
     {
 
         _debtorsPageSize = Convert.ToInt32(cmbDebtorsPaginationSize.SelectedValue);
@@ -255,7 +276,7 @@ public partial class MainWindow : Window
     {
         try
         {
-            debtorsList = _debtorRepository.GetDebtors(new DebtorsQueryParameters() { Page = _debtorsPageIndex, Size = _debtorsPageSize, Paid = null });
+            debtorsList = _debtorRepository.GetDebtors(new DebtorsQueryParameters() { Page = _debtorsPageIndex, Size = _debtorsPageSize, Paid =  _debtorPaidFilter});
 
             dgDebtorsReport.ItemsSource = debtorsList;
         }
@@ -265,7 +286,8 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            ShowSnackbarMessage(ex.Message, MessageTypeEnum.Error);
+            ShowSnackbarMessage("خطا در واکشی داده", MessageTypeEnum.Error);
+            Logger.LogException(ex);
         }
     }
 
@@ -288,13 +310,16 @@ public partial class MainWindow : Window
         switch (cmbFilterPaymentStatus.SelectedIndex)
         {
             case 0:
-                FillDebtorDatagrid(null, null);
+                _debtorPaidFilter = null;
+                GetDebtorsReport(null, null!);
                 break;
             case 1:
-                FillDebtorDatagrid(null, true);
+                _debtorPaidFilter = true;
+                GetDebtorsReport(null, null!);
                 break;
             case 2:
-                FillDebtorDatagrid(null, false);
+                _debtorPaidFilter = false;
+                GetDebtorsReport(null, null!);
                 break;
         }
     }
@@ -312,6 +337,14 @@ public partial class MainWindow : Window
     //    }
     //    dgDebtorsReport.ItemsSource = debtorsList.Where(d => (d.DriverFirstName + d.DriverLastName).Contains(txtSearchDebtorsByName.Text)).ToList();
     //}
+
+    private void btnAddDebtors_Click(object sender, RoutedEventArgs e)
+    {
+        var addDebtorWindow = new AddDebtorWindow(_debtorRepository, false, null, null);
+        addDebtorWindow.ShowDialog();
+
+    }
+
     /// <summary>
     /// باز کردن پنجره ویرایش بدهکار
     /// </summary>
@@ -348,7 +381,8 @@ public partial class MainWindow : Window
     {
         try
         {
-            if (!debtorsList.Any())
+            var report = _debtorRepository.GetDebtors(new DebtorsQueryParameters { Page = 1 , Size = int.MaxValue , Paid = null });
+            if (!report.Any())
             {
                 ShowSnackbarMessage("داده ای برای نمایش پرینت در این تاریخ موجود نیست", MessageTypeEnum.Information);
                 btnPrintDebtorsReport.IsEnabled = true;
@@ -358,7 +392,7 @@ public partial class MainWindow : Window
             var stiReport = new StiReport();
             StiOptions.Dictionary.BusinessObjects.MaxLevel = 1;
             stiReport.Load(@"Report\DebtorsReport.mrt");
-            stiReport.RegData("لیست بدهکاران", debtorsList);
+            stiReport.RegData("لیست بدهکاران", report);
             stiReport.Show();
             btnPrintDebtorsReport.IsEnabled = true;
 
@@ -366,10 +400,13 @@ public partial class MainWindow : Window
         catch (AppException ax)
         {
             ShowSnackbarMessage(ax.Message, MessageTypeEnum.Warning);
+            btnPrintDebtorsReport.IsEnabled = true;
         }
         catch (Exception ex)
         {
-            ShowSnackbarMessage(ex.Message, MessageTypeEnum.Error);
+            ShowSnackbarMessage("خطا در گزارش گیری", MessageTypeEnum.Error);
+            Logger.LogException(ex);
+            btnPrintDebtorsReport.IsEnabled = true;
         }
     }
 
@@ -405,14 +442,41 @@ public partial class MainWindow : Window
         FillDebtorDatagrid(null, null);
     }
 
-    private void btnSearchNameSebtors_Click(object sender, RoutedEventArgs e)
+    private void btnSearchDebtorByName_Click(object sender, RoutedEventArgs e)
     {
+        if (string.IsNullOrWhiteSpace(txtSearchDebtorsByName.Text))
+            return;
+        try
+        {
+            btnSearchDebtorsByName.IsEnabled = false;
 
+            debtorsList = _debtorRepository.GetDebtorsByName(txtSearchDebtorsByName.Text);
+            dgDebtorsReport.ItemsSource = debtorsList;
+            btnSearchDebtorsByName.IsEnabled = true;
+        }
+        catch (AppException ax)
+        {
+            ShowSnackbarMessage(ax.Message, MessageTypeEnum.Warning);
+            btnSearchDebtorsByName.IsEnabled = true;
+        }
+        catch (Exception ex)
+        {
+            ShowSnackbarMessage("خطا در واکشی داده", MessageTypeEnum.Error);
+            Logger.LogException(ex);
+            btnSearchDebtorsByName.IsEnabled = true;
+        }
+    }
+
+    private void txtSearchDebtorsByName_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+            btnSearchDebtorByName_Click(null!, null!);
     }
 
     private void btnRemoveFilterDebtors_Click(object sender, RoutedEventArgs e)
     {
-
+        txtSearchDebtorsByName.Text = string.Empty;
+        GetDebtorsReport(null, null!);
     }
 
     #endregion Debtors
@@ -449,33 +513,6 @@ public partial class MainWindow : Window
 
             gridExpensePagination.IsEnabled = true;
 
-        }
-        catch (AppException ax)
-        {
-            ShowSnackbarMessage(ax.Message, MessageTypeEnum.Warning);
-        }
-        catch (Exception ex)
-        {
-            ShowSnackbarMessage(ex.Message, MessageTypeEnum.Error);
-        }
-    }
-
-    private void GetPaginatedExpenseReport()
-    {
-        try
-        {
-            expensesReportModel = _expensesRepository.GetExpensesReport(
-            new ExpensesQueryParameters
-            {
-                StartDate = dpExpensesReportStart.SelectedDate.ToDateTime(),
-                EndDate = dpExpensesReportEnd.SelectedDate.ToDateTime(),
-                Page = _expensesPageIndex,
-                Size = _expensesPageSize
-            });
-
-            dgExpenses.ItemsSource = expensesReportModel.Expenses;
-            lblTotalExpenses.Text = expensesReportModel.TotalExpensesAmount.ToString();
-            lblTotalIncomeWithExpenses.Text = expensesReportModel.TotalIncome.ToString();
         }
         catch (AppException ax)
         {
@@ -528,6 +565,33 @@ public partial class MainWindow : Window
         lblExpenseTotalCount.Text = _expensesTotalCount.ToString();
         lblExpensePageNumberInfo.Text = $"{((_expensesPageIndex - 1) * _expensesPageSize) + 1} - {((_expensesPageIndex - 1) * _expensesPageSize) + expensesReportModel.Expenses.Count()}";
         dgExpenses.ItemsSource = expensesReportModel.Expenses;
+    }
+
+    private void GetPaginatedExpenseReport()
+    {
+        try
+        {
+            expensesReportModel = _expensesRepository.GetExpensesReport(
+            new ExpensesQueryParameters
+            {
+                StartDate = dpExpensesReportStart.SelectedDate.ToDateTime(),
+                EndDate = dpExpensesReportEnd.SelectedDate.ToDateTime(),
+                Page = _expensesPageIndex,
+                Size = _expensesPageSize
+            });
+
+            dgExpenses.ItemsSource = expensesReportModel.Expenses;
+            lblTotalExpenses.Text = expensesReportModel.TotalExpensesAmount.ToString("N0");
+            lblTotalIncomeWithExpenses.Text = expensesReportModel.TotalIncome.ToString("N0");
+        }
+        catch (AppException ax)
+        {
+            ShowSnackbarMessage(ax.Message, MessageTypeEnum.Warning);
+        }
+        catch (Exception ex)
+        {
+            ShowSnackbarMessage(ex.Message, MessageTypeEnum.Error);
+        }
     }
 
     private void btnAddExpense_Click(object sender, RoutedEventArgs e)
@@ -751,11 +815,11 @@ public partial class MainWindow : Window
                 Size = _remitancePageSize
             });
 
-            lblTotalIncomeBasedOnComission.Text = remittanceReportModel.SumIncome.ToString();
-            lblTotalInsurancePayment.Text = remittanceReportModel.SumInsurancePayment.ToString();
-            lblTotalTaxPayment.Text = remittanceReportModel.SumTaxPayment.ToString();
-            lblTotalNetPorfit.Text = remittanceReportModel.SumNetProfit.ToString();
-            lblTotalUserCut.Text = remittanceReportModel.SumUserCut.ToString();
+            lblTotalIncomeBasedOnComission.Text = remittanceReportModel.SumIncome.ToString("N0");
+            lblTotalInsurancePayment.Text = remittanceReportModel.SumInsurancePayment.ToString("N0");
+            lblTotalTaxPayment.Text = remittanceReportModel.SumTaxPayment.ToString("N0");
+            lblTotalNetPorfit.Text = remittanceReportModel.SumNetProfit.ToString("N0");
+            lblTotalUserCut.Text = remittanceReportModel.SumUserCut.ToString("N0");
             //todo اگر نیاز است که جمه پورسانت کاربران نمایش داده شود اینجا باید استک پنل آن ویزیبل شود
             dgReport.ItemsSource = remittanceReportModel.Remittances;
         }
@@ -861,7 +925,6 @@ public partial class MainWindow : Window
         FillRemitanceDatagrid(null, null);
     }
 
-
     private void FillPaginationComboboxes()
     {
         Dictionary<int, string> paginationSizeValuePairs = new Dictionary<int, string>
@@ -938,7 +1001,7 @@ public partial class MainWindow : Window
         dgReport.ItemsSource = remittanceReportModel.Remittances;
     }
 
+
     #endregion Remittance
 
-    
 }

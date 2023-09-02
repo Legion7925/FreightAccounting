@@ -230,14 +230,14 @@
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Binding="{Binding Id}"  Header="آیدی" Visibility="Hidden"></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding RemittanceNumber}"   Header="شماره حواله" ></DataGridTextColumn>
-                                        <DataGridTextColumn Binding="{Binding TransforPayment}" Header="کرایه"></DataGridTextColumn>
-                                        <DataGridTextColumn Binding="{Binding OrganizationPayment}" Header="کمیسیون سازمان"></DataGridTextColumn>
-                                        <DataGridTextColumn Binding="{Binding InsurancePayment}" Header="کمیسیون بیمه"></DataGridTextColumn>
-                                        <DataGridTextColumn Binding="{Binding TaxPayment}" Header="کمیسون مالیات"></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding TransforPayment, StringFormat={}{0:#,0}}" Header="کرایه"></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding OrganizationPayment, StringFormat={}{0:#,0}}" Header="کمیسیون سازمان"></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding InsurancePayment, StringFormat={}{0:#,0}}" Header="کمیسیون بیمه"></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding TaxPayment, StringFormat={}{0:#,0}}" Header="کمیسون مالیات"></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding SubmittedUsername}" Header="نام کاربر"></DataGridTextColumn>
-                                        <DataGridTextColumn Binding="{Binding UserCut}" Header="کمیسیون کاربر"></DataGridTextColumn>
-                                        <DataGridTextColumn Binding="{Binding ReceviedCommission}" Header="کمیسیون دریافتی"></DataGridTextColumn>
-                                        <DataGridTextColumn Binding="{Binding NetProfit}" Header="سود خالص"></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding UserCut, StringFormat={}{0:#,0}}" Header="کمیسیون کاربر"></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding ReceviedCommission, StringFormat={}{0:#,0}}" Header="کمیسیون دریافتی"></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding NetProfit, StringFormat={}{0:#,0}}" Header="سود خالص"></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding SubmitDateFa}" Header="تاریخ ثبت"></DataGridTextColumn>
                                         <DataGridTemplateColumn Header="عملیات">
                                             <DataGridTemplateColumn.CellTemplate>
@@ -338,13 +338,14 @@
                                             Margin="5" Click="btnRemoveFilterDebtors_Click">
                                             <materialDesign:PackIcon Kind="Remove"/>
                                         </Button>
-                                        <Button x:Name="btnSearchNameSebtors" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
-                                            Height="25" Width="25" BorderBrush="{x:Null}" HorizontalAlignment="Left" ToolTip="گزارش" VerticalAlignment="Bottom" 
-                                            Margin="5" Click="btnSearchNameSebtors_Click">
+                                        <Button x:Name="btnSearchDebtorsByName" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
+                                            Height="25" Width="25" BorderBrush="{x:Null}" HorizontalAlignment="Left" ToolTip="جست و جو" VerticalAlignment="Bottom" 
+                                            Margin="5" Click="btnSearchDebtorByName_Click">
                                             <materialDesign:PackIcon Kind="Search"/>
                                         </Button>
-                                        <TextBox x:Name="txtSearchDebtorsByName" Width="130" Margin="5,0"
-                                                  FlowDirection="RightToLeft" Foreground="{DynamicResource MaterialDesignBody}"></TextBox>
+                                        <TextBox x:Name="txtSearchDebtorsByName" Width="130" Margin="10,0"  VerticalAlignment="Center"
+                                                  FlowDirection="RightToLeft" Foreground="{DynamicResource MaterialDesignBody}"
+                                                 KeyDown="txtSearchDebtorsByName_KeyDown"></TextBox>
                                         <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text=": جست و جو نام" VerticalAlignment="Center"></TextBlock>
 
                                     </StackPanel>
@@ -385,7 +386,7 @@
                                     </DataGridTemplateColumn>
                                     <DataGridTextColumn Binding="{Binding Destination}" Header="مقصد"></DataGridTextColumn>
                                     <DataGridTextColumn Binding="{Binding PhoneNumber}" Header="شماره تماس"></DataGridTextColumn>
-                                    <DataGridTextColumn Binding="{Binding DebtAmount}" Header="مقدار بدهی"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding DebtAmount, StringFormat={}{0:#,0}}" Header="مقدار بدهی"></DataGridTextColumn>
                                     <DataGridTextColumn Binding="{Binding PaidTranslate}" Header="وضعیت پرداخت"></DataGridTextColumn>
                                     <DataGridTextColumn Binding="{Binding PaymentDateFa}" Header="تاریخ پرداخت"></DataGridTextColumn>
                                     <DataGridTemplateColumn Header="عملیات">
@@ -530,9 +531,9 @@
                                       Grid.ColumnSpan="2" SelectedCellsChanged="dgExpenses_SelectedCellsChanged" IsReadOnly="True">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Binding="{Binding Id}"  Header="آیدی" Visibility="Hidden"></DataGridTextColumn>
-                                        <DataGridTextColumn Binding="{Binding ExpensesAmount}" Header="مقدار مخارج" ></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding ExpensesAmount, StringFormat={}{0:#,0}}" Header="مقدار مخارج" ></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding SubmitDateFa}" Header="تاریخ روز" ></DataGridTextColumn>
-                                        <DataGridTextColumn Binding="{Binding Income}" Header="درآمد خالص" ></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding Income, StringFormat={}{0:#,0}}" Header="درآمد خالص" ></DataGridTextColumn>
                                         <DataGridTemplateColumn Header="عملیات">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>

@@ -20,9 +20,23 @@ public class DebtorRepository : IDebtorRepository
     /// تعداد کل گزارش برای صفحه بندی
     /// </summary>
     /// <returns></returns>
-    public int GetDebtorsReportCount()
+    public int GetDebtorsReportCount(bool? paid)
     {
-        return _context.Debtors.AsNoTracking().Count();
+        var debtors = _context.Debtors.AsNoTracking();
+
+        if (paid is not null)
+        {
+            if (paid is true)
+            {
+                debtors = debtors.Where(d => d.PaymentDate != null);
+            }
+            else
+            {
+                debtors = debtors.Where(d => d.PaymentDate == null);
+            }
+        }
+
+        return debtors.Count();
     }
 
     /// <summary>

@@ -12,5 +12,5 @@ public interface IDebtorRepository
     IEnumerable<DebtorReportModel> GetDebtorsByName(string searchedName);
     Task SubmitPayment(int debtorId, DateTime paymentDate);
     Task UpdateDebtor(int debtorId, AddUpdateDebtorModel debtorModel);
-    int GetDebtorsReportCount();
+    int GetDebtorsReportCount(bool? paid);
 }
