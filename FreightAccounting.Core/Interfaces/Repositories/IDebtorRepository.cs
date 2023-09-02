@@ -9,6 +9,7 @@ public interface IDebtorRepository
     Task AddDebtor(AddUpdateDebtorModel debtorModel);
     Task DeleteDebtor(int debtorId);
     IEnumerable<DebtorReportModel> GetDebtors(DebtorsQueryParameters queryParameters);
+    IEnumerable<DebtorReportModel> GetDebtorsByName(string searchedName);
     Task SubmitPayment(int debtorId, DateTime paymentDate);
     Task UpdateDebtor(int debtorId, AddUpdateDebtorModel debtorModel);
     int GetDebtorsReportCount();

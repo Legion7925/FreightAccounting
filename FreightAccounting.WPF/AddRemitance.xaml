@@ -41,14 +41,15 @@
                                 <TextBox x:Name="txtNumberRemmitance" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,15,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15"></TextBox>
                                 <TextBox x:Name="txtTranforPayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,15,0,10"  
-                                         HorizontalAlignment="Left" MaxLength="15" InputScope="Number" TextChanged="CalculateNetProfitAndTaxes"></TextBox>
+                                         HorizontalAlignment="Left" MaxLength="10" InputScope="Number" TextChanged="CalculateNetProfitAndTaxes"
+                                         PreviewTextInput="CheckTextboxForOnlyNumberInput"></TextBox>
 
                                 <TextBox x:Name="txtOrganizationPayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,15,0,10"  
-                                         HorizontalAlignment="Left" MaxLength="15"  IsReadOnly="True"></TextBox>
+                                         HorizontalAlignment="Left" MaxLength="15"  IsReadOnly="True" TextChanged="txtOrganizationPayment_TextChanged"></TextBox>
                                 <TextBox x:Name="txtInsurancePayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,15,0,10"  
-                                         HorizontalAlignment="Left" MaxLength="15"  IsReadOnly="True"></TextBox>
+                                         HorizontalAlignment="Left" MaxLength="15"  IsReadOnly="True" TextChanged="txtInsurancePayment_TextChanged"></TextBox>
                                 <TextBox x:Name="txtTaxPayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,15,0,10"  
-                                         HorizontalAlignment="Left" MaxLength="15"  IsReadOnly="True"></TextBox>
+                                         HorizontalAlignment="Left" MaxLength="15"  IsReadOnly="True" TextChanged="txtTaxPayment_TextChanged"></TextBox>
 
 
                                 <persianDateControls:PersianDatePicker x:Name="dpDate" BorderBrush="Gray" VerticalAlignment="Center"
@@ -89,16 +90,17 @@
                                 </ComboBox>
 
                                 <TextBox x:Name="txtUserCut" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
-                                         HorizontalAlignment="Left" MaxLength="15"  IsReadOnly="True"></TextBox>
+                                         HorizontalAlignment="Left" MaxLength="15" TextChanged="txtUserCut_TextChanged"  IsReadOnly="True"></TextBox>
 
                                 <TextBox x:Name="txtProductInsurance" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
-                                         HorizontalAlignment="Left" MaxLength="15" TextChanged="CalculateNetProfitAndTaxes"></TextBox>
+                                         HorizontalAlignment="Left" MaxLength="10" TextChanged="CalculateNetProfitAndTaxes" PreviewTextInput="CheckTextboxForOnlyNumberInput"></TextBox>
 
                                 <TextBox x:Name="txtReceviedCommission" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
-                                         HorizontalAlignment="Left" MaxLength="15" InputScope="Number" TextChanged="CalculateNetProfitAndTaxes"></TextBox>
+                                         HorizontalAlignment="Left" MaxLength="10" InputScope="Number" TextChanged="CalculateNetProfitAndTaxes"
+                                         PreviewTextInput="CheckTextboxForOnlyNumberInput"></TextBox>
 
                                 <TextBox x:Name="txtNetProfit" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,15,0,10"  
-                                         HorizontalAlignment="Left" MaxLength="15" IsReadOnly="True"></TextBox>
+                                         HorizontalAlignment="Left" MaxLength="15" TextChanged="txtNetProfit_TextChanged" IsReadOnly="True"></TextBox>
                             </StackPanel>
                         </Grid>
                     </StackPanel>

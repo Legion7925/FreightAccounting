@@ -70,11 +70,13 @@ public partial class AddExpenseWindow : Window
         catch (AppException ne)
         {
             NotificationEventsManager.OnShowMessage(ne.Message, MessageTypeEnum.Warning);
+            btnSubmitExpense.IsEnabled = true;
         }
         catch (Exception ex)
         {
             Logger.LogException(ex);
             NotificationEventsManager.OnShowMessage("در ثبت اطلاعات خطایی رخ داده است", MessageTypeEnum.Error);
+            btnSubmitExpense.IsEnabled = true;
         }
     }
 
