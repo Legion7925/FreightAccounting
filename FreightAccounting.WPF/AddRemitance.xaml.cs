@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace FreightAccounting.WPF;
 
@@ -77,7 +78,6 @@ public partial class AddRemitance : Window
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        txtUserCut.Text = "0";
     }
 
     private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -97,12 +97,12 @@ public partial class AddRemitance : Window
             {
                 await _remittanceRepository.UpdateRemittance(_remittanceId, new AddUpdateRemittanceModel
                 {
-                    ProductInsuranceNumber = Convert.ToInt32(txtProductInsurance.Text),
+                    ProductInsuranceNumber = Convert.ToInt32(txtProductInsurance.Text.Replace(",", "")),
                     RemittanceNumber = txtNumberRemmitance.Text,
-                    TransforPayment = Convert.ToInt32(txtTranforPayment.Text),
-                    OrganizationPayment = Convert.ToInt32(AppSession.AppSettings.OrganizationPercentage * doubleTranforPayment / 100),
-                    InsurancePayment = Convert.ToInt32(AppSession.AppSettings.InsurancePercentage * doubleTranforPayment / 100),
-                    TaxPayment = Convert.ToInt32(AppSession.AppSettings.TaxPercentage * doubleTranforPayment / 100),
+                    TransforPayment = Convert.ToInt32(txtTranforPayment.Text.Replace(",", "")),
+                    OrganizationPayment = Convert.ToInt32(txtOrganizationPayment.Text.Replace(",", "")),
+                    InsurancePayment = Convert.ToInt32(txtInsurancePayment.Text.Replace(",", "")),
+                    TaxPayment = Convert.ToInt32(txtTaxPayment.Text.Replace(",", "")),
                     SubmitDate = dpDate.SelectedDate.ToDateTime(),
                     OperatorUserId = ((KeyValuePair<int, string>)cbSubmitUser.SelectedItem).Key,
                     UserCut = _userCut,
@@ -115,15 +115,15 @@ public partial class AddRemitance : Window
                 await _remittanceRepository.AddRemittance(new AddUpdateRemittanceModel
                 {
                     RemittanceNumber = txtNumberRemmitance.Text,
-                    TransforPayment = Convert.ToInt32(txtTranforPayment.Text),
-                    OrganizationPayment = Convert.ToInt32(AppSession.AppSettings.OrganizationPercentage * doubleTranforPayment / 100),
-                    InsurancePayment = Convert.ToInt32(AppSession.AppSettings.InsurancePercentage * doubleTranforPayment / 100),
-                    TaxPayment = Convert.ToInt32(AppSession.AppSettings.TaxPercentage * doubleTranforPayment / 100),
+                    TransforPayment = Convert.ToInt32(txtTranforPayment.Text.Replace(",", "")),
+                    OrganizationPayment = Convert.ToInt32(txtOrganizationPayment.Text.Replace(",", "")),
+                    InsurancePayment = Convert.ToInt32(txtInsurancePayment.Text.Replace(",", "")),
+                    TaxPayment = Convert.ToInt32(txtTaxPayment.Text.Replace(",", "")),
                     SubmitDate = dpDate.SelectedDate.ToDateTime(),
                     OperatorUserId = ((KeyValuePair<int, string>)cbSubmitUser.SelectedItem).Key,
                     UserCut = _userCut,
-                    ProductInsuranceNumber = Convert.ToInt32(txtProductInsurance.Text),
-                    ReceviedCommission = Convert.ToInt32(txtReceviedCommission.Text),
+                    ProductInsuranceNumber = Convert.ToInt32(txtProductInsurance.Text.Replace(",", "")),
+                    ReceviedCommission = Convert.ToInt32(txtReceviedCommission.Text.Replace(",", "")),
                 });
                 NotificationEventsManager.OnShowMessage("حواله جدید با موفقیت اضافه شد!", MessageTypeEnum.Success);
             }
@@ -209,7 +209,7 @@ public partial class AddRemitance : Window
         return true;
     }
 
-    private void cbUserCut_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    private void cbUserCut_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (string.IsNullOrEmpty(txtTranforPayment.Text))
         {
@@ -218,7 +218,7 @@ public partial class AddRemitance : Window
         }
         else
         {
-            var doubleTranforPayment = double.Parse(txtTranforPayment.Text);
+            var doubleTranforPayment = double.Parse(txtTranforPayment.Text.Replace(",", ""));
             switch (cbUserCut.SelectedIndex)
             {
                 case 0:
@@ -257,9 +257,12 @@ public partial class AddRemitance : Window
 
     private void CalculateNetProfitAndTaxes(object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
+        if (sender is null) return;
+        AddCommaSeparators((TextBox)sender);
+
         if (string.IsNullOrWhiteSpace(txtTranforPayment.Text))
             return;
-        var doubleTranforPayment = int.Parse(txtTranforPayment.Text);
+        var doubleTranforPayment = int.Parse(txtTranforPayment.Text.Replace(",", ""));
         var organizationPayment = AppSession.AppSettings.OrganizationPercentage * doubleTranforPayment / 100;
         txtOrganizationPayment.Text = organizationPayment.ToString();
 
@@ -269,14 +272,69 @@ public partial class AddRemitance : Window
         var insurePayment = AppSession.AppSettings.InsurancePercentage * doubleTranforPayment / 100;
         txtInsurancePayment.Text = insurePayment.ToString();
 
-        if (string.IsNullOrWhiteSpace(txtProductInsurance.Text))
+        if (string.IsNullOrWhiteSpace(txtProductInsurance.Text.Replace(",", "")))
             return;
-        var productInsurance = int.Parse(txtProductInsurance.Text);
+        var productInsurance = int.Parse(txtProductInsurance.Text.Replace(",", ""));
         var totalPayment = organizationPayment + taxPayment + insurePayment + productInsurance + _userCut;
 
-        if (string.IsNullOrWhiteSpace(txtReceviedCommission.Text))
+        if (string.IsNullOrWhiteSpace(txtReceviedCommission.Text.Replace(",", "")))
             return;
-        var receveComision = int.Parse(txtReceviedCommission.Text);
+        var receveComision = int.Parse(txtReceviedCommission.Text.Replace(",", ""));
         txtNetProfit.Text = (receveComision - totalPayment).ToString();
+
+    }
+
+    private void CheckTextboxForOnlyNumberInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+    {
+        // Check if the entered text is a number
+        if (!int.TryParse(e.Text, out _))
+        {
+            e.Handled = true; // Discard the input if it is not a number
+        }
+    }
+
+    private void AddCommaSeparators(TextBox textBox)
+    {
+        if (string.IsNullOrWhiteSpace(textBox.Text))
+            return;
+        // Remove previous comma separators if any
+        string text = textBox.Text.Replace(",", "");
+
+        // Format the text with comma separators
+        string formattedText = string.Format("{0:N0}", Convert.ToDecimal(text));
+
+        // Update the text box
+        textBox.Text = formattedText;
+        textBox.CaretIndex = formattedText.Length; // Maintain the caret position
+    }
+
+    private void txtOrganizationPayment_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (sender is null) return;
+        AddCommaSeparators((TextBox)sender);
+    }
+
+    private void txtInsurancePayment_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (sender is null) return;
+        AddCommaSeparators((TextBox)sender);
+    }
+
+    private void txtTaxPayment_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (sender is null) return;
+        AddCommaSeparators((TextBox)sender);
+    }
+
+    private void txtUserCut_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (sender is null) return;
+        AddCommaSeparators((TextBox)sender);
+    }
+
+    private void txtNetProfit_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (sender is null) return;
+        AddCommaSeparators((TextBox)sender);
     }
 }

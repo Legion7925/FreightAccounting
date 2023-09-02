@@ -63,6 +63,21 @@ public class DebtorRepository : IDebtorRepository
         }).OrderByDescending(i=> i.Id).ToList();
     }
 
+    public IEnumerable<DebtorReportModel> GetDebtorsByName(string searchedName)
+    {
+        return _context.Debtors.AsNoTracking().Where(d => (d.DriverFirstName + d.DriverLastName).Contains(searchedName)).Select(d => new DebtorReportModel
+        {
+            Destination = d.Destination,
+            DriverFirstName = d.DriverFirstName,
+            DriverLastName = d.DriverLastName,
+            PlateNumber = d.PlateNumber,
+            PaymentDate = d.PaymentDate,
+            DebtAmount = d.DebtAmount,
+            Id = d.Id,
+            PhoneNumber = d.PhoneNumber,        
+        }).ToList();
+    }
+
     public async Task AddDebtor(AddUpdateDebtorModel debtorModel)
     {
         await _context.Debtors.AddAsync(new Debtor

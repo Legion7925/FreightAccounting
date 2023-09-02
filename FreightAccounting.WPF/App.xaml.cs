@@ -71,20 +71,27 @@ public partial class App : Application
 
     private async void MigrateDatabase(ServiceCollection services)
     {
-        using (var serviceProvider = services.BuildServiceProvider())
+        try
         {
-            var dbContext = serviceProvider.GetRequiredService<FreightAccountingContext>();
-            dbContext.Database.Migrate();
-            var rootUserExists = await dbContext.Users.AnyAsync(u => u.Username == "root");
-
-            if (rootUserExists is not true)
+            using (var serviceProvider = services.BuildServiceProvider())
             {
-                await dbContext.Users.AddAsync(new User { NameAndFamily = "root", Password = PasswordHasher.HashPassword("123qwe!@#"), Username = "root" });
-                await dbContext.SaveChangesAsync();
+                var dbContext = serviceProvider.GetRequiredService<FreightAccountingContext>();
+                dbContext.Database.Migrate();
+                var rootUserExists = await dbContext.Users.AnyAsync(u => u.Username == "root");
+
+                if (rootUserExists is not true)
+                {
+                    await dbContext.Users.AddAsync(new User { NameAndFamily = "root", Password = PasswordHasher.HashPassword("123qwe!@#"), Username = "root" });
+                    await dbContext.SaveChangesAsync();
+                }
+
             }
-
         }
-
+        catch (Exception ex)
+        {
+            MessageBox.Show("خطا در ارتباط با پایگاه داده");
+            Logger.LogException(ex);
+        }
     }
 
     /// <summary>
