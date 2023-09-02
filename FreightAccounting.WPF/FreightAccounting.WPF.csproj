@@ -5,6 +5,8 @@
     <TargetFramework>net7.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <AssemblyName>FreightAccounting</AssemblyName>
+    <ApplicationIcon>Resources\Images\accounting.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +16,11 @@
     <None Remove="Resources\Fonts\samim-font-v4.0.5\Samim-Bold.ttf" />
     <None Remove="Resources\Fonts\samim-font-v4.0.5\Samim-Medium.ttf" />
     <None Remove="Resources\Fonts\samim-font-v4.0.5\Samim.ttf" />
+    <None Remove="Resources\Images\accounting.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\Images\accounting.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -93,6 +100,7 @@
     <Resource Include="Resources\Fonts\samim-font-v4.0.5\Samim-Bold.ttf" />
     <Resource Include="Resources\Fonts\samim-font-v4.0.5\Samim-Medium.ttf" />
     <Resource Include="Resources\Fonts\samim-font-v4.0.5\Samim.ttf" />
+    <Resource Include="Resources\Images\accounting.ico" />
   </ItemGroup>
 
   <ItemGroup>

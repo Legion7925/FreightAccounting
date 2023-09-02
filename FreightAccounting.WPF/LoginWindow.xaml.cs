@@ -62,11 +62,13 @@ public partial class LoginWindow : Window
         catch (AppException ax)
         {
             MessageBox.Show(ax.Message);
+            btnLogin.IsEnabled = true;
         }
         catch (Exception ex)
         {
             MessageBox.Show("در عملیات ثبت خطایی رخ داده");
             Logger.LogException(ex);
+            btnLogin.IsEnabled = true;
         }
     }
 
@@ -82,6 +84,18 @@ public partial class LoginWindow : Window
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
+        txtUsername.Focus();
+    }
 
+    private void txtUsername_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key == System.Windows.Input.Key.Enter)
+            txtPassword.Focus();
+    }
+
+    private void txtPassword_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key == System.Windows.Input.Key.Enter)
+            btnLogin_Click(null!, null!);
     }
 }

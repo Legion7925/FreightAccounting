@@ -45,12 +45,13 @@ public partial class App : Application
         services.AddScoped<IOperatorUserRepository, OperatorUserRepository>();
         services.AddScoped<IDebtorRepository, DebtorRepository>();
         services.AddScoped<IExpensesRepository, ExpensesRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
 
         services.AddDbContext<FreightAccountingContext>(options => options.UseSqlServer(configuration.GetConnectionString("SqlConnectionString")));
 
         MigrateDatabase(services);  
 
-        services.AddSingleton<MainWindow>();
+        services.AddSingleton<LoginWindow>();
 
         Stimulsoft.Base.StiLicense.Key = "6vJhGtLLLz2GNviWmUTrhSqnOItdDwjBylQzQcAOiHkgpgFGkUl79uxVs8X+uspx6K+tqdtOB5G1S6PFPRrlVNvMUiSiNYl724EZbrUAWwAYHlGL" +
                 "RbvxMviMExTh2l9xZJ2xc4K1z3ZVudRpQpuDdFq+fe0wKXSKlB6okl0hUd2ikQHfyzsAN8fJltqvGRa5LI8BFkA/f7tffwK6jzW5xYYhHxQpU3hy4fmKo/BSg6yKAoUq3yMZTG6tWeKnWc" +
@@ -59,13 +60,13 @@ public partial class App : Application
                 "5btsKcLibxog7pv1+2e4yocZKWsposmcJbgG0";
 
         //فارسی سازی گزارشات استیمال چه در حالت طراحی چه نمایش
-        //StiOptions.Localization.Load(@"Resources\StimulsoftLanguages\fa.xml");
+        StiOptions.Localization.Load(@"Resources\StimulsoftLanguages\fa.xml");
     }
 
     private void OnStartup(object sender, StartupEventArgs e)
     {
-        var mainWindow = serviceProvider.GetService<MainWindow>();
-        mainWindow!.Show();
+        var loginWindow = serviceProvider.GetService<LoginWindow>();
+        loginWindow!.Show();
     }
 
     private async void MigrateDatabase(ServiceCollection services)
