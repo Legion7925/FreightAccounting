@@ -22,7 +22,7 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="مقدار مخارج : " VerticalAlignment="Center"></TextBlock>
                         <TextBox x:Name="txtExpensesAmount" Foreground="{DynamicResource MaterialDesignBody}" Width="130" Margin="10,0" 
-                                 TextChanged="txtExpensesAmount_TextChanged" MaxLength="10"></TextBox>
+                                 TextChanged="txtExpensesAmount_TextChanged" MaxLength="13"></TextBox>
                         <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="تاریخ روز : " VerticalAlignment="Center"></TextBlock>
                         <persianDateControls:PersianDatePicker x:Name="dpExpense" BorderBrush="Gray" VerticalAlignment="Center" Height="28"
                                                                Foreground="{DynamicResource MaterialDesignBody}"/>

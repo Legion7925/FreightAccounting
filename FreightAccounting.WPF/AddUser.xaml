@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:FreightAccounting.WPF"
-        mc:Ignorable="d"
+        mc:Ignorable="d" FontFamily="./Resources/Fonts/samim-font-v4.0.5/Farsi-Digits/#Samim FD"
         Title="AddUser" SizeToContent="WidthAndHeight" Grid.RowSpan="2" Panel.ZIndex="1" WindowStartupLocation="CenterScreen" WindowStyle="None"
         AllowsTransparency="True" FontSize="14" ResizeMode="NoResize" Background="Transparent">
     <Border Padding="10" Background="{DynamicResource MaterialDesignPaper}" CornerRadius="7" BorderThickness="3" BorderBrush="#FFC8C8C8">

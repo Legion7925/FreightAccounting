@@ -30,10 +30,11 @@ public partial class AddRemitance : Window
         bool isEdit, int? remitanceId, AddUpdateRemittanceModel? addUpdateRemittanceModel)
     {
         InitializeComponent();
+        CartableEventsManager.updateOperatorUserCombobox += GetUserList;
         _remittanceRepository = remittanceRepository;
         _operatorUserRepository = operatorUserRepository;
         _isEdit = isEdit;
-        GetUserList();
+        GetUserList(null! , null!);
 
         if (_isEdit)
         {
@@ -129,7 +130,7 @@ public partial class AddRemitance : Window
                     SubmitDate = dpDate.SelectedDate.ToDateTime(),
                     OperatorUserId = ((KeyValuePair<int, string>)cbSubmitUser.SelectedItem).Key,
                     UserCut = _userCut,
-                    ReceviedCommission = Convert.ToInt32(txtReceviedCommission.Text)
+                    ReceviedCommission = Convert.ToInt32(txtReceviedCommission.Text.Replace(",", ""))
                 });
                 NotificationEventsManager.OnShowMessage("عملیات ویرایش با موفقیت انجام شد!", MessageTypeEnum.Success);
             }
@@ -166,7 +167,7 @@ public partial class AddRemitance : Window
         }
     }
 
-    private void GetUserList()
+    private void GetUserList(object? sender , EventArgs e)
     {
         try
         {
@@ -195,7 +196,6 @@ public partial class AddRemitance : Window
     private void btnAddUser_Click(object sender, RoutedEventArgs e)
     {
         new AddUser(_operatorUserRepository).ShowDialog();
-        GetUserList();
     }
 
     private bool ValidateInputs()
@@ -235,37 +235,7 @@ public partial class AddRemitance : Window
 
     private void cbUserCut_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (string.IsNullOrEmpty(txtTranforPayment.Text))
-        {
-            //MessageBox.Show("مقدار کرایه نمیتواند خالی باشد");
-            return;
-        }
-        else
-        {
-            var doubleTranforPayment = double.Parse(txtTranforPayment.Text.Replace(",", ""));
-            switch (cbUserCut.SelectedIndex)
-            {
-                case 0:
-                    _userCut = 0;
-                    txtUserCut.Text = _userCut.ToString();
-                    break;
-                case 1:
-                    _userCut = Convert.ToInt32(doubleTranforPayment * .01);
-                    _userCut = _userCut / 2;
-                    txtUserCut.Text = _userCut.ToString();
-                    break;
-                case 2:
-                    _userCut = Convert.ToInt32(doubleTranforPayment * .03);
-                    txtUserCut.Text = _userCut.ToString();
-                    break;
-                case 3:
-                    _userCut = Convert.ToInt32(doubleTranforPayment * .05);
-                    txtUserCut.Text = _userCut.ToString();
-                    break;
-            }
-        }
         CalculateNetProfitAndTaxes(null!, null!);
-
     }
 
     //private void txtTranforPayment_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
@@ -281,12 +251,33 @@ public partial class AddRemitance : Window
 
     private void CalculateNetProfitAndTaxes(object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
-        if (sender is null) return;
-        AddCommaSeparators((TextBox)sender);
+        AddCommaSeparators((TextBox?)sender);
 
         if (string.IsNullOrWhiteSpace(txtTranforPayment.Text))
             return;
-        var doubleTranforPayment = int.Parse(txtTranforPayment.Text.Replace(",", ""));
+
+        var doubleTranforPayment = double.Parse(txtTranforPayment.Text.Replace(",", ""));
+        switch (cbUserCut.SelectedIndex)
+        {
+            case 0:
+                _userCut = 0;
+                txtUserCut.Text = _userCut.ToString();
+                break;
+            case 1:
+                _userCut = Convert.ToInt32(doubleTranforPayment * .01);
+                _userCut = _userCut / 2;
+                txtUserCut.Text = _userCut.ToString();
+                break;
+            case 2:
+                _userCut = Convert.ToInt32(doubleTranforPayment * .03);
+                txtUserCut.Text = _userCut.ToString();
+                break;
+            case 3:
+                _userCut = Convert.ToInt32(doubleTranforPayment * .05);
+                txtUserCut.Text = _userCut.ToString();
+                break;
+        }
+
         var organizationPayment = AppSession.AppSettings.OrganizationPercentage * doubleTranforPayment / 100;
         txtOrganizationPayment.Text = organizationPayment.ToString();
 
@@ -306,6 +297,7 @@ public partial class AddRemitance : Window
         var receveComision = int.Parse(txtReceviedCommission.Text.Replace(",", ""));
         txtNetProfit.Text = (receveComision - totalPayment).ToString();
 
+
     }
 
     private void CheckTextboxForOnlyNumberInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
@@ -317,8 +309,9 @@ public partial class AddRemitance : Window
         }
     }
 
-    private void AddCommaSeparators(TextBox textBox)
+    private void AddCommaSeparators(TextBox? textBox)
     {
+        if (textBox == null) return;
         if (string.IsNullOrWhiteSpace(textBox.Text))
             return;
         // Remove previous comma separators if any

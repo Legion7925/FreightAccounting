@@ -54,7 +54,7 @@
                                          HorizontalAlignment="Left" MaxLength="11"></TextBox>
                                 <TextBox x:Name="txtDebtAmount" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="0,17,0,10"  
                                          HorizontalAlignment="Left" InputScope="Number" TextChanged="txtDebtAmount_TextChanged"
-                                         MaxLength="10"></TextBox>
+                                         MaxLength="13"></TextBox>
                             </StackPanel>
 
 

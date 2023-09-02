@@ -60,6 +60,7 @@ public partial class MainWindow : Window
         CartableEventsManager.updateExpensesDatagrid += btnReportExpenses_Click!;
         CartableEventsManager.updateRemittanceDatagrid += btnReportRemitance_Click!;
         CartableEventsManager.updateDebtorDatagrid += GetDebtorsReport!;
+        CartableEventsManager.updateOperatorUserCombobox += FillOperatorUsersCombobox;
 
         dpExpensesReportStart.SelectedDate = Mohsen.PersianDate.Today.AddDays(-3);
         dpExpensesReportEnd.SelectedDate = Mohsen.PersianDate.Today;
@@ -73,7 +74,7 @@ public partial class MainWindow : Window
         GetDebtorsReport(null, null!);
         btnReportExpenses_Click(null!, null!);
         btnReportRemitance_Click(null!, null!);
-        FillOperatorUsersCombobox();
+        FillOperatorUsersCombobox(null , null!);
     }
 
     private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -861,7 +862,7 @@ public partial class MainWindow : Window
         }).ShowDialog();
     }
 
-    private void FillOperatorUsersCombobox()
+    private void FillOperatorUsersCombobox(object? sender , EventArgs e)
     {
         try
         {
@@ -998,7 +999,6 @@ public partial class MainWindow : Window
         txtSearchRemitanceById.Text = string.Empty;
         cbUserFilter.Text = string.Empty;
         btnReportRemitance_Click(null!, null!);
-        dgReport.ItemsSource = remittanceReportModel.Remittances;
     }
 
 
