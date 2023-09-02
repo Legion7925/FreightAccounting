@@ -112,10 +112,10 @@ public partial class AddRemitance : Window
     {
         try
         {
-            btnSubmit.IsEnabled = false;
             var valid = ValidateInputs();
             if (!valid) return;
 
+            btnSubmit.IsEnabled = false;
             var doubleTranforPayment = double.Parse(txtTranforPayment.Text);
             if (_isEdit)
             {
@@ -159,11 +159,13 @@ public partial class AddRemitance : Window
         catch (AppException ne)
         {
             NotificationEventsManager.OnShowMessage(ne.Message, MessageTypeEnum.Warning);
+            btnSubmit.IsEnabled = true;
         }
         catch (Exception ex)
         {
             Logger.LogException(ex);
             NotificationEventsManager.OnShowMessage("در انجام عملیات خطایی رخ داده است", MessageTypeEnum.Error);
+            btnSubmit.IsEnabled = true;
         }
     }
 

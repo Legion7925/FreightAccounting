@@ -62,6 +62,7 @@ namespace FreightAccounting.WPF
             {
                 var valid = ValidateInput();
                 if (!valid) return;
+                btnSubmit.IsEnabled = false;
                 await operatorUserRepository.AddOperatorUser(new OperatorUser
                 {
                     Name = txtName.Text,
@@ -74,11 +75,13 @@ namespace FreightAccounting.WPF
             catch (AppException ne)
             {
                 NotificationEventsManager.OnShowMessage(ne.Message, MessageTypeEnum.Warning);
+                btnSubmit.IsEnabled = true;
             }
             catch (Exception ex)
             {
                 Logger.LogException(ex);
                 NotificationEventsManager.OnShowMessage("در انجام عملیات خطایی رخ داده است", MessageTypeEnum.Error);
+                btnSubmit.IsEnabled = true;
             }
         }
     }

@@ -220,7 +220,7 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            ShowSnackbarMessage("خطا در واکشی داده", MessageTypeEnum.Error);
+            ShowSnackbarMessage("در واکشی اطلاعات خطایی رخ داده است", MessageTypeEnum.Error);
             Logger.LogException(ex);
         }
     }
@@ -287,7 +287,7 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            ShowSnackbarMessage("خطا در واکشی داده", MessageTypeEnum.Error);
+            ShowSnackbarMessage("در واکشی اطلاعات خطایی رخ داده است", MessageTypeEnum.Error);
             Logger.LogException(ex);
         }
     }
@@ -382,6 +382,7 @@ public partial class MainWindow : Window
     {
         try
         {
+            btnPrintDebtorsReport.IsEnabled = false;
             var report = _debtorRepository.GetDebtors(new DebtorsQueryParameters { Page = 1 , Size = int.MaxValue , Paid = null });
             if (!report.Any())
             {
@@ -405,7 +406,7 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            ShowSnackbarMessage("خطا در گزارش گیری", MessageTypeEnum.Error);
+            ShowSnackbarMessage("در واکشی اطلاعات خطایی رخ داده است", MessageTypeEnum.Error);
             Logger.LogException(ex);
             btnPrintDebtorsReport.IsEnabled = true;
         }
@@ -462,7 +463,7 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            ShowSnackbarMessage("خطا در واکشی داده", MessageTypeEnum.Error);
+            ShowSnackbarMessage("در واکشی اطلاعات خطایی رخ داده است", MessageTypeEnum.Error);
             Logger.LogException(ex);
             btnSearchDebtorsByName.IsEnabled = true;
         }
@@ -521,7 +522,8 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            ShowSnackbarMessage(ex.Message, MessageTypeEnum.Error);
+            ShowSnackbarMessage("در واکشی اطلاعات خطایی رخ داده است", MessageTypeEnum.Error);
+            Logger.LogException(ex);
         }
     }
 
@@ -591,7 +593,8 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            ShowSnackbarMessage(ex.Message, MessageTypeEnum.Error);
+            ShowSnackbarMessage("در واکشی اطلاعات خطایی رخ داده است", MessageTypeEnum.Error);
+            Logger.LogException(ex);
         }
     }
 
@@ -695,7 +698,8 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            ShowSnackbarMessage(ex.Message, MessageTypeEnum.Error);
+            ShowSnackbarMessage("در واکشی اطلاعات خطایی رخ داده است", MessageTypeEnum.Error);
+            Logger.LogException(ex);
         }
     }
 
@@ -830,7 +834,8 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            ShowSnackbarMessage(ex.Message, MessageTypeEnum.Error);
+            ShowSnackbarMessage("در واکشی اطلاعات خطایی رخ داده است", MessageTypeEnum.Error);
+            Logger.LogException(ex);
         }
     }
 
@@ -941,6 +946,7 @@ public partial class MainWindow : Window
 
     private void btnPrintRemitanceReport_Click(object sender, RoutedEventArgs e)
     {
+        btnPrintDebtorsReport.IsEnabled = false;
         var report = _remittanceRepository.GetRemittancesBetweenDates(new RemittanceQueryParameter
         {
             StartDate = dpRemittanceStart.SelectedDate.ToDateTime(),

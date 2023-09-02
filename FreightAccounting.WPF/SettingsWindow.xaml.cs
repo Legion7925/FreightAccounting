@@ -54,10 +54,16 @@ namespace FreightAccounting.WPF
                 Close();
 
             }
+            catch (AppException ne)
+            {
+                NotificationEventsManager.OnShowMessage(ne.Message, MessageTypeEnum.Warning);
+                btnSubmitSettings.IsEnabled = true;
+            }
             catch (Exception ex)
             {
                 Logger.LogException(ex);
                 NotificationEventsManager.OnShowMessage("در عملیات ذخیره تنظیمات خطایی رخ داده", MessageTypeEnum.Error);
+                btnSubmitSettings.IsEnabled = true;
             }
         }
 

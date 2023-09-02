@@ -48,11 +48,13 @@ public partial class SubmitDebtWindow : Window
         catch (AppException ax)
         {
             NotificationEventsManager.OnShowMessage(ax.Message, MessageTypeEnum.Warning);
+            btnSubmitPayment.IsEnabled = true;
         }
         catch (Exception ex)
         {
             Logger.LogException(ex);
             NotificationEventsManager.OnShowMessage("در عملیات ثبت خطایی رخ داده", MessageTypeEnum.Error);
+            btnSubmitPayment.IsEnabled = true;
         }
     }
 
