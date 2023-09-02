@@ -12,10 +12,10 @@ public class ExpensesReportModel
     /// <summary>
     /// مجموع مخارج بین دو تاریخ
     /// </summary>
-    public int TotalExpensesAmount { get; set; } /*=> Expenses.Select(e => e.ExpensesAmount).Sum();*/
+    public long TotalExpensesAmount { get; set; } /*=> Expenses.Select(e => e.ExpensesAmount).Sum();*/
 
     /// <summary>
     /// مجموع درآمد خالص بین دو تاریخ
     /// </summary>
-    public int TotalIncome { get; set; } /*=> Expenses.Select(e => e.Income).Sum();*/
+    public long TotalIncome { get; set; } /*=> Expenses.Select(e => e.Income).Sum();*/
 }
