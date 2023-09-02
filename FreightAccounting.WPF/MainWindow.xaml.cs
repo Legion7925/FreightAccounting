@@ -55,10 +55,11 @@ public partial class MainWindow : Window
         _expensesRepository = expensesRepository;
 
         NotificationEventsManager.showMessage += ShowSnackbarMessage;
-        CartableEventsManager.updateDebtorDatagrid += FillDebtorDatagrid;
+        //CartableEventsManager.updateDebtorDatagrid += FillDebtorDatagrid;
         CartableEventsManager.updateRemittanceDatagrid += FillRemitanceDatagrid;
         CartableEventsManager.updateExpensesDatagrid += btnReportExpenses_Click!;
         CartableEventsManager.updateRemittanceDatagrid += btnReportRemitance_Click!;
+        CartableEventsManager.updateDebtorDatagrid += FillDebtorDatagrid!;
 
         dpExpensesReportStart.SelectedDate = Mohsen.PersianDate.Today.AddDays(-3);
         dpExpensesReportEnd.SelectedDate = Mohsen.PersianDate.Today;
@@ -153,15 +154,8 @@ public partial class MainWindow : Window
         //todo -- save to app setting for when user open after change theme -- todo
     }
 
-    private void btnChangePassword_Click(object sender, RoutedEventArgs e)
-    {
 
-    }
-
-    private void btnAddRemittance_Click(object sender, RoutedEventArgs e)
-    {
-        new AddRemitance(_remittanceRepository, _operatorUserRepository, false, null, null).ShowDialog();
-    }
+    
 
     /// <summary>
     /// نمایش پیام سیستم
@@ -193,10 +187,20 @@ public partial class MainWindow : Window
     }
 
     #region Debtors
+
+    private int _debtorsPageSize = 5;
+
+    private int _debtorsPageIndex = 1;
+
+    private double _debtorsTotalCount = 0;
+
+    private double _debtorsTotalpage = 0;
+
     private void btnAddDebtors_Click(object sender, RoutedEventArgs e)
     {
         var addDebtorWindow = new AddDebtorWindow(_debtorRepository, false, null, null);
         addDebtorWindow.ShowDialog();
+
     }
 
     /// <summary>
@@ -206,9 +210,53 @@ public partial class MainWindow : Window
     /// <param name="e"></param>
     private void FillDebtorDatagrid(object? sender, bool? e)
     {
+
+        _debtorsPageSize = Convert.ToInt32(cmbDebtorsPaginationSize.SelectedValue);
+        _debtorsTotalpage = Math.Ceiling(_debtorsTotalCount / _debtorsPageSize);
+        if (_debtorsTotalpage == 0)
+            _debtorsTotalpage = 1;
+
+        GetPaginatedDebtorsReport();
+
+        if (_debtorsTotalCount == 0)
+        {
+            btnDebtorsLastPage.IsEnabled = false;
+            btnDebtorsNextPage.IsEnabled = false;
+            btnDebtorsPreviousPage.IsEnabled = false;
+            btnDebtorsFirstPage.IsEnabled = false;
+        }
+        else
+        {
+            btnDebtorsLastPage.IsEnabled = true;
+            btnDebtorsNextPage.IsEnabled = true;
+            btnDebtorsPreviousPage.IsEnabled = true;
+            btnDebtorsFirstPage.IsEnabled = true;
+        }
+        if (_debtorsPageIndex == 1)
+        {
+            btnDebtorsPreviousPage.IsEnabled = false;
+            btnDebtorsFirstPage.IsEnabled = false;
+        }
+        if (_debtorsPageIndex == _debtorsTotalpage)
+        {
+            btnDebtorsLastPage.IsEnabled = false;
+            btnDebtorsNextPage.IsEnabled = false;
+        }
+        else
+        {
+            btnDebtorsLastPage.IsEnabled = true;
+            btnDebtorsNextPage.IsEnabled = true;
+        }
+        lblDebtorsTotalCount.Text = _debtorsTotalCount.ToString();
+        lblDebtorsPageNumberInfo.Text = $"{((_debtorsPageIndex - 1) * _debtorsPageSize) + 1} - {((_debtorsPageIndex - 1) * _debtorsPageSize) + debtorsList.Count()}";
+    }
+
+    private void GetPaginatedDebtorsReport()
+    {
         try
         {
-            debtorsList = _debtorRepository.GetDebtors(new DebtorsQueryParameters() {  Page = 1 , Size = int.MaxValue , Paid = e});
+            debtorsList = _debtorRepository.GetDebtors(new DebtorsQueryParameters() { Page = _debtorsPageIndex, Size = _debtorsPageSize, Paid = null });
+
             dgDebtorsReport.ItemsSource = debtorsList;
         }
         catch (AppException ax)
@@ -255,15 +303,15 @@ public partial class MainWindow : Window
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void txtSearchDebtorsByName_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        if (string.IsNullOrEmpty(txtSearchDebtorsByName.Text))
-        {
-            dgDebtorsReport.ItemsSource = debtorsList;
-            return;
-        }
-        dgDebtorsReport.ItemsSource = debtorsList.Where(d => (d.DriverFirstName + d.DriverLastName).Contains(txtSearchDebtorsByName.Text)).ToList();
-    }
+    //private void txtSearchDebtorsByName_TextChanged(object sender, TextChangedEventArgs e)
+    //{
+    //    if (string.IsNullOrEmpty(txtSearchDebtorsByName.Text))
+    //    {
+    //        dgDebtorsReport.ItemsSource = debtorsList;
+    //        return;
+    //    }
+    //    dgDebtorsReport.ItemsSource = debtorsList.Where(d => (d.DriverFirstName + d.DriverLastName).Contains(txtSearchDebtorsByName.Text)).ToList();
+    //}
     /// <summary>
     /// باز کردن پنجره ویرایش بدهکار
     /// </summary>
@@ -325,6 +373,47 @@ public partial class MainWindow : Window
         }
     }
 
+    private void btnDebtorsLastPage_Click(object sender, RoutedEventArgs e)
+    {
+        _debtorsPageIndex = Convert.ToInt32(_debtorsTotalpage);
+        FillDebtorDatagrid(null, null);
+    }
+
+    private void btnDebtorsNextPage_Click(object sender, RoutedEventArgs e)
+    {
+        _debtorsPageIndex++;
+        FillDebtorDatagrid(null, null);
+    }
+
+    private void btnDebtorsPreviousPage_Click(object sender, RoutedEventArgs e)
+    {
+        _debtorsPageIndex--;
+        FillDebtorDatagrid(null, null);
+    }
+
+    private void btnDebtorsFirstPage_Click(object sender, RoutedEventArgs e)
+    {
+        _debtorsPageIndex = 1;
+        FillDebtorDatagrid(null, null);
+    }
+
+    private void cmbDebtorsPaginationSize_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (!debtorsList.Any())
+            return;
+        _debtorsPageIndex = 1;
+        FillDebtorDatagrid(null, null);
+    }
+
+    private void btnSearchNameSebtors_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
+
+    private void btnRemoveFilterDebtors_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
 
     #endregion Debtors
 
@@ -558,6 +647,11 @@ public partial class MainWindow : Window
 
     private double _remitanceTotalpage = 0;
 
+    private void btnAddRemittance_Click(object sender, RoutedEventArgs e)
+    {
+        new AddRemitance(_remittanceRepository, _operatorUserRepository, false, null, null).ShowDialog();
+    }
+
     private void btnReportRemitance_Click(object sender, RoutedEventArgs e)
     {
         if (!string.IsNullOrEmpty(cbUserFilter.Text))
@@ -778,6 +872,7 @@ public partial class MainWindow : Window
             };
         cmbExpensePaginationSize.ItemsSource = paginationSizeValuePairs;
         cmbRemitancePaginationSize.ItemsSource = paginationSizeValuePairs;
+        cmbDebtorsPaginationSize.ItemsSource = paginationSizeValuePairs;
     }
 
     private void btnPrintRemitanceReport_Click(object sender, RoutedEventArgs e)
@@ -842,5 +937,8 @@ public partial class MainWindow : Window
         btnReportRemitance_Click(null!, null!);
         dgReport.ItemsSource = remittanceReportModel.Remittances;
     }
+
     #endregion Remittance
+
+    
 }

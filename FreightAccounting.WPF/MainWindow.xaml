@@ -188,7 +188,7 @@
                                                    Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
                                                Margin="10,0"></TextBlock>
 
-                                     
+
 
 
                                             <!--در صورتی ویزیبل شود که گزارش بر اساس کاربر گرفته شود-->
@@ -309,6 +309,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto" />
                                 <RowDefinition />
+                                <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
 
                             <Grid Grid.Row="0" FlowDirection="LeftToRight">
@@ -332,9 +333,20 @@
 
 
                                     <StackPanel VerticalAlignment="Center" Margin="20,0" Orientation="Horizontal">
+                                        <Button x:Name="btnRemoveFilterDebtors" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
+                                            Height="25" Width="25" Background="#d9534f" BorderBrush="{x:Null}" HorizontalAlignment="Left" ToolTip="حذف فیلتر" VerticalAlignment="Bottom" 
+                                            Margin="5" Click="btnRemoveFilterDebtors_Click">
+                                            <materialDesign:PackIcon Kind="Remove"/>
+                                        </Button>
+                                        <Button x:Name="btnSearchNameSebtors" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
+                                            Height="25" Width="25" BorderBrush="{x:Null}" HorizontalAlignment="Left" ToolTip="گزارش" VerticalAlignment="Bottom" 
+                                            Margin="5" Click="btnSearchNameSebtors_Click">
+                                            <materialDesign:PackIcon Kind="Search"/>
+                                        </Button>
                                         <TextBox x:Name="txtSearchDebtorsByName" Width="130" Margin="5,0"
-                                                 TextChanged="txtSearchDebtorsByName_TextChanged" FlowDirection="RightToLeft" Foreground="{DynamicResource MaterialDesignBody}"></TextBox>
+                                                  FlowDirection="RightToLeft" Foreground="{DynamicResource MaterialDesignBody}"></TextBox>
                                         <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text=": جست و جو نام" VerticalAlignment="Center"></TextBlock>
+
                                     </StackPanel>
 
                                     <ComboBox x:Name="cmbFilterPaymentStatus"  Width="100" SelectedIndex="0" FlowDirection="RightToLeft" 
@@ -399,6 +411,36 @@
                                     </DataGridTemplateColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
+
+                            <Grid x:Name="gridDebtorsPagination" Grid.Row="2" IsEnabled="False" FlowDirection="LeftToRight">
+                                <StackPanel HorizontalAlignment="Left" Margin="5" Orientation="Horizontal">
+                                    <Button x:Name="btnDebtorsLastPage" Margin="10,0,0,0" Cursor="Hand" Click="btnDebtorsLastPage_Click" HorizontalAlignment="Left"
+                                        Style="{DynamicResource MaterialDesignFlatButton}" Foreground="{DynamicResource MaterialDesignBody}">
+                                        <materialDesign:PackIcon Kind="PageFirst" />
+                                    </Button>
+
+                                    <Button x:Name="btnDebtorsNextPage" Margin="10,0,0,0" Cursor="Hand" Click="btnDebtorsNextPage_Click" HorizontalAlignment="Left"
+                                        Style="{DynamicResource MaterialDesignFlatButton}" Foreground="{DynamicResource MaterialDesignBody}">
+                                        <materialDesign:PackIcon Kind="LessThan" />
+                                    </Button>
+
+                                    <Button x:Name="btnDebtorsPreviousPage" Margin="10,0,0,0" Cursor="Hand" Click="btnDebtorsPreviousPage_Click" HorizontalAlignment="Left" 
+                                        Style="{DynamicResource MaterialDesignFlatButton}" Foreground="{DynamicResource MaterialDesignBody}">
+                                        <materialDesign:PackIcon Kind="GreaterThan"/>
+                                    </Button>
+
+                                    <Button x:Name="btnDebtorsFirstPage" Margin="10,0,0,0" Cursor="Hand" Click="btnDebtorsFirstPage_Click" HorizontalAlignment="Left"
+                                        Style="{DynamicResource MaterialDesignFlatButton}" Foreground="{DynamicResource MaterialDesignBody}">
+                                        <materialDesign:PackIcon Kind="PageLast" />
+                                    </Button>
+
+                                    <TextBlock Foreground="{DynamicResource MaterialDesignBody}" x:Name="lblDebtorsPageNumberInfo" Text="0 - 0" VerticalAlignment="Center" Margin="20,0,5,0"  FontSize="13"/>
+                                    <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="از" VerticalAlignment="Center"  FontSize="13"/>
+                                    <TextBlock Foreground="{DynamicResource MaterialDesignBody}" x:Name="lblDebtorsTotalCount" Text="0" VerticalAlignment="Center" Margin="5,0,3,0"  FontSize="13"/>
+                                    <ComboBox x:Name="cmbDebtorsPaginationSize"  Margin="25,0,20,0" SelectedValuePath="Value" VerticalAlignment="Center"
+                          DisplayMemberPath="Value" SelectedIndex="0" SelectionChanged="cmbDebtorsPaginationSize_SelectionChanged" Foreground="{DynamicResource MaterialDesignBody}"/>
+                                </StackPanel>
+                            </Grid>
                         </Grid>
 
                     </TabItem>
