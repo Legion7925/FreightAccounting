@@ -291,12 +291,12 @@ public partial class AddRemitance : Window
 
         if (string.IsNullOrWhiteSpace(txtProductInsurance.Text.Replace(",", "")))
             return;
-        var productInsurance = int.Parse(txtProductInsurance.Text.Replace(",", ""));
+        var productInsurance = long.Parse(txtProductInsurance.Text.Replace(",", ""));
         var totalPayment = organizationPayment + taxPayment + insurePayment + productInsurance + _userCut;
 
         if (string.IsNullOrWhiteSpace(txtReceviedCommission.Text.Replace(",", "")))
             return;
-        var receveComision = int.Parse(txtReceviedCommission.Text.Replace(",", ""));
+        var receveComision = long.Parse(txtReceviedCommission.Text.Replace(",", ""));
         txtNetProfit.Text = (receveComision - totalPayment).ToString();
 
 

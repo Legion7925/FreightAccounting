@@ -29,6 +29,7 @@ public class ExpensesRepository : IExpensesRepository
            .Where(e => e.SubmitDate.Date >= queryParameters.StartDate.Date && e.SubmitDate <= queryParameters.EndDate.Date);
 
         var paginatedExpenses = expenses
+           .OrderByDescending(e => e.SubmitDate)
            .Skip((queryParameters.Page - 1) * queryParameters.Size)
            .Take(queryParameters.Size)
            .Select(e => new ExpenseEntityReportModel
@@ -42,7 +43,7 @@ public class ExpensesRepository : IExpensesRepository
 
         return new ExpensesReportModel
         {
-            Expenses = paginatedExpenses.OrderByDescending(e=> e.SubmitDate).ToList(),
+            Expenses = paginatedExpenses.ToList(),
             TotalExpensesAmount = expenses.Select(e => e.ExpensesAmount).Sum(),
             TotalIncome = expenses.Select(e=> e.Income).Sum(),
         };

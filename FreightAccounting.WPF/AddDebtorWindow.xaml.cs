@@ -119,7 +119,7 @@ public partial class AddDebtorWindow : Window
         }
 
 
-        var isNumeric = int.TryParse(txtDebtAmount.Text.Replace(",", ""), out _);
+        var isNumeric = long.TryParse(txtDebtAmount.Text.Replace(",", ""), out _);
         if (!isNumeric)
         {
             MessageBox.Show("لطفا مقدار بدهی را به درستی وارد کنید");

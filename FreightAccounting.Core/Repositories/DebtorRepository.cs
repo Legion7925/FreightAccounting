@@ -61,6 +61,7 @@ public class DebtorRepository : IDebtorRepository
 
 
         debtors = debtors
+            .OrderByDescending(i => i.Id)
             .Skip((queryParameters.Page - 1) * queryParameters.Size)
             .Take(queryParameters.Size);
 
@@ -74,7 +75,7 @@ public class DebtorRepository : IDebtorRepository
             DebtAmount = d.DebtAmount,
             Id = d.Id,
             PhoneNumber = d.PhoneNumber
-        }).OrderByDescending(i=> i.Id).ToList();
+        }).ToList();
     }
 
     public IEnumerable<DebtorReportModel> GetDebtorsByName(string searchedName)

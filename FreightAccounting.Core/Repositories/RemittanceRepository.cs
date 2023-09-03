@@ -102,11 +102,12 @@ public class RemittanceRepository : IRemittanceRepository
 
 
         remittanceList = remittanceList
+            .OrderByDescending(i => i.SubmitDate)
             .Skip((queryParameters.Page - 1) * queryParameters.Size)
             .Take(queryParameters.Size);
 
 
-        remittanceReportModel.Remittances = remittanceList.OrderByDescending(i=>i.SubmitDate).ToList();
+        remittanceReportModel.Remittances = remittanceList.ToList();
 
         return remittanceReportModel;
 

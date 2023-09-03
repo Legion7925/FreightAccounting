@@ -208,7 +208,7 @@ public partial class MainWindow : Window
                 ShowSnackbarMessage("داده ای برای نمایش یافت نشد", MessageTypeEnum.Information);
                 return;
             }
-
+            btnDebtorsFirstPage_Click(null!, null!);
             FillDebtorDatagrid(null, null);
 
             gridDebtorsPagination.IsEnabled = true;
@@ -518,7 +518,7 @@ public partial class MainWindow : Window
                 lblTotalIncomeWithExpenses.Text = "-";
                 return;
             }
-
+            btnExpenseFirstPage_Click(null!, null!);
             FillExpensesDatagrid(null, null);
 
             gridExpensePagination.IsEnabled = true;
@@ -744,7 +744,6 @@ public partial class MainWindow : Window
                 dpRemittanceEnd.SelectedDate.ToDateTime()
                 , operatorUserId);
 
-
             if (_remitanceTotalCount == 0)
             {
                 ShowSnackbarMessage("داده ای برای نمایش یافت نشد", MessageTypeEnum.Information);
@@ -756,6 +755,7 @@ public partial class MainWindow : Window
                 lblTotalUserCut.Text = "0";
                 return;
             };
+            btnRemitanceFirstPage_Click(null!, null!);
             FillRemitanceDatagrid(null, null);
             gridRemitancePagination.IsEnabled = true;
         }
@@ -956,41 +956,56 @@ public partial class MainWindow : Window
 
     private void btnPrintRemitanceReport_Click(object sender, RoutedEventArgs e)
     {
-        btnPrintDebtorsReport.IsEnabled = false;
-        var report = _remittanceRepository.GetRemittancesBetweenDates(new RemittanceQueryParameter
+        try
         {
-            StartDate = dpRemittanceStart.SelectedDate.ToDateTime(),
-            EndDate = dpRemittanceEnd.SelectedDate.ToDateTime(),
-            OperatorUserId = null,
-            Page = 1,
-            Size = int.MaxValue
-        });
-        if (!report.Remittances.Any())
-        {
-            ShowSnackbarMessage("داده ای برای نمایش پرینت در این تاریخ موجود نیست", MessageTypeEnum.Information);
-            btnPrintRemitanceReport.IsEnabled = true;
-            return;
-        }
+            btnPrintRemitanceReport.IsEnabled = false;
+            var report = _remittanceRepository.GetRemittancesBetweenDates(new RemittanceQueryParameter
+            {
+                StartDate = dpRemittanceStart.SelectedDate.ToDateTime(),
+                EndDate = dpRemittanceEnd.SelectedDate.ToDateTime(),
+                OperatorUserId = null,
+                Page = 1,
+                Size = int.MaxValue
+            });
+            if (!report.Remittances.Any())
+            {
+                ShowSnackbarMessage("داده ای برای نمایش پرینت در این تاریخ موجود نیست", MessageTypeEnum.Information);
+                btnPrintRemitanceReport.IsEnabled = true;
+                return;
+            }
 
-        var stiReport = new StiReport();
-        StiOptions.Dictionary.BusinessObjects.MaxLevel = 1;
-        stiReport.Load(@"Report\RemittanceReport.mrt");
-        stiReport.RegData("لیست حواله ها", report.Remittances);
-        stiReport.RegData("تاریخ گزارش", new
+            var stiReport = new StiReport();
+            StiOptions.Dictionary.BusinessObjects.MaxLevel = 1;
+            stiReport.Load(@"Report\RemittanceReport.mrt");
+            stiReport.RegData("لیست حواله ها", report.Remittances);
+            stiReport.RegData("تاریخ گزارش", new
+            {
+                تاریخ_شروع = dpExpensesReportStart.SelectedDate.ToDateTime().ToFa(),
+                تاریخ_پایان = dpExpensesReportEnd.SelectedDate.ToDateTime().ToFa(),
+            });
+            stiReport.RegData("مجموع پرداختی و درآمد ها", new
+            {
+                report.SumIncome,
+                report.SumNetProfit,
+                report.SumInsurancePayment,
+                report.SumTaxPayment,
+                report.SumUserCut
+            });
+            stiReport.Show();
+            btnPrintRemitanceReport.IsEnabled = true;
+
+        }
+        catch (AppException ax)
         {
-            تاریخ_شروع = dpExpensesReportStart.SelectedDate.ToDateTime().ToFa(),
-            تاریخ_پایان = dpExpensesReportEnd.SelectedDate.ToDateTime().ToFa(),
-        });
-        stiReport.RegData("مجموع پرداختی و درآمد ها", new
+            ShowSnackbarMessage(ax.Message, MessageTypeEnum.Warning);
+            btnPrintRemitanceReport.IsEnabled = true;
+        }
+        catch (Exception ex)
         {
-            report.SumIncome,
-            report.SumNetProfit,
-            report.SumInsurancePayment,
-            report.SumTaxPayment,
-            report.SumUserCut
-        });
-        stiReport.Show();
-        btnPrintDebtorsReport.IsEnabled = true;
+            ShowSnackbarMessage("خطا در پرینت گزارش", MessageTypeEnum.Error);
+            Logger.LogException(ex);
+            btnPrintRemitanceReport.IsEnabled = true;
+        }
     }
 
     private void btnSearchNumberRemitance_Click(object sender, RoutedEventArgs e)

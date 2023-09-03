@@ -82,7 +82,7 @@ public partial class AddExpenseWindow : Window
 
     private bool ValidateInputs()
     {
-        var isNumeric = int.TryParse(txtExpensesAmount.Text.Replace(",", ""), out _);
+        var isNumeric = long.TryParse(txtExpensesAmount.Text.Replace(",", ""), out _);
         if (!isNumeric)
         {
             MessageBox.Show("لطفا مقدار مخارج را به درستی وارد کنید");

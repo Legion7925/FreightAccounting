@@ -10,10 +10,10 @@
           <value>SubmitDateFa,System.String</value>
           <value>ExpensesAmount,System.Int32</value>
           <value>SubmitDate,System.DateTime</value>
-          <value>Income,System.Int32</value>
           <value>Id,System.Int32</value>
           <value>_ID,System.Int32</value>
           <value>_Current,System.Object</value>
+          <value>Income,System.Int64</value>
         </Columns>
         <Dictionary isRef="1" />
         <Key>28f77c95724d41279fe47f055e271602</Key>
@@ -251,10 +251,15 @@
               <Parent isRef="16" />
               <Text>{لیست_مخارج.Income}</Text>
               <TextBrush>Black</TextBrush>
+              <TextFormat Ref="19" type="NumberFormat" isKey="true">
+                <DecimalDigits>2</DecimalDigits>
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+              </TextFormat>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <VertAlignment>Center</VertAlignment>
             </Dataلیست_مخارج_Income>
-            <Dataلیست_مخارج_ExpensesAmount Ref="19" type="Text" isKey="true">
+            <Dataلیست_مخارج_ExpensesAmount Ref="20" type="Text" isKey="true">
               <Border>Top, Right, Bottom;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
@@ -269,6 +274,11 @@
               <Parent isRef="16" />
               <Text>{لیست_مخارج.ExpensesAmount}</Text>
               <TextBrush>Black</TextBrush>
+              <TextFormat Ref="21" type="NumberFormat" isKey="true">
+                <DecimalDigits>2</DecimalDigits>
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+              </TextFormat>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <VertAlignment>Center</VertAlignment>
             </Dataلیست_مخارج_ExpensesAmount>
@@ -282,11 +292,11 @@
           <Parent isRef="6" />
           <Sort isList="true" count="0" />
         </Dataلیست_مخارج>
-        <FooterBand1 Ref="20" type="FooterBand" isKey="true">
+        <FooterBand1 Ref="22" type="FooterBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,2.6,7.72,0.6</ClientRectangle>
           <Components isList="true" count="4">
-            <Text8 Ref="21" type="Text" isKey="true">
+            <Text8 Ref="23" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>6.5,0.3,1.2,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -297,28 +307,33 @@
               <Margins>0,0,0,0</Margins>
               <Name>Text8</Name>
               <Page isRef="6" />
-              <Parent isRef="20" />
+              <Parent isRef="22" />
               <Text>: مجموع درآمد خالص</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text8>
-            <Text9 Ref="22" type="Text" isKey="true">
+            <Text9 Ref="24" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>5.5,0.3,1,0.3</ClientRectangle>
+              <ClientRectangle>4.6,0.3,1.9,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,11</Font>
-              <HorAlignment>Center</HorAlignment>
+              <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text9</Name>
               <Page isRef="6" />
-              <Parent isRef="20" />
+              <Parent isRef="22" />
               <Text>{مجموع_درآمد_خالص.Data}</Text>
               <TextBrush>Black</TextBrush>
+              <TextFormat Ref="25" type="NumberFormat" isKey="true">
+                <DecimalDigits>2</DecimalDigits>
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+              </TextFormat>
               <VertAlignment>Center</VertAlignment>
             </Text9>
-            <Text10 Ref="23" type="Text" isKey="true">
+            <Text10 Ref="26" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.5,0.3,0.9,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -329,26 +344,31 @@
               <Margins>0,0,0,0</Margins>
               <Name>Text10</Name>
               <Page isRef="6" />
-              <Parent isRef="20" />
+              <Parent isRef="22" />
               <Text>: مجموع مخارج</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text10>
-            <Text11 Ref="24" type="Text" isKey="true">
+            <Text11 Ref="27" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>2.7,0.3,0.8,0.3</ClientRectangle>
+              <ClientRectangle>0.9,0.3,2.6,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,11</Font>
               <Guid>290bb2e9a0844b408dc5f23d374d628d</Guid>
-              <HorAlignment>Center</HorAlignment>
+              <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text11</Name>
               <Page isRef="6" />
-              <Parent isRef="20" />
+              <Parent isRef="22" />
               <Text>{مجموع_مخارج.Data}</Text>
               <TextBrush>Black</TextBrush>
+              <TextFormat Ref="28" type="NumberFormat" isKey="true">
+                <DecimalDigits>2</DecimalDigits>
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+              </TextFormat>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text11>
@@ -382,10 +402,9 @@
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>8/30/2023 12:19:43 PM</ReportChanged>
+  <ReportChanged>9/3/2023 2:21:59 PM</ReportChanged>
   <ReportCreated>8/30/2023 11:48:24 AM</ReportCreated>
-  <ReportFile>Report\EmptyTemplate.mrt</ReportFile>
-  <ReportGuid>fdf433b30e5b4447bb992bbcd21ab76f</ReportGuid>
+  <ReportGuid>22b3d0c89568489aab3f73bdeb1e502c</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2023.1.1.0</ReportVersion>
