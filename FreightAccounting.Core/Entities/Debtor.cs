@@ -23,7 +23,7 @@ public class Debtor : BaseEntity
     /// <summary>
     /// مقدار بدهی
     /// </summary>
-    public int DebtAmount { get; set; }
+    public long DebtAmount { get; set; }
 
     /// <summary>
     /// تاریخ پرداخت میتونه نال باشه

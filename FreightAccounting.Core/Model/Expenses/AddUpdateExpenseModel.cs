@@ -5,7 +5,7 @@ public class AddUpdateExpenseModel
     /// <summary>
     /// مخارج روز
     /// </summary>
-    public int ExpensesAmount { get; set; }
+    public long ExpensesAmount { get; set; }
 
     /// <summary>
     /// تاریخ روز

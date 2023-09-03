@@ -7,7 +7,7 @@ public class Expense : BaseEntity
     /// <summary>
     /// مخارج روز
     /// </summary>
-    public int ExpensesAmount { get; set; }
+    public long ExpensesAmount { get; set; }
 
 
     /// <summary>
@@ -18,5 +18,5 @@ public class Expense : BaseEntity
     /// <summary>
     /// درآمد به دست آمده در روز
     /// </summary>
-    public int Income { get; set; }
+    public long Income { get; set; }
 }

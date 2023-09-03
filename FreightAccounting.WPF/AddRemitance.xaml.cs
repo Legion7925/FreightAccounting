@@ -22,9 +22,9 @@ public partial class AddRemitance : Window
     private bool _isEdit;
     private readonly int _remittanceId;
     private static IEnumerable<OperatorUser> _userList = new List<OperatorUser>();
-    private int _userCut;
+    private long _userCut;
 
-    private int _contentUserCut;
+    private long _contentUserCut;
 
     public AddRemitance(IRemittanceRepository remittanceRepository, IOperatorUserRepository operatorUserRepository,
         bool isEdit, int? remitanceId, AddUpdateRemittanceModel? addUpdateRemittanceModel)
@@ -121,16 +121,16 @@ public partial class AddRemitance : Window
             {
                 await _remittanceRepository.UpdateRemittance(_remittanceId, new AddUpdateRemittanceModel
                 {
-                    ProductInsuranceNumber = Convert.ToInt32(txtProductInsurance.Text.Replace(",", "")),
+                    ProductInsuranceNumber = Convert.ToInt64(txtProductInsurance.Text.Replace(",", "")),
                     RemittanceNumber = txtNumberRemmitance.Text,
-                    TransforPayment = Convert.ToInt32(txtTranforPayment.Text.Replace(",", "")),
-                    OrganizationPayment = Convert.ToInt32(txtOrganizationPayment.Text.Replace(",", "")),
-                    InsurancePayment = Convert.ToInt32(txtInsurancePayment.Text.Replace(",", "")),
-                    TaxPayment = Convert.ToInt32(txtTaxPayment.Text.Replace(",", "")),
+                    TransforPayment = Convert.ToInt64(txtTranforPayment.Text.Replace(",", "")),
+                    OrganizationPayment = Convert.ToInt64(txtOrganizationPayment.Text.Replace(",", "")),
+                    InsurancePayment = Convert.ToInt64(txtInsurancePayment.Text.Replace(",", "")),
+                    TaxPayment = Convert.ToInt64(txtTaxPayment.Text.Replace(",", "")),
                     SubmitDate = dpDate.SelectedDate.ToDateTime(),
                     OperatorUserId = ((KeyValuePair<int, string>)cbSubmitUser.SelectedItem).Key,
                     UserCut = _userCut,
-                    ReceviedCommission = Convert.ToInt32(txtReceviedCommission.Text.Replace(",", ""))
+                    ReceviedCommission = Convert.ToInt64(txtReceviedCommission.Text.Replace(",", ""))
                 });
                 NotificationEventsManager.OnShowMessage("عملیات ویرایش با موفقیت انجام شد!", MessageTypeEnum.Success);
             }
@@ -139,15 +139,15 @@ public partial class AddRemitance : Window
                 await _remittanceRepository.AddRemittance(new AddUpdateRemittanceModel
                 {
                     RemittanceNumber = txtNumberRemmitance.Text,
-                    TransforPayment = Convert.ToInt32(txtTranforPayment.Text.Replace(",", "")),
-                    OrganizationPayment = Convert.ToInt32(txtOrganizationPayment.Text.Replace(",", "")),
-                    InsurancePayment = Convert.ToInt32(txtInsurancePayment.Text.Replace(",", "")),
-                    TaxPayment = Convert.ToInt32(txtTaxPayment.Text.Replace(",", "")),
+                    TransforPayment = Convert.ToInt64(txtTranforPayment.Text.Replace(",", "")),
+                    OrganizationPayment = Convert.ToInt64(txtOrganizationPayment.Text.Replace(",", "")),
+                    InsurancePayment = Convert.ToInt64(txtInsurancePayment.Text.Replace(",", "")),
+                    TaxPayment = Convert.ToInt64(txtTaxPayment.Text.Replace(",", "")),
                     SubmitDate = dpDate.SelectedDate.ToDateTime(),
                     OperatorUserId = ((KeyValuePair<int, string>)cbSubmitUser.SelectedItem).Key,
                     UserCut = _userCut,
-                    ProductInsuranceNumber = Convert.ToInt32(txtProductInsurance.Text.Replace(",", "")),
-                    ReceviedCommission = Convert.ToInt32(txtReceviedCommission.Text.Replace(",", "")),
+                    ProductInsuranceNumber = Convert.ToInt64(txtProductInsurance.Text.Replace(",", "")),
+                    ReceviedCommission = Convert.ToInt64(txtReceviedCommission.Text.Replace(",", "")),
                 });
                 NotificationEventsManager.OnShowMessage("حواله جدید با موفقیت اضافه شد!", MessageTypeEnum.Success);
             }
@@ -266,16 +266,16 @@ public partial class AddRemitance : Window
                 txtUserCut.Text = _userCut.ToString();
                 break;
             case 1:
-                _userCut = Convert.ToInt32(doubleTranforPayment * .01);
+                _userCut = Convert.ToInt64(doubleTranforPayment * .01);
                 _userCut = _userCut / 2;
                 txtUserCut.Text = _userCut.ToString();
                 break;
             case 2:
-                _userCut = Convert.ToInt32(doubleTranforPayment * .03);
+                _userCut = Convert.ToInt64(doubleTranforPayment * .03);
                 txtUserCut.Text = _userCut.ToString();
                 break;
             case 3:
-                _userCut = Convert.ToInt32(doubleTranforPayment * .05);
+                _userCut = Convert.ToInt64(doubleTranforPayment * .05);
                 txtUserCut.Text = _userCut.ToString();
                 break;
         }

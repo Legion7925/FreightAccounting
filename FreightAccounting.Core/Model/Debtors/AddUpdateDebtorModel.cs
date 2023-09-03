@@ -18,5 +18,5 @@ public class AddUpdateDebtorModel
     /// <summary>
     /// مقدار بدهی
     /// </summary>
-    public int DebtAmount { get; set; }
+    public long DebtAmount { get; set; }
 }

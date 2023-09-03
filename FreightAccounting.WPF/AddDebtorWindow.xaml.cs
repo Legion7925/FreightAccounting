@@ -57,7 +57,7 @@ public partial class AddDebtorWindow : Window
                     DriverFirstName = txtDriverFirstName.Text,
                     Destination = txtDestination.Text,
                     DriverLastName = txtDriverLastName.Text,
-                    DebtAmount = Convert.ToInt32(txtDebtAmount.Text.Replace(",", "")),
+                    DebtAmount = Convert.ToInt64(txtDebtAmount.Text.Replace(",", "")),
                     PhoneNumber = txtPhoneNumber.Text.ToEnglishNumber(),
                     PlateNumber = txtPlate.PlateText
                 });
@@ -70,7 +70,7 @@ public partial class AddDebtorWindow : Window
                     DriverFirstName = txtDriverFirstName.Text,
                     Destination = txtDestination.Text,
                     DriverLastName = txtDriverLastName.Text,
-                    DebtAmount = Convert.ToInt32(txtDebtAmount.Text.Replace(",", "")),
+                    DebtAmount = Convert.ToInt64(txtDebtAmount.Text.Replace(",", "")),
                     PhoneNumber = txtPhoneNumber.Text,
                     PlateNumber = txtPlate.PlateText.ToEnglishNumber()
                 });

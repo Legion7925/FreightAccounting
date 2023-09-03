@@ -116,14 +116,29 @@ public class RemittanceRepository : IRemittanceRepository
     /// یک رکورد بر اساس شماره بارنامه
     /// </summary>
     /// <returns></returns>
-    public async Task<Remittance> GetRemittanceByRettmianceNumber(string remittanceNumber)
+    public IEnumerable<RemittanceEntityReportModel> GetRemittanceByRettmianceNumber(string remittanceNumber)
     {
-        var remittance = await _context.Remittances.Where(r => r.RemittanceNumber.Contains(remittanceNumber)).FirstOrDefaultAsync();
+        var remittance = _context.Remittances.Where(r => r.RemittanceNumber.Contains(remittanceNumber)).Select(r=> new RemittanceEntityReportModel
+        {
+            RemittanceNumber = r.RemittanceNumber,
+            Id = r.Id,
+            ReceviedCommission = r.ReceviedCommission,
+            InsurancePayment = r.InsurancePayment,
+            NetProfit = r.NetProfit,
+            OperatorUserId = r.OperatorUserId,
+            SubmittedUsername = r.OperatorUser!.Name + " " + r.OperatorUser.Family,
+            OrganizationPayment = r.OrganizationPayment,
+            SubmitDate = r.SubmitDate,
+            TaxPayment = r.TaxPayment,
+            TransforPayment = r.TransforPayment,
+            ProductInsuranceNumber = r.ProductInsuranceNumber,
+            UserCut = r.UserCut,
+        });
         if (remittance is null)
         {
             throw new AppException("حواله با شماره بارنامه وارد شده یافت نشد");
         }
-        return remittance;
+        return remittance.ToList();
     }
 
     public async Task AddRemittance(AddUpdateRemittanceModel remittanceModel)
@@ -212,7 +227,7 @@ public class RemittanceRepository : IRemittanceRepository
         return remittance;
     }
 
-    private async Task UpdateExpenseIncome(DateTime submitDate , int netProfit)
+    private async Task UpdateExpenseIncome(DateTime submitDate , long netProfit)
     {
         //اگر تو تاریخی که داره حواله ثبت میشه مخارج هم ثبت شده باشه میریم در آمد محاسبه شده
         //اون روز را آپدیت میکنیم چون یه سود خالص جدید اضافه شده به تاریخ روز
@@ -228,7 +243,7 @@ public class RemittanceRepository : IRemittanceRepository
     /// </summary>
     /// <param name="remittanceModel"></param>
     /// <returns></returns>
-    private int CalculateTaxes(AddUpdateRemittanceModel remittanceModel)
+    private long CalculateTaxes(AddUpdateRemittanceModel remittanceModel)
     {
         var sum = remittanceModel.InsurancePayment +
             remittanceModel.ProductInsuranceNumber +

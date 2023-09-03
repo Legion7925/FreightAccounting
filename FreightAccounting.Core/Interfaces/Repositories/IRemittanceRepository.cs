@@ -7,7 +7,7 @@ public interface IRemittanceRepository
 {
     Task AddRemittance(AddUpdateRemittanceModel remittanceModel);
     Task DeleteRemittance(int remittanceId);
-    Task<Remittance> GetRemittanceByRettmianceNumber(string remittanceNumber);
+    IEnumerable<RemittanceEntityReportModel> GetRemittanceByRettmianceNumber(string remittanceNumber);
     RemittanceReportModel GetRemittancesBetweenDates(RemittanceQueryParameter queryParameters);
     Task UpdateRemittance(int remittanceId, AddUpdateRemittanceModel remittanceModel);
     int GetRemittanceReportCount(DateTime startDate, DateTime endDate, int? operatorUserId);

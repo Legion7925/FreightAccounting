@@ -454,8 +454,16 @@ public partial class MainWindow : Window
             btnSearchDebtorsByName.IsEnabled = false;
 
             debtorsList = _debtorRepository.GetDebtorsByName(txtSearchDebtorsByName.Text);
+            if(debtorsList.Any() is not true)
+            {
+                dgDebtorsReport.ItemsSource = null;
+                ShowSnackbarMessage("داده ای برای نمایش یافت نشد", MessageTypeEnum.Information);
+                btnSearchDebtorsByName.IsEnabled = true;
+                return;
+            }
             dgDebtorsReport.ItemsSource = debtorsList;
             btnSearchDebtorsByName.IsEnabled = true;
+            gridDebtorsPagination.IsEnabled = false;
         }
         catch (AppException ax)
         {
@@ -506,7 +514,6 @@ public partial class MainWindow : Window
 
             if (_expensesTotalCount is 0)
             {
-                ShowSnackbarMessage("داده ای برای نمایش یافت نشد", MessageTypeEnum.Information);
                 lblTotalExpenses.Text = "-";
                 lblTotalIncomeWithExpenses.Text = "-";
                 return;
@@ -894,7 +901,6 @@ public partial class MainWindow : Window
         }
     }
 
-
     private void btnSettings_Click(object sender, RoutedEventArgs e)
     {
         new SettingsWindow().ShowDialog();
@@ -994,13 +1000,20 @@ public partial class MainWindow : Window
             ShowSnackbarMessage("شماره حواله را ابتدا وارد کنید", MessageTypeEnum.Warning);
             return;
         }
-        var s = remittanceReportModel.Remittances.Where(b => b.RemittanceNumber.Contains(txtSearchRemitanceById.Text)).ToList();
-        if (s.Count is 0)
+        remittanceReportModel.Remittances = _remittanceRepository.GetRemittanceByRettmianceNumber(txtSearchRemitanceById.Text);
+        if (remittanceReportModel.Remittances.Any() is not true)
         {
             dgReport.ItemsSource = null;
             ShowSnackbarMessage("برای این شماره ،حواله ای ثبت نشده", MessageTypeEnum.Information);
         }
-        dgReport.ItemsSource = s;
+        gridRemitancePagination.IsEnabled = false;
+        dgReport.ItemsSource = remittanceReportModel.Remittances;
+    }
+
+    private void txtSearchRemitanceById_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+            btnSearchNumberRemitance_Click(null!, null!);
     }
 
     private void btnReportRemoveFilter_Click(object sender, RoutedEventArgs e)

@@ -158,13 +158,12 @@
                             <Grid Grid.Row="1">
                                 <Grid.RowDefinitions>
                                     <RowDefinition  Height="auto"/>
+                                    <RowDefinition  Height="auto"/>
                                     <RowDefinition />
                                     <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
 
                                 <Grid Margin="5,5" Grid.Row="0">
-
-
                                     <StackPanel >
                                         <Separator Background="#FFDFDFDF"/>
                                         <StackPanel Margin="5" Orientation="Horizontal">
@@ -187,10 +186,6 @@
                                             <TextBlock x:Name="lblTotalInsurancePayment" FontSize="14" FontWeight="SemiBold" 
                                                    Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
                                                Margin="10,0"></TextBlock>
-
-
-
-
                                             <!--در صورتی ویزیبل شود که گزارش بر اساس کاربر گرفته شود-->
                                             <!--یا اینکه میتواند در همه صورت ویزیبل باشد و جمع پورسانت بین دو تاریخ همه کاربران را نشان دهد-->
                                             <StackPanel x:Name="stpUserCut" Visibility="Collapsed" Orientation="Horizontal">
@@ -201,11 +196,21 @@
                                                Margin="10,0"></TextBlock>
 
                                             </StackPanel>
+                                        </StackPanel>
+                                        <Separator Background="#FFDFDFDF"/>
+                                    </StackPanel>
 
+                                </Grid>
+
+                                <Grid Margin="0" Grid.Row="1">
+                                    <StackPanel>
+
+                                        <StackPanel Orientation="Horizontal">
                                             <StackPanel Orientation="Horizontal" Margin="10,0">
                                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="جست و جو با شماره حواله :" VerticalAlignment="Center"></TextBlock>
                                                 <TextBox x:Name="txtSearchRemitanceById" Width="70" Margin="5,5,5,10"
-                                                  FlowDirection="RightToLeft" Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Center"></TextBox>
+                                                  FlowDirection="RightToLeft" Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Center"
+                                                         KeyDown="txtSearchRemitanceById_KeyDown"></TextBox>
 
                                                 <Button x:Name="btnSearchNumberRemitance" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
                                             Height="25" Width="25" BorderBrush="{x:Null}" HorizontalAlignment="Left" ToolTip="گزارش بر اساس شماره بارنامه" VerticalAlignment="Bottom" 
@@ -214,18 +219,14 @@
                                                 </Button>
                                             </StackPanel>
 
-
-
-
-
                                         </StackPanel>
-                                        <Separator Background="#FFDFDFDF"/>
-                                    </StackPanel>
 
+                                        <Separator Background="#FFDFDFDF"/>
+
+                                    </StackPanel>
                                 </Grid>
 
-
-                                <DataGrid x:Name="dgReport" AutoGenerateColumns="False" FlowDirection="RightToLeft" Grid.Row="1" 
+                                <DataGrid x:Name="dgReport" AutoGenerateColumns="False" FlowDirection="RightToLeft" Grid.Row="2" 
                                       Grid.ColumnSpan="2" SelectedCellsChanged="dgReport_SelectedCellsChanged" IsReadOnly="True">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Binding="{Binding Id}"  Header="آیدی" Visibility="Hidden"></DataGridTextColumn>
@@ -259,7 +260,7 @@
                                     </DataGrid.Columns>
                                 </DataGrid>
 
-                                <Grid x:Name="gridRemitancePagination" Grid.Row="2" IsEnabled="False" FlowDirection="LeftToRight">
+                                <Grid x:Name="gridRemitancePagination" Grid.Row="3" IsEnabled="False" FlowDirection="LeftToRight">
                                     <StackPanel HorizontalAlignment="Left" Margin="5" Orientation="Horizontal">
                                         <Button x:Name="btnRemitanceLastPage" Margin="10,0,0,0" Cursor="Hand" HorizontalAlignment="Left" Click="btnRemitanceLastPage_Click"
                                         Style="{DynamicResource MaterialDesignFlatButton}" Foreground="{DynamicResource MaterialDesignBody}">

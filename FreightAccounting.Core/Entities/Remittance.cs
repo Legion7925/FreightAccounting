@@ -13,27 +13,27 @@ public class Remittance : BaseEntity
     /// <summary>
     /// کرایه راننده
     /// </summary>
-    public int TransforPayment { get; set; }
+    public long TransforPayment { get; set; }
 
     /// <summary>
     /// هزینه سازمان
     /// </summary>
-    public int OrganizationPayment { get; set; }
+    public long OrganizationPayment { get; set; }
 
     /// <summary>
     /// هزینه بیمه
     /// </summary>
-    public int InsurancePayment { get; set; }
+    public long InsurancePayment { get; set; }
 
     /// <summary>
     /// شماره بیمه کالا
     /// </summary>
-    public int ProductInsuranceNumber { get; set; }
+    public long ProductInsuranceNumber { get; set; }
 
     /// <summary>
     /// مالیات دارایی
     /// </summary>
-    public int TaxPayment { get; set; }
+    public long TaxPayment { get; set; }
 
     /// <summary>
     /// نام کاربر ثبت کننده
@@ -46,17 +46,17 @@ public class Remittance : BaseEntity
     /// <summary>
     /// پورسانت کاربر
     /// </summary>
-    public int UserCut { get; set; }
+    public long UserCut { get; set; }
 
     /// <summary>
     /// سود خالص
     /// </summary>
-    public int NetProfit { get; set; }
+    public long NetProfit { get; set; }
 
     /// <summary>
     /// کمیسیون دریافتی
     /// </summary>
-    public int ReceviedCommission { get; set; }
+    public long ReceviedCommission { get; set; }
 
     /// <summary>
     /// تاریخ ثبت بارنامه
