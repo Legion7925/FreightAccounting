@@ -233,6 +233,7 @@
                                         <DataGridTextColumn Binding="{Binding TransforPayment, StringFormat={}{0:#,0}}" Header="کرایه"></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding OrganizationPayment, StringFormat={}{0:#,0}}" Header="کمیسیون سازمان"></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding InsurancePayment, StringFormat={}{0:#,0}}" Header="کمیسیون بیمه"></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding ProductInsuranceNumber, StringFormat={}{0:#,0}}" Header="بیمه کالا"></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding TaxPayment, StringFormat={}{0:#,0}}" Header="کمیسون مالیات"></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding SubmittedUsername}" Header="نام کاربر"></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding UserCut, StringFormat={}{0:#,0}}" Header="کمیسیون کاربر"></DataGridTextColumn>
@@ -518,7 +519,7 @@
                                             <TextBlock x:Name="lblTotalExpenses" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource MaterialDesignBody}" Text="-" VerticalAlignment="Center"
                                                Margin="10,0"></TextBlock>
                                             <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="20,0,0,0" 
-                                               Text="مجموع درآمد خالص :" VerticalAlignment="Center"></TextBlock>
+                                               Text="مجموع سود خالص :" VerticalAlignment="Center"></TextBlock>
                                             <TextBlock x:Name="lblTotalIncomeWithExpenses" FontSize="14" FontWeight="SemiBold" 
                                                    Foreground="{DynamicResource MaterialDesignBody}" Text="-" VerticalAlignment="Center"
                                                Margin="10,0"></TextBlock>

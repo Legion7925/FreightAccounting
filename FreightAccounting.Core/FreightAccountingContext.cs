@@ -32,6 +32,13 @@ public class FreightAccountingContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
+        modelBuilder.Entity<Remittance>().HasIndex(r => r.RemittanceNumber);
+
+        modelBuilder.Entity<Debtor>().HasIndex(d => d.DriverFirstName);
+
+        modelBuilder.Entity<Debtor>().HasIndex(d => d.DriverLastName);
+
         modelBuilder.Entity<User>().HasData
         (
             new User {Id=1, NameAndFamily = "root", Username = "root", Password = PasswordHasher.HashPassword("123qwe!@#") }
