@@ -34,6 +34,7 @@ public partial class AddDebtorWindow : Window
             txtPhoneNumber.Text = debtorModel.PhoneNumber;
             txtPlate.PlateText = debtorModel.PlateNumber;
             txtDescription.Text = debtorModel.Description;
+            dpSubmitDate.SelectedDate = new Mohsen.PersianDate(debtorModel.SubmitDate);
         }
     }
 
@@ -61,7 +62,8 @@ public partial class AddDebtorWindow : Window
                     DebtAmount = Convert.ToInt64(txtDebtAmount.Text.Replace(",", "")),
                     PhoneNumber = txtPhoneNumber.Text.ToEnglishNumber(),
                     PlateNumber = txtPlate.PlateText,
-                    Description = txtDescription.Text
+                    Description = txtDescription.Text,
+                    SubmitDate = dpSubmitDate.SelectedDate.ToDateTime()
                 });
                 NotificationEventsManager.OnShowMessage("عملیات ویرایش با موفقیت انجام شد!", MessageTypeEnum.Success);
             }
@@ -76,6 +78,7 @@ public partial class AddDebtorWindow : Window
                     PhoneNumber = txtPhoneNumber.Text,
                     PlateNumber = txtPlate.PlateText.ToEnglishNumber(),
                     Description = txtDescription.Text,
+                    SubmitDate = dpSubmitDate.SelectedDate.ToDateTime()
                 });
                 NotificationEventsManager.OnShowMessage("بدهکار جدید با موفقیت اضافه شد!", MessageTypeEnum.Success);
             }

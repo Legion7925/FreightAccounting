@@ -21,4 +21,10 @@ public class RemittanceReportModel
     //جمع پورسانت کاربر یا کاربران
     public long SumUserCut { get; set; } 
 
+    //جمع بیمه کالا
+    public long SumProductInsurance { get; set; } 
+
+    //جمع کمیسیون سازمان
+    public long SumOrganizationPayment { get; set; } 
+
 }

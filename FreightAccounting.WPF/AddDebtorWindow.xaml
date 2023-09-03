@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FreightAccounting.WPF" 
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:controlplatetext="clr-namespace:ControlPlateText;assembly=ControlPlateText"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:controlplatetext="clr-namespace:ControlPlateText;assembly=ControlPlateText" xmlns:persianDateControls="clr-namespace:Mohsen.PersianDateControls;assembly=Mohsen.PersianDateControls"
         mc:Ignorable="d"
         Title="AddDebtorWindow" Width="auto" Height="auto" SizeToContent="WidthAndHeight" Grid.RowSpan="2" Panel.ZIndex="1" WindowStartupLocation="CenterScreen" WindowStyle="None"
         AllowsTransparency="True"  ResizeMode="NoResize" Background="Transparent" 
@@ -32,6 +32,7 @@
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="مقصد :" VerticalAlignment="Center" />
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="شماره تماس :" VerticalAlignment="Center" />
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="مبلغ بدهی :" VerticalAlignment="Center" />
+                                <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,25" Text="تاریخ ثبت :" VerticalAlignment="Center" />
                                 
                                 
                             </StackPanel>
@@ -57,6 +58,8 @@
                                 <TextBox x:Name="txtDebtAmount" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="0,17,0,10"  
                                          HorizontalAlignment="Left" InputScope="Number" TextChanged="txtDebtAmount_TextChanged"
                                          MaxLength="13"></TextBox>
+                                <persianDateControls:PersianDatePicker x:Name="dpSubmitDate" BorderBrush="Gray" VerticalAlignment="Center"
+                                                               Foreground="{DynamicResource MaterialDesignBody}" Margin="0,22,0,0" Height="30"/>
                             </StackPanel>
                         </Grid>
                         <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0,25,0,0">
@@ -67,7 +70,7 @@
                                  Foreground="{DynamicResource MaterialDesignBody}" Width="210"  VerticalAlignment="Center" TextWrapping="Wrap"
                                  Margin="10,5,0,5" AcceptsReturn="True" HorizontalScrollBarVisibility="Disabled" 
                                  VerticalScrollBarVisibility="Auto"
-                                 Height="90" BorderThickness="1"/>
+                                 Height="100" BorderThickness="1"/>
                         </StackPanel>
                     </StackPanel>
                 </Grid>

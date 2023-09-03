@@ -36,6 +36,11 @@ public class Debtor : BaseEntity
     public DateTime? PaymentDate { get; set; }
 
     /// <summary>
+    /// تاریخ ثبت
+    /// </summary>
+    public DateTime SubmitDate { get; set; }
+
+    /// <summary>
     /// پرداخت کرده یا نه اگر تاریخ پرداخت نال باشه این فالس میمونه
     /// اگر نال نباشه تورو میشه خود به خود
     /// </summary>

@@ -1,22 +1,17 @@
 ﻿using FreightAccounting.Core.Entities;
 using FreightAccounting.Core.Exception;
 using FreightAccounting.Core.Interfaces.Repositories;
-using FreightAccounting.Core.Model;
-using FreightAccounting.Core.Model.Common;
 using FreightAccounting.Core.Model.Debtors;
 using FreightAccounting.Core.Model.Expenses;
 using FreightAccounting.Core.Model.Remittances;
-using FreightAccounting.Core.Repositories;
 using FreightAccounting.WPF.Helper;
 using MaterialDesignColors;
 using MaterialDesignThemes.Wpf;
-using Microsoft.Xaml.Behaviors.Core;
 using PersianDate.Standard;
 using Stimulsoft.Report;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -33,15 +28,15 @@ public partial class MainWindow : Window
     private readonly IRemittanceRepository _remittanceRepository;
     private readonly IOperatorUserRepository _operatorUserRepository;
     private readonly IExpensesRepository _expensesRepository;
-    private IEnumerable<DebtorReportModel> debtorsList = new List<DebtorReportModel>();
     private static IEnumerable<OperatorUser> _userList = new List<OperatorUser>();
+
     private ExpensesReportModel expensesReportModel = new ExpensesReportModel();
     private RemittanceReportModel remittanceReportModel = new RemittanceReportModel();
-    private DebtorReportModel selectedDebtor = new DebtorReportModel();
-    //private RemittanceReportModel selectedRemitance = new RemittanceReportModel();
+    private DebtorReportModel debtorReportModel = new DebtorReportModel();
+
     private RemittanceEntityReportModel selectedRemittance = new RemittanceEntityReportModel() { RemittanceNumber = string.Empty };
     private ExpenseEntityReportModel selectedExpense = new ExpenseEntityReportModel();
-    //private int _selectedId;
+    private DebtorEntityReportModel selectedDebtor = new DebtorEntityReportModel();
 
     private bool? _debtorPaidFilter = null;
 
@@ -59,19 +54,21 @@ public partial class MainWindow : Window
         NotificationEventsManager.showMessage += ShowSnackbarMessage;
         CartableEventsManager.updateExpensesDatagrid += btnReportExpenses_Click!;
         CartableEventsManager.updateRemittanceDatagrid += btnReportRemitance_Click!;
-        CartableEventsManager.updateDebtorDatagrid += GetDebtorsReport!;
+        CartableEventsManager.updateDebtorDatagrid += btnGetDebtorsReport_Click!;
         CartableEventsManager.updateOperatorUserCombobox += FillOperatorUsersCombobox;
 
         dpExpensesReportStart.SelectedDate = Mohsen.PersianDate.Today.AddDays(-3);
         dpExpensesReportEnd.SelectedDate = Mohsen.PersianDate.Today;
         dpRemittanceStart.SelectedDate = Mohsen.PersianDate.Today.AddDays(-3);
         dpRemittanceEnd.SelectedDate = Mohsen.PersianDate.Today;
+        dpDebtorsStart.SelectedDate = Mohsen.PersianDate.Today.AddDays(-3);
+        dpDebtorsEnd.SelectedDate = Mohsen.PersianDate.Today;
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
         FillPaginationComboboxes();
-        GetDebtorsReport(null, null!);
+        btnGetDebtorsReport_Click(null!, null!);
         btnReportExpenses_Click(null!, null!);
         btnReportRemitance_Click(null!, null!);
         FillOperatorUsersCombobox(null , null!);
@@ -194,18 +191,19 @@ public partial class MainWindow : Window
 
     private double _debtorsTotalpage = 0;
 
-    private void GetDebtorsReport(object? sender, EventArgs e)
+    private void btnGetDebtorsReport_Click(object sender, RoutedEventArgs e)
     {
         try
         {
-            debtorsList = new List<DebtorReportModel>();
             dgDebtorsReport.ItemsSource = null;
 
-            _debtorsTotalCount = _debtorRepository.GetDebtorsReportCount(_debtorPaidFilter);
+            _debtorsTotalCount = _debtorRepository.GetDebtorsReportCount(_debtorPaidFilter , dpDebtorsStart.SelectedDate.ToDateTime(), dpDebtorsEnd.SelectedDate.ToDateTime());
 
             if (_debtorsTotalCount is 0)
             {
                 ShowSnackbarMessage("داده ای برای نمایش یافت نشد", MessageTypeEnum.Information);
+                dgDebtorsReport.ItemsSource = null;
+                lblTotalDebt.Text = "0";
                 return;
             }
             btnDebtorsFirstPage_Click(null!, null!);
@@ -270,16 +268,23 @@ public partial class MainWindow : Window
             btnDebtorsNextPage.IsEnabled = true;
         }
         lblDebtorsTotalCount.Text = _debtorsTotalCount.ToString();
-        lblDebtorsPageNumberInfo.Text = $"{((_debtorsPageIndex - 1) * _debtorsPageSize) + 1} - {((_debtorsPageIndex - 1) * _debtorsPageSize) + debtorsList.Count()}";
+        lblDebtorsPageNumberInfo.Text = $"{((_debtorsPageIndex - 1) * _debtorsPageSize) + 1} - {((_debtorsPageIndex - 1) * _debtorsPageSize) + debtorReportModel.DebtorsList.Count()}";
     }
 
     private void GetPaginatedDebtorsReport()
     {
         try
         {
-            debtorsList = _debtorRepository.GetDebtors(new DebtorsQueryParameters() { Page = _debtorsPageIndex, Size = _debtorsPageSize, Paid =  _debtorPaidFilter});
-
-            dgDebtorsReport.ItemsSource = debtorsList;
+            debtorReportModel = _debtorRepository.GetDebtors(new DebtorsQueryParameters() 
+            { 
+                Page = _debtorsPageIndex,
+                Size = _debtorsPageSize,
+                Paid =  _debtorPaidFilter,
+                StartDate = dpDebtorsStart.SelectedDate.ToDateTime(),
+                EndDate = dpDebtorsEnd.SelectedDate.ToDateTime()
+            });
+            lblTotalDebt.Text = debtorReportModel.TotalDebt.ToString("N0");
+            dgDebtorsReport.ItemsSource = debtorReportModel.DebtorsList;
         }
         catch (AppException ax)
         {
@@ -295,7 +300,7 @@ public partial class MainWindow : Window
     private void dgDebtorsReport_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
     {
         if (dgDebtorsReport.SelectedItems.Count > 0)
-            selectedDebtor = dgDebtorsReport.SelectedItem as DebtorReportModel ?? new DebtorReportModel();
+            selectedDebtor = dgDebtorsReport.SelectedItem as DebtorEntityReportModel ?? new DebtorEntityReportModel();
     }
 
     /// <summary>
@@ -312,15 +317,15 @@ public partial class MainWindow : Window
         {
             case 0:
                 _debtorPaidFilter = null;
-                GetDebtorsReport(null, null!);
+                btnGetDebtorsReport_Click(null!, null!);
                 break;
             case 1:
                 _debtorPaidFilter = true;
-                GetDebtorsReport(null, null!);
+                btnGetDebtorsReport_Click(null!, null!);
                 break;
             case 2:
                 _debtorPaidFilter = false;
-                GetDebtorsReport(null, null!);
+                btnGetDebtorsReport_Click(null!, null!);
                 break;
         }
     }
@@ -361,7 +366,8 @@ public partial class MainWindow : Window
             DriverLastName = selectedDebtor.DriverLastName,
             PlateNumber = selectedDebtor.PlateNumber,
             PhoneNumber = selectedDebtor.PhoneNumber,
-            Description = selectedDebtor.Description
+            Description = selectedDebtor.Description,
+            SubmitDate = selectedDebtor.SubmitDate,
         }).ShowDialog();
     }
     /// <summary>
@@ -385,7 +391,7 @@ public partial class MainWindow : Window
         {
             btnPrintDebtorsReport.IsEnabled = false;
             var report = _debtorRepository.GetDebtors(new DebtorsQueryParameters { Page = 1 , Size = int.MaxValue , Paid = null });
-            if (!report.Any())
+            if (!report.DebtorsList.Any())
             {
                 ShowSnackbarMessage("داده ای برای نمایش پرینت در این تاریخ موجود نیست", MessageTypeEnum.Information);
                 btnPrintDebtorsReport.IsEnabled = true;
@@ -395,7 +401,7 @@ public partial class MainWindow : Window
             var stiReport = new StiReport();
             StiOptions.Dictionary.BusinessObjects.MaxLevel = 1;
             stiReport.Load(@"Report\DebtorsReport.mrt");
-            stiReport.RegData("لیست بدهکاران", report);
+            stiReport.RegData("لیست بدهکاران", report.DebtorsList);
             stiReport.Show();
             btnPrintDebtorsReport.IsEnabled = true;
 
@@ -440,7 +446,7 @@ public partial class MainWindow : Window
     private void cmbDebtorsPaginationSize_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         txtSearchDebtorsByName.Text = string.Empty;
-        if (!debtorsList.Any())
+        if (!debtorReportModel.DebtorsList.Any())
             return;
         _debtorsPageIndex = 1;
         FillDebtorDatagrid(null, null);
@@ -454,15 +460,15 @@ public partial class MainWindow : Window
         {
             btnSearchDebtorsByName.IsEnabled = false;
 
-            debtorsList = _debtorRepository.GetDebtorsByName(txtSearchDebtorsByName.Text);
-            if(debtorsList.Any() is not true)
+            debtorReportModel = _debtorRepository.GetDebtorsByName(txtSearchDebtorsByName.Text);
+            if(debtorReportModel.DebtorsList.Any() is not true)
             {
                 dgDebtorsReport.ItemsSource = null;
                 ShowSnackbarMessage("داده ای برای نمایش یافت نشد", MessageTypeEnum.Information);
                 btnSearchDebtorsByName.IsEnabled = true;
                 return;
             }
-            dgDebtorsReport.ItemsSource = debtorsList;
+            dgDebtorsReport.ItemsSource = debtorReportModel.DebtorsList;
             btnSearchDebtorsByName.IsEnabled = true;
             gridDebtorsPagination.IsEnabled = false;
         }
@@ -488,7 +494,7 @@ public partial class MainWindow : Window
     private void btnRemoveFilterDebtors_Click(object sender, RoutedEventArgs e)
     {
         txtSearchDebtorsByName.Text = string.Empty;
-        GetDebtorsReport(null, null!);
+        btnGetDebtorsReport_Click(null!, null!);
     }
 
     #endregion Debtors
@@ -728,7 +734,7 @@ public partial class MainWindow : Window
 
     private void btnAddRemittance_Click(object sender, RoutedEventArgs e)
     {
-        new AddRemitance(_remittanceRepository, _operatorUserRepository, false, null, null).ShowDialog();
+        new AddRemitance(_remittanceRepository, _operatorUserRepository,_debtorRepository, false, null, null).ShowDialog();
     }
 
     private void btnReportRemitance_Click(object sender, RoutedEventArgs e)
@@ -755,6 +761,8 @@ public partial class MainWindow : Window
                 lblTotalTaxPayment.Text = "0";
                 lblTotalInsurancePayment.Text = "0";
                 lblTotalUserCut.Text = "0";
+                lblTotalOrganizationPayment.Text = "0";
+                lblTotalProductInsurace.Text = "0";
                 return;
             };
             btnRemitanceFirstPage_Click(null!, null!);
@@ -835,6 +843,8 @@ public partial class MainWindow : Window
             lblTotalTaxPayment.Text = remittanceReportModel.SumTaxPayment.ToString("N0");
             lblTotalNetPorfit.Text = remittanceReportModel.SumNetProfit.ToString("N0");
             lblTotalUserCut.Text = remittanceReportModel.SumUserCut.ToString("N0");
+            lblTotalProductInsurace.Text = remittanceReportModel.SumProductInsurance.ToString("N0");
+            lblTotalOrganizationPayment.Text = remittanceReportModel.SumOrganizationPayment.ToString("N0");
             //todo اگر نیاز است که جمه پورسانت کاربران نمایش داده شود اینجا باید استک پنل آن ویزیبل شود
             dgReport.ItemsSource = remittanceReportModel.Remittances;
         }
@@ -862,13 +872,13 @@ public partial class MainWindow : Window
 
     private void btnEditRemitance_Click(object sender, RoutedEventArgs e)
     {
-        new AddRemitance(_remittanceRepository, _operatorUserRepository, true, selectedRemittance.Id, new AddUpdateRemittanceModel
+        new AddRemitance(_remittanceRepository, _operatorUserRepository, _debtorRepository, true, selectedRemittance.Id, new AddUpdateRemittanceModel
         {
             RemittanceNumber = selectedRemittance.RemittanceNumber,
             InsurancePayment = selectedRemittance.InsurancePayment,
             OperatorUserId = selectedRemittance.OperatorUserId,
             OrganizationPayment = selectedRemittance.OrganizationPayment,
-            ProductInsuranceNumber = selectedRemittance.ProductInsuranceNumber,
+            ProductInsurancePayment = selectedRemittance.ProductInsurancePayment,
             ReceviedCommission = selectedRemittance.ReceviedCommission,
             SubmitDate = selectedRemittance.SubmitDate,
             TransforPayment = selectedRemittance.TransforPayment,

@@ -43,7 +43,7 @@ public class RemittanceRepository : IRemittanceRepository
                SubmitDate = r.SubmitDate,
                TaxPayment = r.TaxPayment,
                TransforPayment = r.TransforPayment,
-               ProductInsuranceNumber = r.ProductInsuranceNumber,
+               ProductInsurancePayment = r.ProductInsurancePayment,
                UserCut = r.UserCut
            });
 
@@ -81,7 +81,7 @@ public class RemittanceRepository : IRemittanceRepository
                 SubmitDate = r.SubmitDate,
                 TaxPayment = r.TaxPayment,
                 TransforPayment = r.TransforPayment,
-                ProductInsuranceNumber = r.ProductInsuranceNumber,
+                ProductInsurancePayment = r.ProductInsurancePayment,
                 UserCut = r.UserCut,
             });
 
@@ -99,6 +99,8 @@ public class RemittanceRepository : IRemittanceRepository
         remittanceReportModel.SumUserCut = remittanceList.Select(r => r.UserCut).Sum();
         remittanceReportModel.SumInsurancePayment = remittanceList.Select(r => r.InsurancePayment).Sum();
         remittanceReportModel.SumTaxPayment = remittanceList.Select(r => r.TaxPayment).Sum();
+        remittanceReportModel.SumProductInsurance = remittanceList.Select(r => r.ProductInsurancePayment).Sum();
+        remittanceReportModel.SumOrganizationPayment = remittanceList.Select(r => r.OrganizationPayment).Sum();
 
 
         remittanceList = remittanceList
@@ -132,7 +134,7 @@ public class RemittanceRepository : IRemittanceRepository
             SubmitDate = r.SubmitDate,
             TaxPayment = r.TaxPayment,
             TransforPayment = r.TransforPayment,
-            ProductInsuranceNumber = r.ProductInsuranceNumber,
+            ProductInsurancePayment = r.ProductInsurancePayment,
             UserCut = r.UserCut,
         });
         if (remittance is null)
@@ -161,7 +163,7 @@ public class RemittanceRepository : IRemittanceRepository
             TaxPayment = remittanceModel.TaxPayment,
             TransforPayment = remittanceModel.TransforPayment,
             SubmitDate = remittanceModel.SubmitDate,
-            ProductInsuranceNumber = remittanceModel.ProductInsuranceNumber,
+            ProductInsurancePayment = remittanceModel.ProductInsurancePayment,
         };
 
         await _context.Remittances.AddAsync(remittance);
@@ -202,7 +204,7 @@ public class RemittanceRepository : IRemittanceRepository
         remittance.TaxPayment = remittanceModel.TaxPayment;
         remittance.TransforPayment = remittanceModel.TransforPayment;
         remittance.SubmitDate = remittanceModel.SubmitDate;
-        remittance.ProductInsuranceNumber = remittanceModel.ProductInsuranceNumber;
+        remittance.ProductInsurancePayment = remittanceModel.ProductInsurancePayment;
 
 
         await _context.SaveChangesAsync();
@@ -247,7 +249,7 @@ public class RemittanceRepository : IRemittanceRepository
     private long CalculateTaxes(AddUpdateRemittanceModel remittanceModel)
     {
         var sum = remittanceModel.InsurancePayment +
-            remittanceModel.ProductInsuranceNumber +
+            remittanceModel.ProductInsurancePayment +
             remittanceModel.TaxPayment + remittanceModel.OrganizationPayment + remittanceModel.UserCut;
         return sum;
     }

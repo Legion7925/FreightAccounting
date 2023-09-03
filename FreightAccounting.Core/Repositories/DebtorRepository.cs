@@ -20,9 +20,10 @@ public class DebtorRepository : IDebtorRepository
     /// تعداد کل گزارش برای صفحه بندی
     /// </summary>
     /// <returns></returns>
-    public int GetDebtorsReportCount(bool? paid)
+    public int GetDebtorsReportCount(bool? paid, DateTime startDate, DateTime endDate)
     {
-        var debtors = _context.Debtors.AsNoTracking();
+        var debtors = _context.Debtors.AsNoTracking().Where(r => r.SubmitDate.Date >= startDate.Date
+           && r.SubmitDate.Date <= endDate.Date);
 
         if (paid is not null)
         {
@@ -43,56 +44,71 @@ public class DebtorRepository : IDebtorRepository
     /// لیست همه ی بدهکاران
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<DebtorReportModel> GetDebtors(DebtorsQueryParameters queryParameters)
+    public DebtorReportModel GetDebtors(DebtorsQueryParameters queryParameters)
     {
-        var debtors = _context.Debtors.AsNoTracking();
+        var debtorsList = _context.Debtors.AsNoTracking().Where(r => r.SubmitDate.Date >= queryParameters.StartDate.Date
+            && r.SubmitDate.Date <= queryParameters.EndDate.Date).Select(d => new DebtorEntityReportModel
+            {
+                Destination = d.Destination,
+                DriverFirstName = d.DriverFirstName,
+                DriverLastName = d.DriverLastName,
+                PlateNumber = d.PlateNumber,
+                PaymentDate = d.PaymentDate,
+                DebtAmount = d.DebtAmount,
+                Id = d.Id,
+                PhoneNumber = d.PhoneNumber,
+                Description = d.Description,
+                SubmitDate = d.SubmitDate,
+            });
 
         if (queryParameters.Paid is not null)
         {
             if (queryParameters.Paid.Value is true)
             {
-                debtors = debtors.Where(d => d.PaymentDate != null);
+                debtorsList = debtorsList.Where(d => d.PaymentDate != null);
             }
             else
             {
-                debtors = debtors.Where(d => d.PaymentDate == null);
+                debtorsList = debtorsList.Where(d => d.PaymentDate == null);
             }
         }
 
+        var debtorsReportModel = new DebtorReportModel();
+        debtorsReportModel.TotalDebt = debtorsList.Sum(d => d.DebtAmount);
 
-        debtors = debtors
-            .OrderByDescending(i => i.Id)
+        debtorsList = debtorsList
+           .OrderByDescending(i => i.SubmitDate)
             .Skip((queryParameters.Page - 1) * queryParameters.Size)
             .Take(queryParameters.Size);
 
-        return debtors.Select(d => new DebtorReportModel
-        {
-            Destination = d.Destination,
-            DriverFirstName = d.DriverFirstName,
-            DriverLastName = d.DriverLastName,
-            PlateNumber = d.PlateNumber,
-            PaymentDate = d.PaymentDate,
-            DebtAmount = d.DebtAmount,
-            Id = d.Id,
-            PhoneNumber = d.PhoneNumber,
-            Description = d.Description
-        }).ToList();
+        debtorsReportModel.DebtorsList = debtorsList.ToList();
+
+        return debtorsReportModel;
     }
 
-    public IEnumerable<DebtorReportModel> GetDebtorsByName(string searchedName)
+    public DebtorReportModel GetDebtorsByName(string searchedName)
     {
-        return _context.Debtors.AsNoTracking().Where(d => (d.DriverFirstName + d.DriverLastName).Contains(searchedName)).Select(d => new DebtorReportModel
+        var debtorsList = _context.Debtors.AsNoTracking()
+            .Where(d => (d.DriverFirstName + d.DriverLastName).Contains(searchedName))
+            .Select(d => new DebtorEntityReportModel
+            {
+                Destination = d.Destination,
+                DriverFirstName = d.DriverFirstName,
+                DriverLastName = d.DriverLastName,
+                PlateNumber = d.PlateNumber,
+                PaymentDate = d.PaymentDate,
+                DebtAmount = d.DebtAmount,
+                Id = d.Id,
+                PhoneNumber = d.PhoneNumber,
+                Description = d.Description,
+                SubmitDate = d.SubmitDate,
+            });
+
+        return new DebtorReportModel
         {
-            Destination = d.Destination,
-            DriverFirstName = d.DriverFirstName,
-            DriverLastName = d.DriverLastName,
-            PlateNumber = d.PlateNumber,
-            PaymentDate = d.PaymentDate,
-            DebtAmount = d.DebtAmount,
-            Id = d.Id,
-            PhoneNumber = d.PhoneNumber,    
-            Description = d.Description
-        }).ToList();
+            DebtorsList = debtorsList.OrderByDescending(d=>d.SubmitDate).ToList(),
+            TotalDebt = debtorsList.Sum(d => d.DebtAmount)
+        };
     }
 
     public async Task AddDebtor(AddUpdateDebtorModel debtorModel)
@@ -105,7 +121,8 @@ public class DebtorRepository : IDebtorRepository
             DriverFirstName = debtorModel.DriverFirstName,
             DebtAmount = debtorModel.DebtAmount,
             PhoneNumber = debtorModel.PhoneNumber,
-            Description = debtorModel.Description
+            Description = debtorModel.Description,
+            SubmitDate = debtorModel.SubmitDate,
         });
 
         await _context.SaveChangesAsync();
@@ -136,6 +153,7 @@ public class DebtorRepository : IDebtorRepository
         debtor.PhoneNumber = debtorModel.PhoneNumber;
         debtor.PlateNumber = debtorModel.PlateNumber;
         debtor.Description = debtorModel.Description;
+        debtor.SubmitDate = debtorModel.SubmitDate;
 
         await _context.SaveChangesAsync();
     }

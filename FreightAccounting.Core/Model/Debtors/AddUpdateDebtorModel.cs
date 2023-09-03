@@ -25,4 +25,8 @@ public class AddUpdateDebtorModel
     /// </summary>
     public string Description { get; set; } = string.Empty;
 
+    /// <summary>
+    /// تاریخ ثبت
+    /// </summary>
+    public DateTime SubmitDate { get; set; }
 }

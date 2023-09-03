@@ -2,6 +2,7 @@
 using FreightAccounting.Core.Exception;
 using FreightAccounting.Core.Interfaces.Repositories;
 using FreightAccounting.Core.Model.Remittances;
+using FreightAccounting.Core.Repositories;
 using FreightAccounting.WPF.Helper;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace FreightAccounting.WPF;
 public partial class AddRemitance : Window
 {
     private readonly IOperatorUserRepository _operatorUserRepository;
+    private readonly IDebtorRepository _debtorRepository;
     private readonly IRemittanceRepository _remittanceRepository;
     private bool _isEdit;
     private readonly int _remittanceId;
@@ -26,13 +28,18 @@ public partial class AddRemitance : Window
 
     private long _contentUserCut;
 
-    public AddRemitance(IRemittanceRepository remittanceRepository, IOperatorUserRepository operatorUserRepository,
-        bool isEdit, int? remitanceId, AddUpdateRemittanceModel? addUpdateRemittanceModel)
+    public AddRemitance(IRemittanceRepository remittanceRepository, 
+        IOperatorUserRepository operatorUserRepository,
+        IDebtorRepository debtorRepository,
+        bool isEdit, 
+        int? remitanceId,
+        AddUpdateRemittanceModel? addUpdateRemittanceModel)
     {
         InitializeComponent();
         CartableEventsManager.updateOperatorUserCombobox += GetUserList;
         _remittanceRepository = remittanceRepository;
         _operatorUserRepository = operatorUserRepository;
+        _debtorRepository = debtorRepository;
         _isEdit = isEdit;
         GetUserList(null! , null!);
 
@@ -93,7 +100,7 @@ public partial class AddRemitance : Window
             dpDate.SelectedDate = new Mohsen.PersianDate(addUpdateRemittanceModel.SubmitDate);
             //cbUserCut.SelectedIndex = addUpdateRemittanceModel.UserCut;
             //txtUserCut.Text = addUpdateRemittanceModel.UserCut.ToString();
-            txtProductInsurance.Text = addUpdateRemittanceModel.ProductInsuranceNumber.ToString(); //todo
+            txtProductInsurance.Text = addUpdateRemittanceModel.ProductInsurancePayment.ToString(); //todo
             txtReceviedCommission.Text = addUpdateRemittanceModel.ReceviedCommission.ToString();
             CalculateNetProfitAndTaxes(null!, null!);
         }
@@ -122,7 +129,7 @@ public partial class AddRemitance : Window
             {
                 await _remittanceRepository.UpdateRemittance(_remittanceId, new AddUpdateRemittanceModel
                 {
-                    ProductInsuranceNumber = Convert.ToInt64(txtProductInsurance.Text.Replace(",", "")),
+                    ProductInsurancePayment = Convert.ToInt64(txtProductInsurance.Text.Replace(",", "")),
                     RemittanceNumber = txtNumberRemmitance.Text,
                     TransforPayment = Convert.ToInt64(txtTranforPayment.Text.Replace(",", "")),
                     OrganizationPayment = Convert.ToInt64(txtOrganizationPayment.Text.Replace(",", "")),
@@ -147,7 +154,7 @@ public partial class AddRemitance : Window
                     SubmitDate = dpDate.SelectedDate.ToDateTime(),
                     OperatorUserId = ((KeyValuePair<int, string>)cbSubmitUser.SelectedItem).Key,
                     UserCut = _userCut,
-                    ProductInsuranceNumber = Convert.ToInt64(txtProductInsurance.Text.Replace(",", "")),
+                    ProductInsurancePayment = Convert.ToInt64(txtProductInsurance.Text.Replace(",", "")),
                     ReceviedCommission = Convert.ToInt64(txtReceviedCommission.Text.Replace(",", "")),
                 });
                 NotificationEventsManager.OnShowMessage("حواله جدید با موفقیت اضافه شد!", MessageTypeEnum.Success);
@@ -360,5 +367,11 @@ public partial class AddRemitance : Window
     {
         if (sender is null) return;
         AddCommaSeparators((TextBox)sender);
+    }
+
+    private void btnOpenAddDebtorWindow_Click(object sender, RoutedEventArgs e)
+    {
+        var addDebtorWindow = new AddDebtorWindow(_debtorRepository, false, null, null);
+        addDebtorWindow.ShowDialog();
     }
 }

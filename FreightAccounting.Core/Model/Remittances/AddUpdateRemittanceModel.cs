@@ -50,7 +50,7 @@ public class AddUpdateRemittanceModel
     /// <summary>
     /// شماره بیمه کالا
     /// </summary>
-    public long ProductInsuranceNumber { get; set; }
+    public long ProductInsurancePayment { get; set; }
 
 
 

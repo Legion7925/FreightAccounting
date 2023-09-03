@@ -95,9 +95,19 @@
                                 <TextBox x:Name="txtProductInsurance" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
                                          HorizontalAlignment="Left" MaxLength="13" TextChanged="CalculateNetProfitAndTaxes" PreviewTextInput="CheckTextboxForOnlyNumberInput"></TextBox>
 
-                                <TextBox x:Name="txtReceviedCommission" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox x:Name="txtReceviedCommission" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
                                          HorizontalAlignment="Left" MaxLength="13" InputScope="Number" TextChanged="CalculateNetProfitAndTaxes"
                                          PreviewTextInput="CheckTextboxForOnlyNumberInput"></TextBox>
+
+                                    <Button x:Name="btnOpenAddDebtorWindow" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
+                                            Height="25" Width="25"
+                                           Background="#4ccf60" BorderBrush="{x:Null}" HorizontalAlignment="Left" ToolTip="تولید شماره سند یکتا" VerticalAlignment="Bottom" 
+                                            Margin="7,0,0,2" Click="btnOpenAddDebtorWindow_Click">
+                                        <materialDesign:PackIcon Kind="Add"/>
+                                    </Button>
+
+                                </StackPanel>
 
                                 <TextBox x:Name="txtNetProfit" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,15,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15" TextChanged="txtNetProfit_TextChanged" IsReadOnly="True"></TextBox>
