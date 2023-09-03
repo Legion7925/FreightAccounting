@@ -4,6 +4,7 @@ using FreightAccounting.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FreightAccounting.Core.Migrations
 {
     [DbContext(typeof(FreightAccountingContext))]
-    partial class FreightAccountingContextModelSnapshot : ModelSnapshot
+    [Migration("20230903151216_AddedDescriptionFields")]
+    partial class AddedDescriptionFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -200,13 +203,6 @@ namespace FreightAccounting.Core.Migrations
                             NameAndFamily = "root",
                             Password = "113765b146867037b814a8ef1c2ec35d73bfb77c8d27a5f1a520099f5949cfaa",
                             Username = "root"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            NameAndFamily = "kaveh",
-                            Password = "1b19dec984a63114b8061b5a7d9a7be7d3515876f9d59763afdefe288be0b700",
-                            Username = "kaveh"
                         });
                 });
 

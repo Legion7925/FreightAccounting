@@ -24,6 +24,7 @@ namespace FreightAccounting.WPF
             txtInsurancePercentage.Text = AppSession.AppSettings.InsurancePercentage.ToString();
             txtTaxPercentage.Text = AppSession.AppSettings.TaxPercentage.ToString();
             txtOrganizationPercentage.Text = AppSession.AppSettings.OrganizationPercentage.ToString();
+            txtUserCutPercentage.Text = AppSession.AppSettings.UserCutPercentage.ToString();
         }
 
         private void btnSubmitSettings_Click(object sender, RoutedEventArgs e)
@@ -40,9 +41,10 @@ namespace FreightAccounting.WPF
 
             try
             {
-                AppSession.AppSettings.InsurancePercentage = Convert.ToInt32(txtInsurancePercentage.Text);
-                AppSession.AppSettings.TaxPercentage = Convert.ToInt32(txtTaxPercentage.Text);
-                AppSession.AppSettings.OrganizationPercentage = Convert.ToInt32(txtOrganizationPercentage.Text);
+                AppSession.AppSettings.InsurancePercentage = Convert.ToDouble(txtInsurancePercentage.Text);
+                AppSession.AppSettings.TaxPercentage = Convert.ToDouble(txtTaxPercentage.Text);
+                AppSession.AppSettings.OrganizationPercentage = Convert.ToDouble(txtOrganizationPercentage.Text);
+                AppSession.AppSettings.UserCutPercentage = Convert.ToDouble(txtUserCutPercentage.Text);
 
                 JsonSerializerSettings serilizerSetting = new JsonSerializerSettings();
                 serilizerSetting.NullValueHandling = NullValueHandling.Ignore;
@@ -77,9 +79,10 @@ namespace FreightAccounting.WPF
                 return false;
             }
 
-            if(!int.TryParse(txtInsurancePercentage.Text, out _) ||
-               !int.TryParse(txtTaxPercentage.Text, out _) ||
-               !int.TryParse(txtOrganizationPercentage.Text, out _))
+            if(!double.TryParse(txtInsurancePercentage.Text, out _) ||
+               !double.TryParse(txtTaxPercentage.Text, out _) ||
+               !double.TryParse(txtOrganizationPercentage.Text, out _) ||
+               !double.TryParse(txtUserCutPercentage.Text, out _))
             {
                 NotificationEventsManager.OnShowMessage("لطفا همه ی فیلد ها را با فرمت عددی وارد کنید!", MessageTypeEnum.Warning);
                 return false;

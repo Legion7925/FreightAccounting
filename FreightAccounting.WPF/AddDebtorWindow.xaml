@@ -32,6 +32,8 @@
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="مقصد :" VerticalAlignment="Center" />
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="شماره تماس :" VerticalAlignment="Center" />
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="مبلغ بدهی :" VerticalAlignment="Center" />
+                                
+                                
                             </StackPanel>
 
                             <StackPanel Grid.Column="1" Margin="5,0">
@@ -56,9 +58,17 @@
                                          HorizontalAlignment="Left" InputScope="Number" TextChanged="txtDebtAmount_TextChanged"
                                          MaxLength="13"></TextBox>
                             </StackPanel>
-
-
                         </Grid>
+                        <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0,25,0,0">
+                            <TextBlock Foreground="{DynamicResource MaterialDesignBody}"  Text="توضیحات :" VerticalAlignment="Center" />
+
+                            <TextBox Style="{DynamicResource MaterialDesignOutlinedTextBox}" 
+                                 x:Name="txtDescription"
+                                 Foreground="{DynamicResource MaterialDesignBody}" Width="210"  VerticalAlignment="Center" TextWrapping="Wrap"
+                                 Margin="10,5,0,5" AcceptsReturn="True" HorizontalScrollBarVisibility="Disabled" 
+                                 VerticalScrollBarVisibility="Auto"
+                                 Height="90" BorderThickness="1"/>
+                        </StackPanel>
                     </StackPanel>
                 </Grid>
 

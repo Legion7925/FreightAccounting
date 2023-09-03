@@ -33,6 +33,7 @@ public partial class AddDebtorWindow : Window
             txtDriverLastName.Text = debtorModel.DriverLastName;
             txtPhoneNumber.Text = debtorModel.PhoneNumber;
             txtPlate.PlateText = debtorModel.PlateNumber;
+            txtDescription.Text = debtorModel.Description;
         }
     }
 
@@ -59,7 +60,8 @@ public partial class AddDebtorWindow : Window
                     DriverLastName = txtDriverLastName.Text,
                     DebtAmount = Convert.ToInt64(txtDebtAmount.Text.Replace(",", "")),
                     PhoneNumber = txtPhoneNumber.Text.ToEnglishNumber(),
-                    PlateNumber = txtPlate.PlateText
+                    PlateNumber = txtPlate.PlateText,
+                    Description = txtDescription.Text
                 });
                 NotificationEventsManager.OnShowMessage("عملیات ویرایش با موفقیت انجام شد!", MessageTypeEnum.Success);
             }
@@ -72,7 +74,8 @@ public partial class AddDebtorWindow : Window
                     DriverLastName = txtDriverLastName.Text,
                     DebtAmount = Convert.ToInt64(txtDebtAmount.Text.Replace(",", "")),
                     PhoneNumber = txtPhoneNumber.Text,
-                    PlateNumber = txtPlate.PlateText.ToEnglishNumber()
+                    PlateNumber = txtPlate.PlateText.ToEnglishNumber(),
+                    Description = txtDescription.Text,
                 });
                 NotificationEventsManager.OnShowMessage("بدهکار جدید با موفقیت اضافه شد!", MessageTypeEnum.Success);
             }

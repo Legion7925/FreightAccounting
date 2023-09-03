@@ -101,6 +101,7 @@ public partial class AddRemitance : Window
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
+        cbUserCut.Items.Add(AppSession.AppSettings.UserCutPercentage);
     }
 
     private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -276,6 +277,10 @@ public partial class AddRemitance : Window
                 break;
             case 3:
                 _userCut = Convert.ToInt64(doubleTranforPayment * .05);
+                txtUserCut.Text = _userCut.ToString();
+                break;
+            case 4:
+                _userCut = Convert.ToInt64(doubleTranforPayment * (AppSession.AppSettings.UserCutPercentage / 100));
                 txtUserCut.Text = _userCut.ToString();
                 break;
         }

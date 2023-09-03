@@ -27,6 +27,16 @@
                         <persianDateControls:PersianDatePicker x:Name="dpExpense" BorderBrush="Gray" VerticalAlignment="Center" Height="28"
                                                                Foreground="{DynamicResource MaterialDesignBody}"/>
                     </StackPanel>
+                    <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0,25,0,0">
+                        <TextBlock Foreground="{DynamicResource MaterialDesignBody}"  Text="توضیحات :" VerticalAlignment="Center" />
+
+                        <TextBox Style="{DynamicResource MaterialDesignOutlinedTextBox}" 
+                                 x:Name="txtDescription"
+                                 Foreground="{DynamicResource MaterialDesignBody}" Width="435"  VerticalAlignment="Center" TextWrapping="Wrap"
+                                 Margin="10,5,0,5" AcceptsReturn="True" HorizontalScrollBarVisibility="Disabled" 
+                                 VerticalScrollBarVisibility="Auto"
+                                 Height="180" BorderThickness="1"/>
+                    </StackPanel>
                 </StackPanel>
             </Grid>
 

@@ -360,7 +360,8 @@ public partial class MainWindow : Window
             DriverFirstName = selectedDebtor.DriverFirstName,
             DriverLastName = selectedDebtor.DriverLastName,
             PlateNumber = selectedDebtor.PlateNumber,
-            PhoneNumber = selectedDebtor.PhoneNumber
+            PhoneNumber = selectedDebtor.PhoneNumber,
+            Description = selectedDebtor.Description
         }).ShowDialog();
     }
     /// <summary>
@@ -617,6 +618,7 @@ public partial class MainWindow : Window
         {
             ExpensesAmount = selectedExpense.ExpensesAmount,
             SubmitDate = selectedExpense.SubmitDate,
+            Description = selectedExpense.Description,
         }).ShowDialog();
     }
 

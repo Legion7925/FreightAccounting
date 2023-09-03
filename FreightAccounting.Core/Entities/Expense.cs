@@ -19,4 +19,10 @@ public class Expense : BaseEntity
     /// درآمد به دست آمده در روز
     /// </summary>
     public long Income { get; set; }
+
+    /// <summary>
+    /// توضیحات
+    /// </summary>
+    public string Description { get; set; } = string.Empty;
+
 }

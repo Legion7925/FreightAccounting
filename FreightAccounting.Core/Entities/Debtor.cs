@@ -9,6 +9,11 @@ public class Debtor : BaseEntity
     public string DriverLastName { get; set; } = string.Empty;
 
     /// <summary>
+    /// توضیحات
+    /// </summary>
+    public string Description { get; set; } = string.Empty;
+
+    /// <summary>
     /// مقصد
     /// </summary>
     public string Destination { get; set; } = string.Empty;

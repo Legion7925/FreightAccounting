@@ -19,4 +19,10 @@ public class AddUpdateDebtorModel
     /// مقدار بدهی
     /// </summary>
     public long DebtAmount { get; set; }
+
+    /// <summary>
+    /// توضیحات
+    /// </summary>
+    public string Description { get; set; } = string.Empty;
+
 }

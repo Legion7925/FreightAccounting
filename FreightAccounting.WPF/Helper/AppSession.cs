@@ -11,8 +11,8 @@ public static class AppSession
 
 public class AppSettings
 {
-    public int OrganizationPercentage { get; set; } = 9;
-    public int InsurancePercentage { get; set; } = 5;
-    public int TaxPercentage { get; set; } = 1;
-
+    public double OrganizationPercentage { get; set; } = 9;
+    public double InsurancePercentage { get; set; } = 5;
+    public double TaxPercentage { get; set; } = 1;
+    public double UserCutPercentage { get; set; } = 4;
 }

@@ -38,6 +38,7 @@ public class ExpensesRepository : IExpensesRepository
                SubmitDate = e.SubmitDate,
                ExpensesAmount = e.ExpensesAmount,
                Income = e.Income,
+               Description = e.Description
            });
 
 
@@ -64,7 +65,8 @@ public class ExpensesRepository : IExpensesRepository
         {
             ExpensesAmount = expenseModel.ExpensesAmount,
             SubmitDate = expenseModel.SubmitDate,
-            Income = submittedDateNetProfit - expenseModel.ExpensesAmount
+            Income = submittedDateNetProfit - expenseModel.ExpensesAmount,
+            Description = expenseModel.Description
         };
 
         await _context.Expenses.AddAsync(expense);
@@ -81,6 +83,7 @@ public class ExpensesRepository : IExpensesRepository
         expense.ExpensesAmount = expenseModel.ExpensesAmount;
         expense.SubmitDate = expenseModel.SubmitDate;
         expense.Income = submittedDateNetProfit - expenseModel.ExpensesAmount;
+        expense.Description = expenseModel.Description;
 
         await _context.SaveChangesAsync();
     }

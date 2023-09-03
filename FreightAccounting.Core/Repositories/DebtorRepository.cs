@@ -74,7 +74,8 @@ public class DebtorRepository : IDebtorRepository
             PaymentDate = d.PaymentDate,
             DebtAmount = d.DebtAmount,
             Id = d.Id,
-            PhoneNumber = d.PhoneNumber
+            PhoneNumber = d.PhoneNumber,
+            Description = d.Description
         }).ToList();
     }
 
@@ -89,7 +90,8 @@ public class DebtorRepository : IDebtorRepository
             PaymentDate = d.PaymentDate,
             DebtAmount = d.DebtAmount,
             Id = d.Id,
-            PhoneNumber = d.PhoneNumber,        
+            PhoneNumber = d.PhoneNumber,    
+            Description = d.Description
         }).ToList();
     }
 
@@ -103,6 +105,7 @@ public class DebtorRepository : IDebtorRepository
             DriverFirstName = debtorModel.DriverFirstName,
             DebtAmount = debtorModel.DebtAmount,
             PhoneNumber = debtorModel.PhoneNumber,
+            Description = debtorModel.Description
         });
 
         await _context.SaveChangesAsync();
@@ -132,6 +135,7 @@ public class DebtorRepository : IDebtorRepository
         debtor.DebtAmount = debtorModel.DebtAmount;
         debtor.PhoneNumber = debtorModel.PhoneNumber;
         debtor.PlateNumber = debtorModel.PlateNumber;
+        debtor.Description = debtorModel.Description;
 
         await _context.SaveChangesAsync();
     }

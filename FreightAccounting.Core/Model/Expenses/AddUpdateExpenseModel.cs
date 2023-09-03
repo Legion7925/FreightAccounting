@@ -11,4 +11,10 @@ public class AddUpdateExpenseModel
     /// تاریخ روز
     /// </summary>
     public DateTime SubmitDate { get; set; }
+
+    /// <summary>
+    /// توضیحات
+    /// </summary>
+    public string Description { get; set; } = string.Empty;
+
 }

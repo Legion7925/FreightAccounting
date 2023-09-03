@@ -81,6 +81,7 @@ public partial class App : Application
 
                 if (rootUserExists is not true)
                 {
+                    await dbContext.Users.AddAsync(new User { NameAndFamily = "kaveh", Password = PasswordHasher.HashPassword("@2205"), Username = "kaveh" });
                     await dbContext.Users.AddAsync(new User { NameAndFamily = "root", Password = PasswordHasher.HashPassword("123qwe!@#"), Username = "root" });
                     await dbContext.SaveChangesAsync();
                 }

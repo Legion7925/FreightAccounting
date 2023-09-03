@@ -28,6 +28,7 @@ public partial class AddExpenseWindow : Window
             this.expenseId = expenseId!.Value;
             txtExpensesAmount.Text = expenseModel!.ExpensesAmount.ToString();
             dpExpense.DisplayDate = new Mohsen.PersianDate(expenseModel.SubmitDate);
+            txtDescription.Text = expenseModel.Description;
         }
     }
 
@@ -51,6 +52,7 @@ public partial class AddExpenseWindow : Window
                 {
                     ExpensesAmount = Convert.ToInt64(txtExpensesAmount.Text.Replace(",", "")),
                     SubmitDate = dpExpense.SelectedDate.ToDateTime(),
+                    Description = txtDescription.Text
                 });
                 NotificationEventsManager.OnShowMessage("عملیات ویرایش با موفقیت انجام شد!", MessageTypeEnum.Success);
             }
@@ -60,6 +62,7 @@ public partial class AddExpenseWindow : Window
                 {
                     ExpensesAmount = Convert.ToInt64(txtExpensesAmount.Text.Replace(",", "")),
                     SubmitDate = dpExpense.SelectedDate.ToDateTime(),
+                    Description = txtDescription.Text
                 });
                 NotificationEventsManager.OnShowMessage("مورد جدید با موفقیت اضافه شد!", MessageTypeEnum.Success);
             }
