@@ -7,7 +7,7 @@
         xmlns:persianDateControls="clr-namespace:Mohsen.PersianDateControls;assembly=Mohsen.PersianDateControls"
         xmlns:local="clr-namespace:FreightAccounting.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="760" Width="1024" MinHeight="780" MinWidth="1064" WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="CanResizeWithGrip"
+        Title="MainWindow" Height="680" Width="1024" MinHeight="680" MinWidth="1064" WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="CanResizeWithGrip"
         WindowStyle="None" Background="Transparent" WindowState="Normal" Loaded="Window_Loaded" Closing="Window_Closing"
         FontFamily="./Resources/Fonts/samim-font-v4.0.5/Farsi-Digits/#Samim FD">
     <Window.Resources>

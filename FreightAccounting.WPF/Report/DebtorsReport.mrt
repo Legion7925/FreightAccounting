@@ -357,10 +357,16 @@
               <Parent isRef="14" />
               <Text>{لیست_بدهکاران.DebtAmount}</Text>
               <TextBrush>Black</TextBrush>
+              <TextFormat Ref="23" type="NumberFormat" isKey="true">
+                <DecimalDigits>0</DecimalDigits>
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <State>DecimalDigits</State>
+              </TextFormat>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <VertAlignment>Center</VertAlignment>
             </Dataلیست_بدهکاران_DebtAmount>
-            <Dataلیست_بدهکاران_PhoneNumber Ref="23" type="Text" isKey="true">
+            <Dataلیست_بدهکاران_PhoneNumber Ref="24" type="Text" isKey="true">
               <Border>Top, Right, Bottom;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
@@ -378,7 +384,7 @@
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <VertAlignment>Center</VertAlignment>
             </Dataلیست_بدهکاران_PhoneNumber>
-            <Dataلیست_بدهکاران_PaidTranslate Ref="24" type="Text" isKey="true">
+            <Dataلیست_بدهکاران_PaidTranslate Ref="25" type="Text" isKey="true">
               <Border>Top, Right, Bottom;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
@@ -396,7 +402,7 @@
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <VertAlignment>Center</VertAlignment>
             </Dataلیست_بدهکاران_PaidTranslate>
-            <Dataلیست_بدهکاران_PaymentDateFa Ref="25" type="Text" isKey="true">
+            <Dataلیست_بدهکاران_PaymentDateFa Ref="26" type="Text" isKey="true">
               <Border>All;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
@@ -447,9 +453,9 @@
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>8/30/2023 1:01:23 PM</ReportChanged>
+  <ReportChanged>9/3/2023 3:08:30 PM</ReportChanged>
   <ReportCreated>8/30/2023 11:48:24 AM</ReportCreated>
-  <ReportGuid>cca3c61fe6ca40d28fc40d3f9a3837f4</ReportGuid>
+  <ReportGuid>bba69e5ad4bd4bd1b3b0cba4c1c5a542</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2023.1.1.0</ReportVersion>
