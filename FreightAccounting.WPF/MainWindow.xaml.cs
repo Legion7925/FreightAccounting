@@ -463,11 +463,13 @@ public partial class MainWindow : Window
             debtorReportModel = _debtorRepository.GetDebtorsByName(txtSearchDebtorsByName.Text);
             if(debtorReportModel.DebtorsList.Any() is not true)
             {
+                lblTotalDebt.Text = "0";
                 dgDebtorsReport.ItemsSource = null;
                 ShowSnackbarMessage("داده ای برای نمایش یافت نشد", MessageTypeEnum.Information);
                 btnSearchDebtorsByName.IsEnabled = true;
                 return;
             }
+            lblTotalDebt.Text = debtorReportModel.TotalDebt.ToString("N0");
             dgDebtorsReport.ItemsSource = debtorReportModel.DebtorsList;
             btnSearchDebtorsByName.IsEnabled = true;
             gridDebtorsPagination.IsEnabled = false;
