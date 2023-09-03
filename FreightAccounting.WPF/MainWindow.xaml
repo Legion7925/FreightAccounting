@@ -203,7 +203,7 @@
                                             </StackPanel>
 
                                             <StackPanel Orientation="Horizontal" Margin="10,0">
-                                                <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="جست و جو حواله :" VerticalAlignment="Center"></TextBlock>
+                                                <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="جست و جو با شماره حواله :" VerticalAlignment="Center"></TextBlock>
                                                 <TextBox x:Name="txtSearchRemitanceById" Width="70" Margin="5,5,5,10"
                                                   FlowDirection="RightToLeft" Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Center"></TextBox>
 

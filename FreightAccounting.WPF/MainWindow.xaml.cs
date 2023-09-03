@@ -438,6 +438,7 @@ public partial class MainWindow : Window
 
     private void cmbDebtorsPaginationSize_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+        txtSearchDebtorsByName.Text = string.Empty;
         if (!debtorsList.Any())
             return;
         _debtorsPageIndex = 1;
@@ -925,6 +926,9 @@ public partial class MainWindow : Window
 
     private void cmbRemitancePaginationSize_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+        stpUserCut.Visibility = Visibility.Collapsed;
+        txtSearchRemitanceById.Text = string.Empty;
+        cbUserFilter.Text = string.Empty;
         if (!remittanceReportModel.Remittances.Any())
             return;
         _remitancePageIndex = 1;
