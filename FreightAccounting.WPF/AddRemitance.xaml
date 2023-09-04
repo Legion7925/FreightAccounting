@@ -16,7 +16,8 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
-                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="18.774" />
+                    <RowDefinition Height="41.226"/>
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0">
@@ -29,7 +30,7 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <StackPanel>
-                                <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="شماره حواله :" VerticalAlignment="Center" />
+                                <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="شماره بارنامه :" VerticalAlignment="Center" />
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="کرایه راننده :" VerticalAlignment="Center" />
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="هزینه سازمان :" VerticalAlignment="Center" />
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="هزینه بیمه :" VerticalAlignment="Center" />
@@ -54,7 +55,7 @@
 
                                 <persianDateControls:PersianDatePicker x:Name="dpDate" BorderBrush="Gray" VerticalAlignment="Center"
                                                                Foreground="{DynamicResource MaterialDesignBody}" Margin="0,22,0,0"/>
-                                
+
                             </StackPanel>
 
                             <StackPanel Grid.Column="2" Margin="5,0">
@@ -116,7 +117,7 @@
                     </StackPanel>
                 </Grid>
 
-                <Grid Grid.Row="1">
+                <Grid Margin="0,335,0,0" Grid.RowSpan="3">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" FlowDirection="RightToLeft" Margin="5,15">
                         <Button x:Name="btnCancel" Content="{materialDesign:PackIcon Kind=Close}" Margin="7,0" Background="Transparent"
                                     Foreground="#FFC31F35" BorderBrush="#FFC31F35" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="30" Width="30" ToolTip="انصراف"
@@ -124,7 +125,7 @@
 
                         <Button x:Name="btnSubmit" Content="{materialDesign:PackIcon Kind=Check}" Background="Transparent"
                                 Foreground="#FF26A952" BorderBrush="#FF26A952" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
-                                        Height="30" Width="30" ToolTip="ثبت تخلیه" Click="btnSubmit_Click"></Button>
+                                        Height="30" Width="30" ToolTip="ثبت بارنامه" Click="btnSubmit_Click"></Button>
                     </StackPanel>
                 </Grid>
             </Grid>
