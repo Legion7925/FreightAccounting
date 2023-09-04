@@ -402,6 +402,12 @@ public partial class MainWindow : Window
             StiOptions.Dictionary.BusinessObjects.MaxLevel = 1;
             stiReport.Load(@"Report\DebtorsReport.mrt");
             stiReport.RegData("لیست بدهکاران", report.DebtorsList);
+            stiReport.RegData("مجموع بدهکاری", report.TotalDebt);
+            stiReport.RegData("تاریخ گزارش", new
+            {
+                تاریخ_شروع = dpDebtorsStart.SelectedDate.ToDateTime().ToFa(),
+                تاریخ_پایان = dpDebtorsEnd.SelectedDate.ToDateTime().ToFa(),
+            });
             stiReport.Show();
             btnPrintDebtorsReport.IsEnabled = true;
 
@@ -1003,7 +1009,9 @@ public partial class MainWindow : Window
                 report.SumNetProfit,
                 report.SumInsurancePayment,
                 report.SumTaxPayment,
-                report.SumUserCut
+                report.SumUserCut,
+                report.SumOrganizationPayment,
+                report.SumProductInsurance
             });
             stiReport.Show();
             btnPrintRemitanceReport.IsEnabled = true;

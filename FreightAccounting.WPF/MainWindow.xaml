@@ -244,7 +244,7 @@
                                         <DataGridTextColumn Binding="{Binding TransforPayment, StringFormat={}{0:#,0}}" Header="کرایه"></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding OrganizationPayment, StringFormat={}{0:#,0}}" Header="کمیسیون سازمان"></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding InsurancePayment, StringFormat={}{0:#,0}}" Header="کمیسیون بیمه"></DataGridTextColumn>
-                                        <DataGridTextColumn Binding="{Binding ProductInsuranceNumber, StringFormat={}{0:#,0}}" Header="بیمه کالا"></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding ProductInsurancePayment, StringFormat={}{0:#,0}}" Header="بیمه کالا"></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding TaxPayment, StringFormat={}{0:#,0}}" Header="کمیسون مالیات"></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding SubmittedUsername}" Header="نام کاربر"></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding UserCut, StringFormat={}{0:#,0}}" Header="کمیسیون کاربر"></DataGridTextColumn>
