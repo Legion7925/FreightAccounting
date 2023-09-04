@@ -390,7 +390,14 @@ public partial class MainWindow : Window
         try
         {
             btnPrintDebtorsReport.IsEnabled = false;
-            var report = _debtorRepository.GetDebtors(new DebtorsQueryParameters { Page = 1 , Size = int.MaxValue , Paid = null });
+            var report = _debtorRepository.GetDebtors(new DebtorsQueryParameters 
+            { 
+                Page = 1 , 
+                Size = int.MaxValue ,
+                Paid = null,
+                StartDate = dpDebtorsStart.SelectedDate.ToDateTime(),
+                EndDate = dpDebtorsEnd.SelectedDate.ToDateTime()
+            });
             if (!report.DebtorsList.Any())
             {
                 ShowSnackbarMessage("داده ای برای نمایش پرینت در این تاریخ موجود نیست", MessageTypeEnum.Information);
