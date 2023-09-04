@@ -21,10 +21,10 @@ namespace FreightAccounting.WPF
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            txtInsurancePercentage.Text = AppSession.AppSettings.InsurancePercentage.ToString();
-            txtTaxPercentage.Text = AppSession.AppSettings.TaxPercentage.ToString();
-            txtOrganizationPercentage.Text = AppSession.AppSettings.OrganizationPercentage.ToString();
-            txtUserCutPercentage.Text = AppSession.AppSettings.UserCutPercentage.ToString();
+            txtInsurancePercentage.Text = (AppSession.AppSettings.InsurancePercentage * 10).ToString();
+            txtTaxPercentage.Text = (AppSession.AppSettings.TaxPercentage * 10).ToString();
+            txtOrganizationPercentage.Text = (AppSession.AppSettings.OrganizationPercentage * 10).ToString();
+            txtUserCutPercentage.Text = (AppSession.AppSettings.UserCutPercentage * 10).ToString();
         }
 
         private void btnSubmitSettings_Click(object sender, RoutedEventArgs e)
@@ -41,10 +41,10 @@ namespace FreightAccounting.WPF
 
             try
             {
-                AppSession.AppSettings.InsurancePercentage = Convert.ToDouble(txtInsurancePercentage.Text);
-                AppSession.AppSettings.TaxPercentage = Convert.ToDouble(txtTaxPercentage.Text);
-                AppSession.AppSettings.OrganizationPercentage = Convert.ToDouble(txtOrganizationPercentage.Text);
-                AppSession.AppSettings.UserCutPercentage = Convert.ToDouble(txtUserCutPercentage.Text);
+                AppSession.AppSettings.InsurancePercentage = Convert.ToDouble(txtInsurancePercentage.Text) / 10;
+                AppSession.AppSettings.TaxPercentage = Convert.ToDouble(txtTaxPercentage.Text) / 10;
+                AppSession.AppSettings.OrganizationPercentage = Convert.ToDouble(txtOrganizationPercentage.Text) / 10;
+                AppSession.AppSettings.UserCutPercentage = Convert.ToDouble(txtUserCutPercentage.Text) / 10;
 
                 JsonSerializerSettings serilizerSetting = new JsonSerializerSettings();
                 serilizerSetting.NullValueHandling = NullValueHandling.Ignore;
@@ -79,7 +79,7 @@ namespace FreightAccounting.WPF
                 return false;
             }
 
-            if(!double.TryParse(txtInsurancePercentage.Text, out _) ||
+            if (!double.TryParse(txtInsurancePercentage.Text, out _) ||
                !double.TryParse(txtTaxPercentage.Text, out _) ||
                !double.TryParse(txtOrganizationPercentage.Text, out _) ||
                !double.TryParse(txtUserCutPercentage.Text, out _))

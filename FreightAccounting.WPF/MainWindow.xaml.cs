@@ -196,6 +196,7 @@ public partial class MainWindow : Window
         try
         {
             dgDebtorsReport.ItemsSource = null;
+            txtSearchDebtorsByName.Text = string.Empty;
 
             _debtorsTotalCount = _debtorRepository.GetDebtorsReportCount(_debtorPaidFilter , dpDebtorsStart.SelectedDate.ToDateTime(), dpDebtorsEnd.SelectedDate.ToDateTime());
 

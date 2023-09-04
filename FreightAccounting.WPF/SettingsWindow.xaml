@@ -19,6 +19,9 @@
 
             <Grid Grid.Row="0">
                 <StackPanel Margin="15" FlowDirection="RightToLeft">
+                    <TextBlock FontSize="14" Text="* برای وارد کردن اعداد ، درصد مورد نظر را در 10 ضرب نمایید"
+                               FontWeight="Bold" Foreground="#FFD43B3B"></TextBlock>
+                    <Separator Background="#FFA0A0A0" Margin="0,10"/>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="درصد هزینه سازمان : " VerticalAlignment="Center"></TextBlock>
                         <TextBox x:Name="txtOrganizationPercentage" Foreground="{DynamicResource MaterialDesignBody}" Width="50" Margin="10,0"></TextBox>
