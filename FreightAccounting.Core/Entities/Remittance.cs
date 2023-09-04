@@ -63,5 +63,10 @@ public class Remittance : BaseEntity
     /// </summary>
     public DateTime SubmitDate { get; set; }
 
+    /// <summary>
+    /// آیا پورسانت کاربر دستی وارد شده است یا خیر
+    /// </summary>
+    public bool IsUserCutEnteredByHand { get; set; }
+
     public OperatorUser? OperatorUser { get; set; }
 }

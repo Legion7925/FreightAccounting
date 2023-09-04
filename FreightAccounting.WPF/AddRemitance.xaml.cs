@@ -25,13 +25,12 @@ public partial class AddRemitance : Window
     private readonly int _remittanceId;
     private static IEnumerable<OperatorUser> _userList = new List<OperatorUser>();
     private long _userCut;
-
     private long _contentUserCut;
 
-    public AddRemitance(IRemittanceRepository remittanceRepository, 
+    public AddRemitance(IRemittanceRepository remittanceRepository,
         IOperatorUserRepository operatorUserRepository,
         IDebtorRepository debtorRepository,
-        bool isEdit, 
+        bool isEdit,
         int? remitanceId,
         AddUpdateRemittanceModel? addUpdateRemittanceModel)
     {
@@ -41,22 +40,31 @@ public partial class AddRemitance : Window
         _operatorUserRepository = operatorUserRepository;
         _debtorRepository = debtorRepository;
         _isEdit = isEdit;
-        GetUserList(null! , null!);
+        GetUserList(null!, null!);
 
         if (_isEdit)
         {
+            //اگر مقدار دستی وارد شده نمیخواد محاسباتی انجام بشه برای درصد پورسانت
+            if (addUpdateRemittanceModel!.IsUserCutEnteredByHand)
+            {
+                cbxUserCutPercentage.IsChecked = true;
+                txtUserCut.IsReadOnly = false;
+                txtUserCut.Text = addUpdateRemittanceModel.UserCut.ToString();
+                goto AfterUserCutCalculation;
+            }
+
             if (addUpdateRemittanceModel!.UserCut == 1)
             {
                 _contentUserCut = 1;
             }
-            else if(addUpdateRemittanceModel!.UserCut == 0)
+            else if (addUpdateRemittanceModel!.UserCut == 0)
             {
                 _contentUserCut = 0;
             }
             else
             {
                 var o = addUpdateRemittanceModel!.UserCut * 100 / addUpdateRemittanceModel.TransforPayment;
-                if(o == 0)
+                if (o == 0)
                 {
                     _contentUserCut = 1;
                 }
@@ -66,36 +74,28 @@ public partial class AddRemitance : Window
                 }
             }
 
-            var selectedUser = _userList.FirstOrDefault(u => u.Id == addUpdateRemittanceModel.OperatorUserId);
-            cbSubmitUser.SelectedItem = new KeyValuePair<int, string>(selectedUser!.Id, selectedUser.Name + " " + selectedUser.Family);
             switch (_contentUserCut)
             {
                 case 0:
-                    txtUserCut.Text = 0.ToString();
                     cbUserCut.SelectedIndex = 0;
-                    _userCut = 0;
                     break;
                 case 1:
                     cbUserCut.SelectedIndex = 1;
-                    txtUserCut.Text = (addUpdateRemittanceModel.TransforPayment / 200).ToString();
-                    _userCut = addUpdateRemittanceModel.TransforPayment / 200;
                     break;
                 case 3:
                     cbUserCut.SelectedIndex = 2;
-                    txtUserCut.Text = (addUpdateRemittanceModel.TransforPayment * 3 / 100).ToString();
-                    _userCut = addUpdateRemittanceModel.TransforPayment * 3 / 100;
                     break;
                 case 5:
                     cbUserCut.SelectedIndex = 3;
-                    txtUserCut.Text = (addUpdateRemittanceModel.TransforPayment * 5 / 100).ToString();
-                    _userCut = addUpdateRemittanceModel.TransforPayment * 5 / 100;
                     break;
                 default:
                     cbUserCut.SelectedIndex = 4;
-                    txtUserCut.Text = (addUpdateRemittanceModel.TransforPayment * _contentUserCut / 100).ToString();
-                    _userCut = addUpdateRemittanceModel.TransforPayment * _contentUserCut / 100;
                     break;
             }
+
+        AfterUserCutCalculation:
+            var selectedUser = _userList.FirstOrDefault(u => u.Id == addUpdateRemittanceModel.OperatorUserId);
+            cbSubmitUser.SelectedItem = new KeyValuePair<int, string>(selectedUser!.Id, selectedUser.Name + " " + selectedUser.Family);
             _remittanceId = remitanceId!.Value;
             txtNumberRemmitance.Text = addUpdateRemittanceModel!.RemittanceNumber;
             txtTranforPayment.Text = addUpdateRemittanceModel.TransforPayment.ToString();
@@ -103,11 +103,8 @@ public partial class AddRemitance : Window
             txtInsurancePayment.Text = addUpdateRemittanceModel.InsurancePayment.ToString();
             txtTaxPayment.Text = addUpdateRemittanceModel.TaxPayment.ToString();
             dpDate.SelectedDate = new Mohsen.PersianDate(addUpdateRemittanceModel.SubmitDate);
-            //cbUserCut.SelectedIndex = addUpdateRemittanceModel.UserCut;
-            //txtUserCut.Text = addUpdateRemittanceModel.UserCut.ToString();
             txtProductInsurance.Text = addUpdateRemittanceModel.ProductInsurancePayment.ToString(); //todo
             txtReceviedCommission.Text = addUpdateRemittanceModel.ReceviedCommission.ToString();
-            CalculateNetProfitAndTaxes(null!, null!);
         }
     }
 
@@ -142,8 +139,9 @@ public partial class AddRemitance : Window
                     TaxPayment = Convert.ToInt64(txtTaxPayment.Text.Replace(",", "")),
                     SubmitDate = dpDate.SelectedDate.ToDateTime(),
                     OperatorUserId = ((KeyValuePair<int, string>)cbSubmitUser.SelectedItem).Key,
-                    UserCut = _userCut,
-                    ReceviedCommission = Convert.ToInt64(txtReceviedCommission.Text.Replace(",", ""))
+                    UserCut = Convert.ToInt64(txtUserCut.Text.Replace(",", "")),
+                    ReceviedCommission = Convert.ToInt64(txtReceviedCommission.Text.Replace(",", "")),
+                    IsUserCutEnteredByHand = cbxUserCutPercentage?.IsChecked ?? false
                 });
                 NotificationEventsManager.OnShowMessage("عملیات ویرایش با موفقیت انجام شد!", MessageTypeEnum.Success);
             }
@@ -158,9 +156,10 @@ public partial class AddRemitance : Window
                     TaxPayment = Convert.ToInt64(txtTaxPayment.Text.Replace(",", "")),
                     SubmitDate = dpDate.SelectedDate.ToDateTime(),
                     OperatorUserId = ((KeyValuePair<int, string>)cbSubmitUser.SelectedItem).Key,
-                    UserCut = _userCut,
+                    UserCut = Convert.ToInt64(txtUserCut.Text.Replace(",", "")),
                     ProductInsurancePayment = Convert.ToInt64(txtProductInsurance.Text.Replace(",", "")),
                     ReceviedCommission = Convert.ToInt64(txtReceviedCommission.Text.Replace(",", "")),
+                    IsUserCutEnteredByHand = cbxUserCutPercentage?.IsChecked ?? false
                 });
                 NotificationEventsManager.OnShowMessage("حواله جدید با موفقیت اضافه شد!", MessageTypeEnum.Success);
             }
@@ -182,7 +181,7 @@ public partial class AddRemitance : Window
         }
     }
 
-    private void GetUserList(object? sender , EventArgs e)
+    private void GetUserList(object? sender, EventArgs e)
     {
         try
         {
@@ -250,28 +249,56 @@ public partial class AddRemitance : Window
 
     private void cbUserCut_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        CalculateNetProfitAndTaxes(null!, null!);
+        if (!cbxUserCutPercentage?.IsChecked ?? false)
+            CalculateUserCut();
+
+        CalculateNetProfitAndTaxes();
     }
 
-    //private void txtTranforPayment_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-    //{
-    //    var doubleTranforPayment = Convert.ToInt32(txtTranforPayment.Text);
-    //    var organizationPayment = AppSession.AppSettings.OrganizationPercentage * doubleTranforPayment / 100;
-    //    txtOrganizationPayment.Text = organizationPayment.ToString();
-    //    var taxPayment = AppSession.AppSettings.TaxPercentage * doubleTranforPayment / 100;
-    //    txtTaxPayment.Text = taxPayment.ToString();
-    //    var insurePayment = AppSession.AppSettings.InsurancePercentage * doubleTranforPayment / 100;
-    //    txtInsurancePayment.Text = insurePayment.ToString();
-    //}
-
-    private void CalculateNetProfitAndTaxes(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    private void CalculateInputs(object sender, TextChangedEventArgs e)
     {
         AddCommaSeparators((TextBox?)sender);
 
+        CalculateNetProfitAndTaxes();
+
+        if (!cbxUserCutPercentage?.IsChecked ?? false)
+            CalculateUserCut();
+    }
+
+    private void CalculateNetProfitAndTaxes()
+    {
         if (string.IsNullOrWhiteSpace(txtTranforPayment.Text))
             return;
 
         var doubleTranforPayment = double.Parse(txtTranforPayment.Text.Replace(",", ""));
+
+        var organizationPayment = AppSession.AppSettings.OrganizationPercentage * doubleTranforPayment / 100;
+        txtOrganizationPayment.Text = organizationPayment.ToString();
+
+        var taxPayment = AppSession.AppSettings.TaxPercentage * doubleTranforPayment / 100;
+        txtTaxPayment.Text = taxPayment.ToString();
+
+        var insurePayment = AppSession.AppSettings.InsurancePercentage * doubleTranforPayment / 100;
+        txtInsurancePayment.Text = insurePayment.ToString();
+
+        if (string.IsNullOrWhiteSpace(txtProductInsurance.Text.Replace(",", "")))
+            return;
+        var productInsurance = long.Parse(txtProductInsurance.Text.Replace(",", ""));
+        var totalPayment = organizationPayment + taxPayment + insurePayment + productInsurance + _userCut;
+
+        if (string.IsNullOrWhiteSpace(txtReceviedCommission.Text.Replace(",", "")))
+            return;
+        var receveComision = long.Parse(txtReceviedCommission.Text.Replace(",", ""));
+        txtNetProfit.Text = (receveComision - totalPayment).ToString();
+    }
+
+    private void CalculateUserCut()
+    {
+        if (string.IsNullOrWhiteSpace(txtTranforPayment.Text))
+            return;
+
+        var doubleTranforPayment = double.Parse(txtTranforPayment.Text.Replace(",", ""));
+
         switch (cbUserCut.SelectedIndex)
         {
             case 0:
@@ -296,26 +323,6 @@ public partial class AddRemitance : Window
                 txtUserCut.Text = _userCut.ToString();
                 break;
         }
-
-        var organizationPayment = AppSession.AppSettings.OrganizationPercentage * doubleTranforPayment / 100;
-        txtOrganizationPayment.Text = organizationPayment.ToString();
-
-        var taxPayment = AppSession.AppSettings.TaxPercentage * doubleTranforPayment / 100;
-        txtTaxPayment.Text = taxPayment.ToString();
-
-        var insurePayment = AppSession.AppSettings.InsurancePercentage * doubleTranforPayment / 100;
-        txtInsurancePayment.Text = insurePayment.ToString();
-
-        if (string.IsNullOrWhiteSpace(txtProductInsurance.Text.Replace(",", "")))
-            return;
-        var productInsurance = long.Parse(txtProductInsurance.Text.Replace(",", ""));
-        var totalPayment = organizationPayment + taxPayment + insurePayment + productInsurance + _userCut;
-
-        if (string.IsNullOrWhiteSpace(txtReceviedCommission.Text.Replace(",", "")))
-            return;
-        var receveComision = long.Parse(txtReceviedCommission.Text.Replace(",", ""));
-        txtNetProfit.Text = (receveComision - totalPayment).ToString();
-
 
     }
 
@@ -364,6 +371,11 @@ public partial class AddRemitance : Window
 
     private void txtUserCut_TextChanged(object sender, TextChangedEventArgs e)
     {
+        if(cbxUserCutPercentage?.IsChecked ?? false)
+        {
+            _userCut = Convert.ToInt64(txtUserCut.Text.Replace(",", ""));
+            CalculateNetProfitAndTaxes();
+        }
         if (sender is null) return;
         AddCommaSeparators((TextBox)sender);
     }
@@ -378,5 +390,18 @@ public partial class AddRemitance : Window
     {
         var addDebtorWindow = new AddDebtorWindow(_debtorRepository, false, null, null);
         addDebtorWindow.ShowDialog();
+    }
+
+    private void cbxUserCutPercentage_Checked(object sender, RoutedEventArgs e)
+    {
+        cbUserCut.SelectedIndex = 0;
+        cbUserCut.IsEnabled = false;
+        txtUserCut.IsReadOnly = false;
+    }
+
+    private void cbxUserCutPercentage_Unchecked(object sender, RoutedEventArgs e)
+    {
+        cbUserCut.IsEnabled = true;
+        txtUserCut.IsReadOnly = true;
     }
 }

@@ -42,7 +42,7 @@
                                 <TextBox x:Name="txtNumberRemmitance" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,15,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15"></TextBox>
                                 <TextBox x:Name="txtTranforPayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,15,0,10"  
-                                         HorizontalAlignment="Left" MaxLength="13" InputScope="Number" TextChanged="CalculateNetProfitAndTaxes"
+                                         HorizontalAlignment="Left" MaxLength="13" InputScope="Number" TextChanged="CalculateInputs"
                                          PreviewTextInput="CheckTextboxForOnlyNumberInput"></TextBox>
 
                                 <TextBox x:Name="txtOrganizationPayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,15,0,10"  
@@ -81,24 +81,29 @@
 
                                 </StackPanel>
 
-                                <ComboBox x:Name="cbUserCut" Foreground="{DynamicResource MaterialDesignBody}" Width="140" SelectedIndex="0"
+                                <StackPanel Orientation="Horizontal">
+                                    <ComboBox x:Name="cbUserCut" Foreground="{DynamicResource MaterialDesignBody}" Width="140" SelectedIndex="0"
                                           VerticalAlignment="Center" Margin="0,12,0,10" IsEditable="True" HorizontalAlignment="Left"
                                            SelectionChanged="cbUserCut_SelectionChanged">
-                                    <ComboBoxItem Content="0"></ComboBoxItem>
-                                    <ComboBoxItem Content="0.5"></ComboBoxItem>
-                                    <ComboBoxItem Content="3"></ComboBoxItem>
-                                    <ComboBoxItem Content="5"></ComboBoxItem>
-                                </ComboBox>
+                                        <ComboBoxItem Content="0"></ComboBoxItem>
+                                        <ComboBoxItem Content="0.5"></ComboBoxItem>
+                                        <ComboBoxItem Content="3"></ComboBoxItem>
+                                        <ComboBoxItem Content="5"></ComboBoxItem>
+                                    </ComboBox>
+                                    <CheckBox x:Name="cbxUserCutPercentage" Margin="10,10,0,2" VerticalAlignment="Center" 
+                                              Checked="cbxUserCutPercentage_Checked" Unchecked="cbxUserCutPercentage_Unchecked"/>
+                                </StackPanel>
 
                                 <TextBox x:Name="txtUserCut" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
-                                         HorizontalAlignment="Left" MaxLength="15" TextChanged="txtUserCut_TextChanged"  IsReadOnly="True"></TextBox>
+                                         HorizontalAlignment="Left" MaxLength="15" TextChanged="txtUserCut_TextChanged"  IsReadOnly="True"
+                                         PreviewTextInput="CheckTextboxForOnlyNumberInput"></TextBox>
 
                                 <TextBox x:Name="txtProductInsurance" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
-                                         HorizontalAlignment="Left" MaxLength="13" TextChanged="CalculateNetProfitAndTaxes" PreviewTextInput="CheckTextboxForOnlyNumberInput"></TextBox>
+                                         HorizontalAlignment="Left" MaxLength="13" TextChanged="CalculateInputs" PreviewTextInput="CheckTextboxForOnlyNumberInput"></TextBox>
 
                                 <StackPanel Orientation="Horizontal">
                                     <TextBox x:Name="txtReceviedCommission" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
-                                         HorizontalAlignment="Left" MaxLength="13" InputScope="Number" TextChanged="CalculateNetProfitAndTaxes"
+                                         HorizontalAlignment="Left" MaxLength="13" InputScope="Number" TextChanged="CalculateInputs"
                                          PreviewTextInput="CheckTextboxForOnlyNumberInput"></TextBox>
 
                                     <Button x:Name="btnOpenAddDebtorWindow" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 

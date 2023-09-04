@@ -30,22 +30,7 @@ public class RemittanceRepository : IRemittanceRepository
            .AsNoTracking()
            .Include(x => x.OperatorUser)
            .Where(r => r.SubmitDate.Date >= startDate.Date
-           && r.SubmitDate.Date <= endDate.Date).Select(r => new Remittance
-           {
-               RemittanceNumber = r.RemittanceNumber,
-               Id = r.Id,
-               ReceviedCommission = r.ReceviedCommission,
-               InsurancePayment = r.InsurancePayment,
-               NetProfit = r.NetProfit,
-               OperatorUserId = r.OperatorUserId,
-               SubmittedUsername = r.OperatorUser!.Name + " " + r.OperatorUser.Family,
-               OrganizationPayment = r.OrganizationPayment,
-               SubmitDate = r.SubmitDate,
-               TaxPayment = r.TaxPayment,
-               TransforPayment = r.TransforPayment,
-               ProductInsurancePayment = r.ProductInsurancePayment,
-               UserCut = r.UserCut
-           });
+           && r.SubmitDate.Date <= endDate.Date);
 
         //اگر آیدی کاربر نال نباشه بر اساس اون کاربر گزارش میاد بیرون
         if (operatorUserId is not null)
@@ -83,6 +68,7 @@ public class RemittanceRepository : IRemittanceRepository
                 TransforPayment = r.TransforPayment,
                 ProductInsurancePayment = r.ProductInsurancePayment,
                 UserCut = r.UserCut,
+                IsUserCutEnteredByHand = r.IsUserCutEnteredByHand,
             });
 
         var remittanceReportModel = new RemittanceReportModel();
@@ -136,6 +122,7 @@ public class RemittanceRepository : IRemittanceRepository
             TransforPayment = r.TransforPayment,
             ProductInsurancePayment = r.ProductInsurancePayment,
             UserCut = r.UserCut,
+            IsUserCutEnteredByHand = r.IsUserCutEnteredByHand,
         });
         if (remittance is null)
         {
@@ -164,6 +151,7 @@ public class RemittanceRepository : IRemittanceRepository
             TransforPayment = remittanceModel.TransforPayment,
             SubmitDate = remittanceModel.SubmitDate,
             ProductInsurancePayment = remittanceModel.ProductInsurancePayment,
+            IsUserCutEnteredByHand = remittanceModel.IsUserCutEnteredByHand
         };
 
         await _context.Remittances.AddAsync(remittance);
@@ -205,6 +193,7 @@ public class RemittanceRepository : IRemittanceRepository
         remittance.TransforPayment = remittanceModel.TransforPayment;
         remittance.SubmitDate = remittanceModel.SubmitDate;
         remittance.ProductInsurancePayment = remittanceModel.ProductInsurancePayment;
+        remittance.IsUserCutEnteredByHand = remittanceModel.IsUserCutEnteredByHand;
 
 
         await _context.SaveChangesAsync();

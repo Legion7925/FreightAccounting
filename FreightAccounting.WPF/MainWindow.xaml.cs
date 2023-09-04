@@ -899,7 +899,8 @@ public partial class MainWindow : Window
             SubmitDate = selectedRemittance.SubmitDate,
             TransforPayment = selectedRemittance.TransforPayment,
             UserCut = selectedRemittance.UserCut,
-            TaxPayment = selectedRemittance.TaxPayment
+            TaxPayment = selectedRemittance.TaxPayment,
+            IsUserCutEnteredByHand = selectedRemittance.IsUserCutEnteredByHand
         }).ShowDialog();
     }
 

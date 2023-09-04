@@ -66,6 +66,11 @@ namespace FreightAccounting.Core.Model.Remittances
         /// </summary>
         public DateTime SubmitDate { get; set; }
 
+        /// <summary>
+        /// آیا پورسانت کاربر دستی وارد شده است یا خیر
+        /// </summary>
+        public bool IsUserCutEnteredByHand { get; set; }
+
 
         public string SubmitDateFa => SubmitDate.ToFa();
     }

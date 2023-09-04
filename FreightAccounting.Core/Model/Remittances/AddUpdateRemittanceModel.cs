@@ -52,6 +52,9 @@ public class AddUpdateRemittanceModel
     /// </summary>
     public long ProductInsurancePayment { get; set; }
 
-
+    /// <summary>
+    /// آیا پورسانت کاربر دستی وارد شده است یا خیر
+    /// </summary>
+    public bool IsUserCutEnteredByHand { get; set; }
 
 }
