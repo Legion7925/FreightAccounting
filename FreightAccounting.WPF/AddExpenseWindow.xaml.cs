@@ -29,6 +29,8 @@ public partial class AddExpenseWindow : Window
             txtExpensesAmount.Text = expenseModel!.ExpensesAmount.ToString();
             dpExpense.DisplayDate = new Mohsen.PersianDate(expenseModel.SubmitDate);
             txtDescription.Text = expenseModel.Description;
+            dpExpense.Visibility = Visibility.Collapsed;
+            lbldpExpense.Visibility = Visibility.Collapsed;
         }
     }
 

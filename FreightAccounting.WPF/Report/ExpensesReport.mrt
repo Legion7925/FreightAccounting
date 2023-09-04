@@ -152,12 +152,12 @@
         </HeaderBand1>
         <GroupHeaderBand1 Ref="12" type="GroupHeaderBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,1.2,7.72,0.3</ClientRectangle>
+          <ClientRectangle>0,1.2,7.72,0.4</ClientRectangle>
           <Components isList="true" count="4">
             <Text1 Ref="13" type="Text" isKey="true">
               <Border>Top, Right, Bottom;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <ClientRectangle>6.2,0,1.5,0.3</ClientRectangle>
+              <ClientRectangle>6.2,0,1.5,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,10</Font>
@@ -174,7 +174,7 @@
             <Text2 Ref="14" type="Text" isKey="true">
               <Border>All;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <ClientRectangle>4.9,0,1.3,0.3</ClientRectangle>
+              <ClientRectangle>4.9,0,1.3,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,10</Font>
@@ -192,7 +192,7 @@
             <Text3 Ref="15" type="Text" isKey="true">
               <Border>Top, Left, Bottom;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <ClientRectangle>3.3,0,1.6,0.3</ClientRectangle>
+              <ClientRectangle>3.3,0,1.6,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,10</Font>
@@ -210,7 +210,7 @@
             <Text12 Ref="16" type="Text" isKey="true">
               <Border>Top, Left, Bottom;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <ClientRectangle>-0,0,3.3,0.3</ClientRectangle>
+              <ClientRectangle>0,0,3.3,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,10</Font>
@@ -235,13 +235,13 @@
         <Dataلیست_مخارج Ref="17" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
           <BusinessObjectGuid isNull="true" />
-          <ClientRectangle>0,1.9,7.72,0.3</ClientRectangle>
+          <ClientRectangle>0,2,7.72,0.4</ClientRectangle>
           <Components isList="true" count="4">
             <Dataلیست_مخارج_SubmitDateFa Ref="18" type="Text" isKey="true">
               <Border>All;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>4.9,0,1.3,0.3</ClientRectangle>
+              <ClientRectangle>4.9,0,1.3,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,10</Font>
@@ -259,7 +259,7 @@
               <Border>Top, Left, Bottom;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>3.3,0,1.6,0.3</ClientRectangle>
+              <ClientRectangle>3.3,0,1.6,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,10</Font>
@@ -283,7 +283,7 @@
               <Border>Top, Right, Bottom;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>6.2,0,1.5,0.3</ClientRectangle>
+              <ClientRectangle>6.2,0,1.5,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,10</Font>
@@ -301,14 +301,14 @@
             <Text13 Ref="22" type="Text" isKey="true">
               <Border>Top, Left, Bottom;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <CanGrow>True</CanGrow>
-              <ClientRectangle>-0,0,3.3,0.3</ClientRectangle>
+              <ClientRectangle>0,0,3.3,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,8</Font>
               <Guid>fabf49e34dd044f29e2965785394afcb</Guid>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>1,1,1,1</Margins>
+              <MaxNumberOfLines>1</MaxNumberOfLines>
               <Name>Text13</Name>
               <Page isRef="6" />
               <Parent isRef="17" />
@@ -336,7 +336,7 @@
         </Dataلیست_مخارج>
         <FooterBand1 Ref="24" type="FooterBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,2.6,7.72,0.6</ClientRectangle>
+          <ClientRectangle>0,2.8,7.72,0.6</ClientRectangle>
           <Components isList="true" count="4">
             <Text8 Ref="25" type="Text" isKey="true">
               <Brush>Transparent</Brush>
@@ -436,9 +436,9 @@
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>9/4/2023 8:46:15 AM</ReportChanged>
+  <ReportChanged>9/4/2023 11:19:02 AM</ReportChanged>
   <ReportCreated>8/30/2023 11:48:24 AM</ReportCreated>
-  <ReportGuid>aab2df0bea65488d80220fa307600181</ReportGuid>
+  <ReportGuid>99f80108b62c47db9f4b067013085e7d</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2023.1.1.0</ReportVersion>
