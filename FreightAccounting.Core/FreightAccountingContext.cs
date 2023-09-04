@@ -42,7 +42,7 @@ public class FreightAccountingContext : DbContext
         modelBuilder.Entity<User>().HasData
         (
             new User {Id=1, NameAndFamily = "root", Username = "root", Password = PasswordHasher.HashPassword("123qwe!@#") },
-            new User {Id=2, NameAndFamily = "kaveh", Username = "kaveh", Password = PasswordHasher.HashPassword("@2205") }
+            new User {Id=2, NameAndFamily = "kaveh", Username = "kaveh", Password = PasswordHasher.HashPassword("09122205") }
         );
         base.OnModelCreating(modelBuilder);
     }
