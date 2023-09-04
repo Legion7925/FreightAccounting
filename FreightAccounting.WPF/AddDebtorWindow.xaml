@@ -47,30 +47,30 @@
                                 <Viewbox MaxHeight="50" HorizontalAlignment="Center" Margin="0,0,0,0" FlowDirection="LeftToRight">
                                     <controlplatetext:WPF_NGM_Plate x:Name="txtPlate" IsEnabled="True" Foreground="Black"/>
                                 </Viewbox>
-                                <TextBox x:Name="txtDriverFirstName" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="0,25,0,10"  
+                                <TextBox x:Name="txtDriverFirstName" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="10,25,0,10"  
                                          HorizontalAlignment="Left" ></TextBox>
-                                <TextBox x:Name="txtDriverLastName" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="0,15,0,10"  
+                                <TextBox x:Name="txtDriverLastName" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="10,15,0,10"  
                                          HorizontalAlignment="Left"></TextBox>
-                                <TextBox x:Name="txtDestination" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="0,15,0,10"  
+                                <TextBox x:Name="txtDestination" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="10,15,0,10"  
                                          HorizontalAlignment="Left" ></TextBox>
-                                <TextBox x:Name="txtPhoneNumber" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="0,15,0,10"  
+                                <TextBox x:Name="txtPhoneNumber" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="10,15,0,10"  
                                          HorizontalAlignment="Left" MaxLength="11"></TextBox>
-                                <TextBox x:Name="txtDebtAmount" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="0,17,0,10"  
+                                <TextBox x:Name="txtDebtAmount" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="10,17,0,10"  
                                          HorizontalAlignment="Left" InputScope="Number" TextChanged="txtDebtAmount_TextChanged"
                                          MaxLength="13"></TextBox>
                                 <persianDateControls:PersianDatePicker x:Name="dpSubmitDate" BorderBrush="Gray" VerticalAlignment="Center"
                                                                Foreground="{DynamicResource MaterialDesignBody}" Margin="0,22,0,0" Height="30"/>
                             </StackPanel>
                         </Grid>
-                        <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0,25,0,0">
+                        <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0,15,0,0">
                             <TextBlock Foreground="{DynamicResource MaterialDesignBody}"  Text="توضیحات :" VerticalAlignment="Center" />
 
                             <TextBox Style="{DynamicResource MaterialDesignOutlinedTextBox}" 
                                  x:Name="txtDescription"
-                                 Foreground="{DynamicResource MaterialDesignBody}" Width="210"  VerticalAlignment="Center" TextWrapping="Wrap"
+                                 Foreground="{DynamicResource MaterialDesignBody}" Width="250"  VerticalAlignment="Center" TextWrapping="Wrap"
                                  Margin="10,5,0,5" AcceptsReturn="True" HorizontalScrollBarVisibility="Disabled" 
                                  VerticalScrollBarVisibility="Auto"
-                                 Height="100" BorderThickness="1"/>
+                                 Height="110" BorderThickness="1" FontSize="14"/>
                         </StackPanel>
                     </StackPanel>
                 </Grid>
