@@ -90,6 +90,11 @@ public partial class AddRemitance : Window
                     txtUserCut.Text = (addUpdateRemittanceModel.TransforPayment * 5 / 100).ToString();
                     _userCut = addUpdateRemittanceModel.TransforPayment * 5 / 100;
                     break;
+                default:
+                    cbUserCut.SelectedIndex = 4;
+                    txtUserCut.Text = (addUpdateRemittanceModel.TransforPayment * _contentUserCut / 100).ToString();
+                    _userCut = addUpdateRemittanceModel.TransforPayment * _contentUserCut / 100;
+                    break;
             }
             _remittanceId = remitanceId!.Value;
             txtNumberRemmitance.Text = addUpdateRemittanceModel!.RemittanceNumber;

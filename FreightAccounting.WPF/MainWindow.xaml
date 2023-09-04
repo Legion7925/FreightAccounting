@@ -83,7 +83,7 @@
                         <TabItem.Header>
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon VerticalAlignment="Center" Margin="15,0" Kind="Paper" Width="22" Height="22"/>
-                                <TextBlock Text="حواله ها" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
+                                <TextBlock Text="بارنامه ها" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
                                            Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Center"/>
                             </StackPanel>
                         </TabItem.Header>
@@ -142,7 +142,7 @@
                                 <StackPanel Orientation="Horizontal">
                                     <Button x:Name="btnAddRemittance" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" Height="35" Width="35"
                                     Background="#FF28AD43" BorderBrush="{x:Null}" HorizontalAlignment="Left"
-                                        ToolTip="افزودن حواله" Visibility="Visible" Margin="5,2,0,0" Click="btnAddRemittance_Click">
+                                        ToolTip="افزودن بارنامه" Visibility="Visible" Margin="5,2,0,0" Click="btnAddRemittance_Click">
                                         <materialDesign:PackIcon Kind="Add"/>
                                     </Button>
 
@@ -217,7 +217,7 @@
 
                                         <StackPanel Orientation="Horizontal">
                                             <StackPanel Orientation="Horizontal" Margin="10,0">
-                                                <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="جست و جو با شماره حواله :" VerticalAlignment="Center"></TextBlock>
+                                                <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text="جست و جو با شماره بارنامه :" VerticalAlignment="Center"></TextBlock>
                                                 <TextBox x:Name="txtSearchRemitanceById" Width="70" Margin="5,5,5,10"
                                                   FlowDirection="RightToLeft" Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Center"
                                                          KeyDown="txtSearchRemitanceById_KeyDown"></TextBox>
@@ -240,7 +240,7 @@
                                       Grid.ColumnSpan="2" SelectedCellsChanged="dgReport_SelectedCellsChanged" IsReadOnly="True">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Binding="{Binding Id}"  Header="آیدی" Visibility="Hidden"></DataGridTextColumn>
-                                        <DataGridTextColumn Binding="{Binding RemittanceNumber}"   Header="شماره حواله" ></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding RemittanceNumber}"   Header="شماره بارنامه" ></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding TransforPayment, StringFormat={}{0:#,0}}" Header="کرایه"></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding OrganizationPayment, StringFormat={}{0:#,0}}" Header="کمیسیون سازمان"></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding InsurancePayment, StringFormat={}{0:#,0}}" Header="کمیسیون بیمه"></DataGridTextColumn>
