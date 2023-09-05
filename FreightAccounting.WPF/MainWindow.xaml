@@ -191,21 +191,7 @@
                                             <TextBlock x:Name="lblTotalProductInsurace" FontSize="14" FontWeight="SemiBold" 
                                                    Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
                                                Margin="10,0"></TextBlock>   
-                                            <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="5,0,0,0" 
-                                               Text="مجموع کمیسیون سازمان :" VerticalAlignment="Center"></TextBlock>
-                                            <TextBlock x:Name="lblTotalOrganizationPayment" FontSize="14" FontWeight="SemiBold" 
-                                                   Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
-                                               Margin="10,0"></TextBlock>
-                                            <!--در صورتی ویزیبل شود که گزارش بر اساس کاربر گرفته شود-->
-                                            <!--یا اینکه میتواند در همه صورت ویزیبل باشد و جمع پورسانت بین دو تاریخ همه کاربران را نشان دهد-->
-                                            <StackPanel x:Name="stpUserCut" Visibility="Collapsed" Orientation="Horizontal">
-                                                <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="10,0,0,0" 
-                                               Text="مجموع پورسانت کاربر :" VerticalAlignment="Center"></TextBlock>
-                                                <TextBlock x:Name="lblTotalUserCut"  FontSize="14" FontWeight="SemiBold" 
-                                                   Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
-                                               Margin="10,0"></TextBlock>
-
-                                            </StackPanel>
+                                            
                                         </StackPanel>
                                         <Separator Background="#FFDFDFDF"/>
                                     </StackPanel>
@@ -227,6 +213,24 @@
                                             Margin="0,0,0,12" Click="btnSearchNumberRemitance_Click">
                                                     <materialDesign:PackIcon Kind="Search"/>
                                                 </Button>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="5,0,0,0" 
+                                               Text="مجموع کمیسیون سازمان :" VerticalAlignment="Center"></TextBlock>
+                                                <TextBlock x:Name="lblTotalOrganizationPayment" FontSize="14" FontWeight="SemiBold" 
+                                                   Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
+                                               Margin="10,0"></TextBlock>
+                                            </StackPanel>
+                                            <!--در صورتی ویزیبل شود که گزارش بر اساس کاربر گرفته شود-->
+                                            <!--یا اینکه میتواند در همه صورت ویزیبل باشد و جمع پورسانت بین دو تاریخ همه کاربران را نشان دهد-->
+                                            <StackPanel x:Name="stpUserCut" Visibility="Collapsed" Orientation="Horizontal">
+                                                <TextBlock FontSize="14"  Foreground="{DynamicResource MaterialDesignBody}" Margin="10,0,0,0" 
+                                               Text="مجموع پورسانت کاربر :" VerticalAlignment="Center"></TextBlock>
+                                                <TextBlock x:Name="lblTotalUserCut"  FontSize="14" FontWeight="SemiBold" 
+                                                   Foreground="{DynamicResource MaterialDesignBody}" Text="0" VerticalAlignment="Center"
+                                               Margin="10,0"></TextBlock>
+
                                             </StackPanel>
 
                                         </StackPanel>
