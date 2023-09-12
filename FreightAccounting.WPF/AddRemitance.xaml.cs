@@ -111,6 +111,7 @@ public partial class AddRemitance : Window
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
         cbUserCut.Items.Add(AppSession.AppSettings.UserCutPercentage);
+        txtNumberRemmitance.Focus();
     }
 
     private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -403,5 +404,23 @@ public partial class AddRemitance : Window
     {
         cbUserCut.IsEnabled = true;
         txtUserCut.IsReadOnly = true;
+    }
+
+    private void txtNumberRemmitance_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key == System.Windows.Input.Key.Enter)
+            txtTranforPayment.Focus();
+    }
+
+    private void txtTranforPayment_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key == System.Windows.Input.Key.Enter)
+            txtProductInsurance.Focus();
+    }
+
+    private void txtProductInsurance_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key == System.Windows.Input.Key.Enter)
+            txtReceviedCommission.Focus();
     }
 }

@@ -39,10 +39,10 @@
 
                             <StackPanel Grid.Column="1" Margin="10,0">
                                 <TextBox x:Name="txtNumberRemmitance" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,15,0,10"  
-                                         HorizontalAlignment="Left" MaxLength="15"></TextBox>
+                                         HorizontalAlignment="Left" MaxLength="15" KeyDown="txtNumberRemmitance_KeyDown"></TextBox>
                                 <TextBox x:Name="txtTranforPayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,15,0,10"  
                                          HorizontalAlignment="Left" MaxLength="13" InputScope="Number" TextChanged="CalculateInputs"
-                                         PreviewTextInput="CheckTextboxForOnlyNumberInput"></TextBox>
+                                         PreviewTextInput="CheckTextboxForOnlyNumberInput" KeyDown="txtTranforPayment_KeyDown"></TextBox>
 
                                 <TextBox x:Name="txtOrganizationPayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,15,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15"  IsReadOnly="True" TextChanged="txtOrganizationPayment_TextChanged"></TextBox>
@@ -98,7 +98,7 @@
                                          PreviewTextInput="CheckTextboxForOnlyNumberInput"></TextBox>
 
                                 <TextBox x:Name="txtProductInsurance" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
-                                         HorizontalAlignment="Left" MaxLength="13" TextChanged="CalculateInputs" PreviewTextInput="CheckTextboxForOnlyNumberInput"></TextBox>
+                                         HorizontalAlignment="Left" MaxLength="13" TextChanged="CalculateInputs" PreviewTextInput="CheckTextboxForOnlyNumberInput" KeyDown="txtProductInsurance_KeyDown"></TextBox>
 
                                 <StackPanel Orientation="Horizontal">
                                     <TextBox x:Name="txtReceviedCommission" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
