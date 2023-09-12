@@ -2,6 +2,7 @@
 using FreightAccounting.Core.Exception;
 using FreightAccounting.Core.Interfaces.Repositories;
 using FreightAccounting.Core.Model.Expenses;
+using FreightAccounting.Core.Model.Remittances;
 using Microsoft.EntityFrameworkCore;
 
 namespace FreightAccounting.Core.Repositories;
@@ -41,13 +42,18 @@ public class ExpensesRepository : IExpensesRepository
                Description = e.Description
            });
 
+        var expensesReportModel = new ExpensesReportModel();
+        expensesReportModel.Expenses = paginatedExpenses.ToList();
+        expensesReportModel.TotalExpensesAmount = expenses.Select(e => e.ExpensesAmount).Sum();
+        expensesReportModel.TotalIncome = expenses.Select(e => e.Income).Sum();
 
-        return new ExpensesReportModel
+        //شماره ردیف را پر میکند
+        for (int i = 0; i < expensesReportModel.Expenses.Count; i++)
         {
-            Expenses = paginatedExpenses.ToList(),
-            TotalExpensesAmount = expenses.Select(e => e.ExpensesAmount).Sum(),
-            TotalIncome = expenses.Select(e=> e.Income).Sum(),
-        };
+            expensesReportModel.Expenses[i].RowNumber = i + 1 + ((queryParameters.Page - 1) * queryParameters.Size);
+        }
+
+        return expensesReportModel;
     }
 
     public async Task AddExpense(AddUpdateExpenseModel expenseModel)

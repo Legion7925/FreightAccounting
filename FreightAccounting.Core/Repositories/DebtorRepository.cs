@@ -83,6 +83,11 @@ public class DebtorRepository : IDebtorRepository
 
         debtorsReportModel.DebtorsList = debtorsList.ToList();
 
+        for (int i = 0; i < debtorsReportModel.DebtorsList.Count; i++)
+        {
+            debtorsReportModel.DebtorsList[i].RowNumber = i + 1 + ((queryParameters.Page - 1) * queryParameters.Size);
+        }
+
         return debtorsReportModel;
     }
 
@@ -104,11 +109,16 @@ public class DebtorRepository : IDebtorRepository
                 SubmitDate = d.SubmitDate,
             });
 
-        return new DebtorReportModel
+        var debtorReportModel = new DebtorReportModel();
+        debtorReportModel.DebtorsList = debtorsList.OrderByDescending(d => d.SubmitDate).ToList();
+        debtorReportModel.TotalDebt = debtorsList.Sum(d => d.DebtAmount);
+
+        for (int i = 0; i < debtorReportModel.DebtorsList.Count; i++)
         {
-            DebtorsList = debtorsList.OrderByDescending(d=>d.SubmitDate).ToList(),
-            TotalDebt = debtorsList.Sum(d => d.DebtAmount)
-        };
+            debtorReportModel.DebtorsList[i].RowNumber = i + 1;
+        }
+
+        return debtorReportModel;
     }
 
     public async Task AddDebtor(AddUpdateDebtorModel debtorModel)

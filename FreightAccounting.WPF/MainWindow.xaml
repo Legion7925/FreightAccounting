@@ -244,6 +244,7 @@
                                       Grid.ColumnSpan="2" SelectedCellsChanged="dgReport_SelectedCellsChanged" IsReadOnly="True">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Binding="{Binding Id}"  Header="آیدی" Visibility="Hidden"></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding RowNumber}"  Header="ردیف" Visibility="Visible"></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding RemittanceNumber}"   Header="شماره بارنامه" ></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding TransforPayment, StringFormat={}{0:#,0}}" Header="کرایه"></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding OrganizationPayment, StringFormat={}{0:#,0}}" Header="کمیسیون سازمان"></DataGridTextColumn>
@@ -409,6 +410,7 @@
                                       Grid.ColumnSpan="2" SelectedCellsChanged="dgDebtorsReport_SelectedCellsChanged" IsReadOnly="True">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Binding="{Binding Id}"  Header="آیدی" Visibility="Hidden"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding RowNumber}"  Header="ردیف"></DataGridTextColumn>
                                     <DataGridTextColumn Binding="{Binding DriverFirstName}" Header="نام راننده" ></DataGridTextColumn>
                                     <DataGridTextColumn Binding="{Binding DriverLastName}" Header="نام خانوادگی راننده" ></DataGridTextColumn>
                                     <DataGridTemplateColumn Header="شماره پلاک">
@@ -580,6 +582,7 @@
                                       Grid.ColumnSpan="2" SelectedCellsChanged="dgExpenses_SelectedCellsChanged" IsReadOnly="True">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Binding="{Binding Id}"  Header="آیدی" Visibility="Hidden"></DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding RowNumber}"  Header="ردیف"></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding ExpensesAmount, StringFormat={}{0:#,0}}" Header="مقدار مخارج" ></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding SubmitDateFa}" Header="تاریخ روز" ></DataGridTextColumn>
                                         <DataGridTextColumn Binding="{Binding Income, StringFormat={}{0:#,0}}" Header="درآمد خالص" ></DataGridTextColumn>

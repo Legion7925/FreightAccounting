@@ -6,4 +6,6 @@ namespace FreightAccounting.Core.Model.Expenses;
 public class ExpenseEntityReportModel : Expense
 {
     public string SubmitDateFa => SubmitDate.ToFa();
+
+    public int RowNumber { get; set; }
 }

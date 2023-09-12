@@ -1009,8 +1009,8 @@ public partial class MainWindow : Window
             stiReport.RegData("لیست حواله ها", report.Remittances);
             stiReport.RegData("تاریخ گزارش", new
             {
-                تاریخ_شروع = dpExpensesReportStart.SelectedDate.ToDateTime().ToFa(),
-                تاریخ_پایان = dpExpensesReportEnd.SelectedDate.ToDateTime().ToFa(),
+                تاریخ_شروع = dpRemittanceStart.SelectedDate.ToDateTime().ToFa(),
+                تاریخ_پایان = dpRemittanceEnd.SelectedDate.ToDateTime().ToFa(),
             });
             stiReport.RegData("مجموع پرداختی و درآمد ها", new
             {
@@ -1046,7 +1046,7 @@ public partial class MainWindow : Window
             ShowSnackbarMessage("شماره حواله را ابتدا وارد کنید", MessageTypeEnum.Warning);
             return;
         }
-        remittanceReportModel.Remittances = _remittanceRepository.GetRemittanceByRettmianceNumber(txtSearchRemitanceById.Text);
+        remittanceReportModel.Remittances = _remittanceRepository.GetRemittanceByRettmianceNumber(txtSearchRemitanceById.Text).ToList();
         if (remittanceReportModel.Remittances.Any() is not true)
         {
             dgReport.ItemsSource = null;
@@ -1072,5 +1072,4 @@ public partial class MainWindow : Window
 
 
     #endregion Remittance
-
 }

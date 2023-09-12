@@ -6,7 +6,7 @@
     <DataSources isList="true" count="3">
       <لیست_x0020_بدهکاران Ref="2" type="Stimulsoft.Report.Dictionary.StiBusinessObjectSource" isKey="true">
         <Alias>لیست بدهکاران</Alias>
-        <Columns isList="true" count="20">
+        <Columns isList="true" count="21">
           <value>PaymentDateFa,System.String</value>
           <value>PaidTranslate,System.String</value>
           <value>P1,System.String</value>
@@ -27,6 +27,7 @@
           <value>SubmitDateFa,System.String</value>
           <value>Description,System.String</value>
           <value>SubmitDate,System.DateTime</value>
+          <value>RowNumber,System.Int32</value>
         </Columns>
         <Dictionary isRef="1" />
         <Key>b77b3b736d1040aab4100d2f48d3ac29</Key>
@@ -193,11 +194,11 @@
         <GroupHeaderBand1 Ref="14" type="GroupHeaderBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,1.5,7.72,0.3</ClientRectangle>
-          <Components isList="true" count="9">
+          <Components isList="true" count="10">
             <Text1 Ref="15" type="Text" isKey="true">
               <Border>Top, Right;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <ClientRectangle>6.9,0,0.8,0.3</ClientRectangle>
+              <ClientRectangle>6.6,0,0.8,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,8</Font>
@@ -214,7 +215,7 @@
             <Text2 Ref="16" type="Text" isKey="true">
               <Border>Top, Right;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <ClientRectangle>6,0,0.9,0.3</ClientRectangle>
+              <ClientRectangle>5.7,0,0.9,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,8</Font>
@@ -232,7 +233,7 @@
             <Text3 Ref="17" type="Text" isKey="true">
               <Border>Top, Right;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <ClientRectangle>5,0,1,0.3</ClientRectangle>
+              <ClientRectangle>4.7,0,1,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,8</Font>
@@ -250,7 +251,7 @@
             <Text4 Ref="18" type="Text" isKey="true">
               <Border>Top, Right;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <ClientRectangle>4.1,0,0.9,0.3</ClientRectangle>
+              <ClientRectangle>3.9,0,0.8,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,8</Font>
@@ -268,7 +269,7 @@
             <Text6 Ref="19" type="Text" isKey="true">
               <Border>Top, Right;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <ClientRectangle>3.2,0,0.9,0.3</ClientRectangle>
+              <ClientRectangle>3.1,0,0.8,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,8</Font>
@@ -286,7 +287,7 @@
             <Text7 Ref="20" type="Text" isKey="true">
               <Border>Top, Right;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <ClientRectangle>2.3,0,0.9,0.3</ClientRectangle>
+              <ClientRectangle>2.3,0,0.8,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,8</Font>
@@ -355,6 +356,24 @@
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text15>
+            <Text17 Ref="24" type="Text" isKey="true">
+              <Border>Top, Right;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>7.4,0,0.3,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Expressions isList="true" count="0" />
+              <Font>B Titr,8</Font>
+              <Guid>458b282996164817946da500653c2080</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text17</Name>
+              <Page isRef="5" />
+              <Parent isRef="14" />
+              <Text>ردیف</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text17>
           </Components>
           <Conditions isList="true" count="0" />
           <Expressions isList="true" count="0" />
@@ -362,16 +381,15 @@
           <Page isRef="5" />
           <Parent isRef="5" />
         </GroupHeaderBand1>
-        <Dataلیست_بدهکاران Ref="24" type="DataBand" isKey="true">
+        <Dataلیست_بدهکاران Ref="25" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
-          <BusinessObjectGuid isNull="true" />
           <ClientRectangle>0,2.2,7.72,0.3</ClientRectangle>
-          <Components isList="true" count="12">
-            <Dataلیست_بدهکاران_DriverFirstName Ref="25" type="Text" isKey="true">
+          <Components isList="true" count="13">
+            <Dataلیست_بدهکاران_DriverFirstName Ref="26" type="Text" isKey="true">
               <Border>Top, Right, Bottom;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>6.9,0,0.8,0.3</ClientRectangle>
+              <ClientRectangle>6.6,0,0.8,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,8</Font>
@@ -379,17 +397,17 @@
               <Margins>0,0,0,0</Margins>
               <Name>Dataلیست_بدهکاران_DriverFirstName</Name>
               <Page isRef="5" />
-              <Parent isRef="24" />
+              <Parent isRef="25" />
               <Text>{لیست_بدهکاران.DriverFirstName}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <VertAlignment>Center</VertAlignment>
             </Dataلیست_بدهکاران_DriverFirstName>
-            <Dataلیست_بدهکاران_DriverLastName Ref="26" type="Text" isKey="true">
+            <Dataلیست_بدهکاران_DriverLastName Ref="27" type="Text" isKey="true">
               <Border>All;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>6,0,0.9,0.3</ClientRectangle>
+              <ClientRectangle>5.7,0,0.9,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,8</Font>
@@ -397,17 +415,17 @@
               <Margins>0,0,0,0</Margins>
               <Name>Dataلیست_بدهکاران_DriverLastName</Name>
               <Page isRef="5" />
-              <Parent isRef="24" />
+              <Parent isRef="25" />
               <Text>{لیست_بدهکاران.DriverLastName}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <VertAlignment>Center</VertAlignment>
             </Dataلیست_بدهکاران_DriverLastName>
-            <Dataلیست_بدهکاران_Destination Ref="27" type="Text" isKey="true">
+            <Dataلیست_بدهکاران_Destination Ref="28" type="Text" isKey="true">
               <Border>Top, Right, Bottom;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>4.1,0,0.9,0.3</ClientRectangle>
+              <ClientRectangle>3.9,0,0.8,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,8</Font>
@@ -415,17 +433,17 @@
               <Margins>0,0,0,0</Margins>
               <Name>Dataلیست_بدهکاران_Destination</Name>
               <Page isRef="5" />
-              <Parent isRef="24" />
+              <Parent isRef="25" />
               <Text>{لیست_بدهکاران.Destination}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <VertAlignment>Center</VertAlignment>
             </Dataلیست_بدهکاران_Destination>
-            <Dataلیست_بدهکاران_P4 Ref="28" type="Text" isKey="true">
+            <Dataلیست_بدهکاران_P4 Ref="29" type="Text" isKey="true">
               <Border>Top, Bottom;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>5.8,0,0.2,0.3</ClientRectangle>
+              <ClientRectangle>5.5,0,0.2,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,8</Font>
@@ -433,17 +451,17 @@
               <Margins>0,0,0,0</Margins>
               <Name>Dataلیست_بدهکاران_P4</Name>
               <Page isRef="5" />
-              <Parent isRef="24" />
+              <Parent isRef="25" />
               <Text>{لیست_بدهکاران.P4}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <VertAlignment>Center</VertAlignment>
             </Dataلیست_بدهکاران_P4>
-            <Dataلیست_بدهکاران_P3 Ref="29" type="Text" isKey="true">
+            <Dataلیست_بدهکاران_P3 Ref="30" type="Text" isKey="true">
               <Border>Top, Bottom;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>5.4,0,0.4,0.3</ClientRectangle>
+              <ClientRectangle>5.1,0,0.4,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,8</Font>
@@ -451,17 +469,17 @@
               <Margins>0,0,0,0</Margins>
               <Name>Dataلیست_بدهکاران_P3</Name>
               <Page isRef="5" />
-              <Parent isRef="24" />
+              <Parent isRef="25" />
               <Text>{لیست_بدهکاران.P3}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <VertAlignment>Center</VertAlignment>
             </Dataلیست_بدهکاران_P3>
-            <Dataلیست_بدهکاران_P2 Ref="30" type="Text" isKey="true">
+            <Dataلیست_بدهکاران_P2 Ref="31" type="Text" isKey="true">
               <Border>Top, Bottom;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>5.2,0,0.2,0.3</ClientRectangle>
+              <ClientRectangle>4.9,0,0.2,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,8</Font>
@@ -469,17 +487,17 @@
               <Margins>0,0,0,0</Margins>
               <Name>Dataلیست_بدهکاران_P2</Name>
               <Page isRef="5" />
-              <Parent isRef="24" />
+              <Parent isRef="25" />
               <Text>{لیست_بدهکاران.P2}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <VertAlignment>Center</VertAlignment>
             </Dataلیست_بدهکاران_P2>
-            <Dataلیست_بدهکاران_P1 Ref="31" type="Text" isKey="true">
+            <Dataلیست_بدهکاران_P1 Ref="32" type="Text" isKey="true">
               <Border>Top, Bottom;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>5,0,0.2,0.3</ClientRectangle>
+              <ClientRectangle>4.7,0,0.2,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,8</Font>
@@ -487,17 +505,17 @@
               <Margins>0,0,0,0</Margins>
               <Name>Dataلیست_بدهکاران_P1</Name>
               <Page isRef="5" />
-              <Parent isRef="24" />
+              <Parent isRef="25" />
               <Text>{لیست_بدهکاران.P1}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <VertAlignment>Center</VertAlignment>
             </Dataلیست_بدهکاران_P1>
-            <Dataلیست_بدهکاران_DebtAmount Ref="32" type="Text" isKey="true">
+            <Dataلیست_بدهکاران_DebtAmount Ref="33" type="Text" isKey="true">
               <Border>Top, Right, Bottom;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>3.2,0,0.9,0.3</ClientRectangle>
+              <ClientRectangle>3.1,0,0.8,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,8</Font>
@@ -505,10 +523,10 @@
               <Margins>0,0,0,0</Margins>
               <Name>Dataلیست_بدهکاران_DebtAmount</Name>
               <Page isRef="5" />
-              <Parent isRef="24" />
+              <Parent isRef="25" />
               <Text>{لیست_بدهکاران.DebtAmount}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="33" type="NumberFormat" isKey="true">
+              <TextFormat Ref="34" type="NumberFormat" isKey="true">
                 <DecimalDigits>0</DecimalDigits>
                 <GroupSeparator>,</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
@@ -517,11 +535,11 @@
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <VertAlignment>Center</VertAlignment>
             </Dataلیست_بدهکاران_DebtAmount>
-            <Dataلیست_بدهکاران_PhoneNumber Ref="34" type="Text" isKey="true">
+            <Dataلیست_بدهکاران_PhoneNumber Ref="35" type="Text" isKey="true">
               <Border>Top, Right, Bottom;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>2.3,0,0.9,0.3</ClientRectangle>
+              <ClientRectangle>2.3,0,0.8,0.3</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>B Titr,8</Font>
@@ -529,13 +547,13 @@
               <Margins>0,0,0,0</Margins>
               <Name>Dataلیست_بدهکاران_PhoneNumber</Name>
               <Page isRef="5" />
-              <Parent isRef="24" />
+              <Parent isRef="25" />
               <Text>{لیست_بدهکاران.PhoneNumber}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <VertAlignment>Center</VertAlignment>
             </Dataلیست_بدهکاران_PhoneNumber>
-            <Dataلیست_بدهکاران_PaidTranslate Ref="35" type="Text" isKey="true">
+            <Dataلیست_بدهکاران_PaidTranslate Ref="36" type="Text" isKey="true">
               <Border>Top, Right, Bottom;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
@@ -547,13 +565,13 @@
               <Margins>0,0,0,0</Margins>
               <Name>Dataلیست_بدهکاران_PaidTranslate</Name>
               <Page isRef="5" />
-              <Parent isRef="24" />
+              <Parent isRef="25" />
               <Text>{لیست_بدهکاران.PaidTranslate}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <VertAlignment>Center</VertAlignment>
             </Dataلیست_بدهکاران_PaidTranslate>
-            <Dataلیست_بدهکاران_PaymentDateFa Ref="36" type="Text" isKey="true">
+            <Dataلیست_بدهکاران_PaymentDateFa Ref="37" type="Text" isKey="true">
               <Border>All;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
@@ -565,13 +583,13 @@
               <Margins>0,0,0,0</Margins>
               <Name>Dataلیست_بدهکاران_PaymentDateFa</Name>
               <Page isRef="5" />
-              <Parent isRef="24" />
+              <Parent isRef="25" />
               <Text>{لیست_بدهکاران.PaymentDateFa}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <VertAlignment>Center</VertAlignment>
             </Dataلیست_بدهکاران_PaymentDateFa>
-            <Text16 Ref="37" type="Text" isKey="true">
+            <Text16 Ref="38" type="Text" isKey="true">
               <Border>All;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
@@ -584,22 +602,46 @@
               <Margins>0,0,0,0</Margins>
               <Name>Text16</Name>
               <Page isRef="5" />
-              <Parent isRef="24" />
+              <Parent isRef="25" />
               <Text>{لیست_بدهکاران.SubmitDateFa}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text16>
+            <Text18 Ref="39" type="Text" isKey="true">
+              <Border>Top, Right, Bottom;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>7.4,0,0.3,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Expressions isList="true" count="0" />
+              <Font>B Titr,8</Font>
+              <Guid>e0cd64c8087e424c8f09dc8677a4cb43</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text18</Name>
+              <Page isRef="5" />
+              <Parent isRef="25" />
+              <Text>{لیست_بدهکاران.RowNumber}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text18>
           </Components>
           <Conditions isList="true" count="0" />
-          <DataSourceName>لیست_بدهکاران</DataSourceName>
+          <DataRelationName isNull="true" />
+          <DataSourceName>لیست بدهکاران</DataSourceName>
           <Expressions isList="true" count="0" />
           <Filters isList="true" count="0" />
           <Name>Dataلیست_بدهکاران</Name>
           <Page isRef="5" />
           <Parent isRef="5" />
-          <Sort isList="true" count="0" />
+          <Sort isList="true" count="2">
+            <value>ASC</value>
+            <value>RowNumber</value>
+          </Sort>
         </Dataلیست_بدهکاران>
       </Components>
       <Conditions isList="true" count="0" />
@@ -624,9 +666,9 @@
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>9/4/2023 8:43:49 AM</ReportChanged>
+  <ReportChanged>9/12/2023 12:36:51 PM</ReportChanged>
   <ReportCreated>8/30/2023 11:48:24 AM</ReportCreated>
-  <ReportGuid>7e7ed9f916c945ea8af7c8f7def820bc</ReportGuid>
+  <ReportGuid>6ee6d893fa9c48d4aec69e423760b05e</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Inches</ReportUnit>
   <ReportVersion>2023.1.1.0</ReportVersion>

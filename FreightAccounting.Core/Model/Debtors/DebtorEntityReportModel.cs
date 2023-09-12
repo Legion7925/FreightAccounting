@@ -19,4 +19,6 @@ public class DebtorEntityReportModel : Debtor
     public string P3 => PlateNumber.Length > 6 ? PlateNumber.Substring(3, 3).ToFaNumber() : "000";
 
     public string P4 => PlateNumber.Length >= 8 ? PlateNumber.Substring(6, 2).ToFaNumber() : "00";
+
+    public int RowNumber { get; set; }
 }

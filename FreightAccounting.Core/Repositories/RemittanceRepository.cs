@@ -2,6 +2,7 @@
 using FreightAccounting.Core.Exception;
 using FreightAccounting.Core.Interfaces.Repositories;
 using FreightAccounting.Core.Model.Common;
+using FreightAccounting.Core.Model.Debtors;
 using FreightAccounting.Core.Model.Remittances;
 using Microsoft.EntityFrameworkCore;
 
@@ -97,6 +98,11 @@ public class RemittanceRepository : IRemittanceRepository
 
         remittanceReportModel.Remittances = remittanceList.ToList();
 
+        for (int i = 0; i < remittanceReportModel.Remittances.Count; i++)
+        {
+            remittanceReportModel.Remittances[i].RowNumber = i + 1 + ((queryParameters.Page - 1) * queryParameters.Size);
+        }
+
         return remittanceReportModel;
 
     }
@@ -123,12 +129,19 @@ public class RemittanceRepository : IRemittanceRepository
             ProductInsurancePayment = r.ProductInsurancePayment,
             UserCut = r.UserCut,
             IsUserCutEnteredByHand = r.IsUserCutEnteredByHand,
-        });
+        }).ToList();
+
         if (remittance is null)
         {
             throw new AppException("حواله با شماره بارنامه وارد شده یافت نشد");
         }
-        return remittance.ToList();
+
+        for (int i = 0; i < remittance.Count; i++)
+        {
+            remittance[i].RowNumber = i + 1;
+        }
+
+        return remittance;
     }
 
     public async Task AddRemittance(AddUpdateRemittanceModel remittanceModel)

@@ -4,7 +4,7 @@ namespace FreightAccounting.Core.Model.Remittances;
 
 public class RemittanceReportModel
 {
-    public IEnumerable<RemittanceEntityReportModel> Remittances { get; set; } = new List<RemittanceEntityReportModel>();
+    public List<RemittanceEntityReportModel> Remittances { get; set; } = new List<RemittanceEntityReportModel>();
 
     //درآمد بین دو تاریخ
     public long SumIncome { get; set; } 

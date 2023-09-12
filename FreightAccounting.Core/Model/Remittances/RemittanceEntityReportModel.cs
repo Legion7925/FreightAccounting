@@ -73,5 +73,10 @@ namespace FreightAccounting.Core.Model.Remittances
 
 
         public string SubmitDateFa => SubmitDate.ToFa();
+
+        /// <summary>
+        /// شماره ردیف
+        /// </summary>
+        public int RowNumber { get; set; }
     }
 }
