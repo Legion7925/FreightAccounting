@@ -197,7 +197,8 @@ public partial class MainWindow : Window
         {
             dgDebtorsReport.ItemsSource = null;
 
-            _debtorsTotalCount = _debtorRepository.GetDebtorsReportCount(_debtorPaidFilter, dpDebtorsStart.SelectedDate.ToDateTime(), dpDebtorsEnd.SelectedDate.ToDateTime());
+            _debtorsTotalCount = _debtorRepository
+                .GetDebtorsReportCount(_debtorPaidFilter, dpDebtorsStart.SelectedDate.ToDateTime(), dpDebtorsEnd.SelectedDate.ToDateTime());
 
             if (_debtorsTotalCount is 0)
             {

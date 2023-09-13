@@ -63,9 +63,8 @@ public class DebtorRepository : IDebtorRepository
 
         if (!string.IsNullOrEmpty(queryParameters.SearchedName))
         {
-            var searchedQuery = queryParameters.SearchedName.Replace(" ", "").ToLower();
-            debtorsList = debtorsList
-                .Where(d => (d.DriverFirstName.ToLower() + d.DriverLastName.ToLower())
+            var searchedQuery = queryParameters.SearchedName.ToLower().Replace(" ", "");
+            debtorsList = debtorsList.Where(d => (d.DriverFirstName.ToLower() + d.DriverLastName.ToLower()).Replace(" " , "")
                 .Contains(searchedQuery));
         }
 
