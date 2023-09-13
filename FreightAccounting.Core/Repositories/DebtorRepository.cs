@@ -61,6 +61,14 @@ public class DebtorRepository : IDebtorRepository
                 SubmitDate = d.SubmitDate,
             });
 
+        if (!string.IsNullOrEmpty(queryParameters.SearchedName))
+        {
+            var searchedQuery = queryParameters.SearchedName.Replace(" ", "").ToLower();
+            debtorsList = debtorsList
+                .Where(d => (d.DriverFirstName.ToLower() + d.DriverLastName.ToLower())
+                .Contains(searchedQuery));
+        }
+
         if (queryParameters.Paid is not null)
         {
             if (queryParameters.Paid.Value is true)

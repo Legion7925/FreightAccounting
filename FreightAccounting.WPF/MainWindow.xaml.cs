@@ -71,7 +71,7 @@ public partial class MainWindow : Window
         btnGetDebtorsReport_Click(null!, null!);
         btnReportExpenses_Click(null!, null!);
         btnReportRemitance_Click(null!, null!);
-        FillOperatorUsersCombobox(null , null!);
+        FillOperatorUsersCombobox(null, null!);
     }
 
     private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -196,9 +196,8 @@ public partial class MainWindow : Window
         try
         {
             dgDebtorsReport.ItemsSource = null;
-            txtSearchDebtorsByName.Text = string.Empty;
 
-            _debtorsTotalCount = _debtorRepository.GetDebtorsReportCount(_debtorPaidFilter , dpDebtorsStart.SelectedDate.ToDateTime(), dpDebtorsEnd.SelectedDate.ToDateTime());
+            _debtorsTotalCount = _debtorRepository.GetDebtorsReportCount(_debtorPaidFilter, dpDebtorsStart.SelectedDate.ToDateTime(), dpDebtorsEnd.SelectedDate.ToDateTime());
 
             if (_debtorsTotalCount is 0)
             {
@@ -276,13 +275,14 @@ public partial class MainWindow : Window
     {
         try
         {
-            debtorReportModel = _debtorRepository.GetDebtors(new DebtorsQueryParameters() 
-            { 
+            debtorReportModel = _debtorRepository.GetDebtors(new DebtorsQueryParameters()
+            {
                 Page = _debtorsPageIndex,
                 Size = _debtorsPageSize,
-                Paid =  _debtorPaidFilter,
+                Paid = _debtorPaidFilter,
                 StartDate = dpDebtorsStart.SelectedDate.ToDateTime(),
-                EndDate = dpDebtorsEnd.SelectedDate.ToDateTime()
+                EndDate = dpDebtorsEnd.SelectedDate.ToDateTime(),
+                SearchedName = txtSearchDebtorsByName.Text
             });
             lblTotalDebt.Text = debtorReportModel.TotalDebt.ToString("N0");
             dgDebtorsReport.ItemsSource = debtorReportModel.DebtorsList;
@@ -391,13 +391,14 @@ public partial class MainWindow : Window
         try
         {
             btnPrintDebtorsReport.IsEnabled = false;
-            var report = _debtorRepository.GetDebtors(new DebtorsQueryParameters 
-            { 
-                Page = 1 , 
-                Size = int.MaxValue ,
-                Paid = null,
+            var report = _debtorRepository.GetDebtors(new DebtorsQueryParameters
+            {
+                Page = 1,
+                Size = int.MaxValue,
+                Paid = _debtorPaidFilter,
                 StartDate = dpDebtorsStart.SelectedDate.ToDateTime(),
-                EndDate = dpDebtorsEnd.SelectedDate.ToDateTime()
+                EndDate = dpDebtorsEnd.SelectedDate.ToDateTime(),
+                SearchedName = txtSearchDebtorsByName.Text,             
             });
             if (!report.DebtorsList.Any())
             {
@@ -468,37 +469,11 @@ public partial class MainWindow : Window
 
     private void btnSearchDebtorByName_Click(object sender, RoutedEventArgs e)
     {
-        if (string.IsNullOrWhiteSpace(txtSearchDebtorsByName.Text))
-            return;
-        try
-        {
-            btnSearchDebtorsByName.IsEnabled = false;
+        btnSearchDebtorsByName.IsEnabled = false;
 
-            debtorReportModel = _debtorRepository.GetDebtorsByName(txtSearchDebtorsByName.Text);
-            if(debtorReportModel.DebtorsList.Any() is not true)
-            {
-                lblTotalDebt.Text = "0";
-                dgDebtorsReport.ItemsSource = null;
-                ShowSnackbarMessage("داده ای برای نمایش یافت نشد", MessageTypeEnum.Information);
-                btnSearchDebtorsByName.IsEnabled = true;
-                return;
-            }
-            lblTotalDebt.Text = debtorReportModel.TotalDebt.ToString("N0");
-            dgDebtorsReport.ItemsSource = debtorReportModel.DebtorsList;
-            btnSearchDebtorsByName.IsEnabled = true;
-            gridDebtorsPagination.IsEnabled = false;
-        }
-        catch (AppException ax)
-        {
-            ShowSnackbarMessage(ax.Message, MessageTypeEnum.Warning);
-            btnSearchDebtorsByName.IsEnabled = true;
-        }
-        catch (Exception ex)
-        {
-            ShowSnackbarMessage("در واکشی اطلاعات خطایی رخ داده است", MessageTypeEnum.Error);
-            Logger.LogException(ex);
-            btnSearchDebtorsByName.IsEnabled = true;
-        }
+        btnGetDebtorsReport_Click(null!, null!);
+
+        btnSearchDebtorsByName.IsEnabled = true;
     }
 
     private void txtSearchDebtorsByName_KeyDown(object sender, KeyEventArgs e)
@@ -511,6 +486,7 @@ public partial class MainWindow : Window
     {
         txtSearchDebtorsByName.Text = string.Empty;
         btnGetDebtorsReport_Click(null!, null!);
+        cmbFilterPaymentStatus.SelectedIndex = 0;
     }
 
     #endregion Debtors
@@ -750,7 +726,7 @@ public partial class MainWindow : Window
 
     private void btnAddRemittance_Click(object sender, RoutedEventArgs e)
     {
-        new AddRemitance(_remittanceRepository, _operatorUserRepository,_debtorRepository, false, null, null).ShowDialog();
+        new AddRemitance(_remittanceRepository, _operatorUserRepository, _debtorRepository, false, null, null).ShowDialog();
     }
 
     private void btnReportRemitance_Click(object sender, RoutedEventArgs e)
@@ -849,7 +825,7 @@ public partial class MainWindow : Window
             {
                 StartDate = dpRemittanceStart.SelectedDate.ToDateTime(),
                 EndDate = dpRemittanceEnd.SelectedDate.ToDateTime(),
-                OperatorUserId = operatorUserId, 
+                OperatorUserId = operatorUserId,
                 Page = _remitancePageIndex,
                 Size = _remitancePageSize
             });
@@ -904,7 +880,7 @@ public partial class MainWindow : Window
         }).ShowDialog();
     }
 
-    private void FillOperatorUsersCombobox(object? sender , EventArgs e)
+    private void FillOperatorUsersCombobox(object? sender, EventArgs e)
     {
         try
         {
