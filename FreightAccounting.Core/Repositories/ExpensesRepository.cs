@@ -43,9 +43,19 @@ public class ExpensesRepository : IExpensesRepository
            });
 
         var expensesReportModel = new ExpensesReportModel();
+
         expensesReportModel.Expenses = paginatedExpenses.ToList();
-        expensesReportModel.TotalExpensesAmount = expenses.Select(e => e.ExpensesAmount).Sum();
-        expensesReportModel.TotalIncome = expenses.Select(e => e.Income).Sum();
+
+        var totalExpenses = expenses.Select(e => e.ExpensesAmount).Sum();
+        expensesReportModel.TotalExpensesAmount = totalExpenses;
+
+        //اول کل سود های خالص بین دو تاریخ را بیرون میکشیم
+        // در مرحله بعد مخارج کل را از آن کم میکنیم
+        var totalNetProfit = _context.Remittances
+            .Where(r => r.SubmitDate >= queryParameters.StartDate.Date && r.SubmitDate <= queryParameters.EndDate.Date)
+            .Select(e => e.NetProfit)
+            .Sum();
+        expensesReportModel.TotalIncome = totalNetProfit - totalExpenses;
 
         //شماره ردیف را پر میکند
         for (int i = 0; i < expensesReportModel.Expenses.Count; i++)
