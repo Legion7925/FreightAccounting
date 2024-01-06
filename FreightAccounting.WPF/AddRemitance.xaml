@@ -107,7 +107,7 @@
 
                                     <Button x:Name="btnOpenAddDebtorWindow" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
                                             Height="25" Width="25"
-                                           Background="#4ccf60" BorderBrush="{x:Null}" HorizontalAlignment="Left" ToolTip="تولید شماره سند یکتا" VerticalAlignment="Bottom" 
+                                           Background="#4ccf60" BorderBrush="{x:Null}" HorizontalAlignment="Left" ToolTip="افزودن نسیه برای راانده" VerticalAlignment="Bottom" 
                                             Margin="7,0,0,2" Click="btnOpenAddDebtorWindow_Click">
                                         <materialDesign:PackIcon Kind="Add"/>
                                     </Button>

@@ -112,6 +112,7 @@ public partial class AddRemitance : Window
     {
         cbUserCut.Items.Add(AppSession.AppSettings.UserCutPercentage);
         txtNumberRemmitance.Focus();
+        txtProductInsurance.Text = "3000";
     }
 
     private void btnCancel_Click(object sender, RoutedEventArgs e)

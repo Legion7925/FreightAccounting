@@ -121,4 +121,21 @@ public partial class AddExpenseWindow : Window
             }
         }
     }
+
+    private void txtExpensesAmount_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+            txtDescription.Focus();
+    }
+
+    private void txtDescription_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+            btnSubmitExpense_Click(null!, null!);
+    }
+
+    private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        txtExpensesAmount.Focus();
+    }
 }

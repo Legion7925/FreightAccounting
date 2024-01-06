@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FreightAccounting.WPF" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:persianDateControls="clr-namespace:Mohsen.PersianDateControls;assembly=Mohsen.PersianDateControls"
         mc:Ignorable="d"
-        Title="AddExpenseWindow" SizeToContent="WidthAndHeight" Grid.RowSpan="2" Panel.ZIndex="1" WindowStartupLocation="CenterScreen" WindowStyle="None"
+        Title="AddExpenseWindow" SizeToContent="WidthAndHeight" Grid.RowSpan="2" Panel.ZIndex="1" WindowStartupLocation="CenterScreen" WindowStyle="None" Loaded="Window_Loaded"
         AllowsTransparency="True" FontSize="16" ResizeMode="NoResize" Background="Transparent" FontFamily="./Resources/Fonts/samim-font-v4.0.5/Farsi-Digits/#Samim FD"
         >
 
@@ -22,7 +22,7 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock  Foreground="{DynamicResource MaterialDesignBody}" Text="مقدار مخارج : " VerticalAlignment="Center"></TextBlock>
                         <TextBox x:Name="txtExpensesAmount" Foreground="{DynamicResource MaterialDesignBody}" Width="130" Margin="10,0" 
-                                 TextChanged="txtExpensesAmount_TextChanged" MaxLength="13"></TextBox>
+                                 TextChanged="txtExpensesAmount_TextChanged" MaxLength="13" KeyDown="txtExpensesAmount_KeyDown"></TextBox>
                         <TextBlock x:Name="lbldpExpense" Foreground="{DynamicResource MaterialDesignBody}" Text="تاریخ روز : " VerticalAlignment="Center"></TextBlock>
                         <persianDateControls:PersianDatePicker x:Name="dpExpense" BorderBrush="Gray" VerticalAlignment="Center" Height="28"
                                                                Foreground="{DynamicResource MaterialDesignBody}"/>
@@ -35,7 +35,7 @@
                                  Foreground="{DynamicResource MaterialDesignBody}" Width="435"  VerticalAlignment="Center" TextWrapping="Wrap"
                                  Margin="10,5,0,5" AcceptsReturn="True" HorizontalScrollBarVisibility="Disabled" 
                                  VerticalScrollBarVisibility="Auto"
-                                 Height="180" BorderThickness="1" FontSize="14"/>
+                                 Height="180" BorderThickness="1" FontSize="14" KeyDown="txtDescription_KeyDown"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>
