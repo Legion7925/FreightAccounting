@@ -11,4 +11,6 @@ public class DebtorsQueryParameters : QueryParameters
     public DateTime EndDate { get; set; } = DateTime.Now.AddDays(1);
 
     public string? SearchedName { get; set; }
+
+    public string? PlateNumber { get; set; }
 }

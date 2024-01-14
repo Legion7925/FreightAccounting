@@ -1,4 +1,5 @@
-﻿using FreightAccounting.Core.Entities;
+﻿using ControlPlateText;
+using FreightAccounting.Core.Entities;
 using FreightAccounting.Core.Exception;
 using FreightAccounting.Core.Interfaces.Repositories;
 using FreightAccounting.Core.Model.Common;
@@ -20,14 +21,28 @@ public class DebtorRepository : IDebtorRepository
     /// تعداد کل گزارش برای صفحه بندی
     /// </summary>
     /// <returns></returns>
-    public int GetDebtorsReportCount(bool? paid, DateTime startDate, DateTime endDate)
+    public int GetDebtorsReportCount(DebtorsQueryParameters queryParameters)
     {
-        var debtors = _context.Debtors.AsNoTracking().Where(r => r.SubmitDate.Date >= startDate.Date
-           && r.SubmitDate.Date <= endDate.Date);
+        var debtors = _context.Debtors.AsNoTracking().Where(r => r.SubmitDate.Date >= queryParameters.StartDate.Date
+           && r.SubmitDate.Date <= queryParameters.EndDate.Date);
 
-        if (paid is not null)
+        //filter list based on plate number 
+        if (!string.IsNullOrEmpty(queryParameters.PlateNumber))
         {
-            if (paid is true)
+            debtors = debtors.Where(d => d.PlateNumber.Contains(queryParameters.PlateNumber.ToEnglishNumber()));
+        }
+
+        //filter the list based on debtor's name
+        if (!string.IsNullOrEmpty(queryParameters.SearchedName))
+        {
+            var searchedQuery = queryParameters.SearchedName.ToLower().Replace(" ", "");
+            debtors = debtors.Where(d => (d.DriverFirstName.ToLower() + d.DriverLastName.ToLower()).Replace(" ", "")
+                .Contains(searchedQuery));
+        }
+
+        if (queryParameters.Paid is not null)
+        {
+            if (queryParameters.Paid is true)
             {
                 debtors = debtors.Where(d => d.PaymentDate != null);
             }
@@ -61,6 +76,13 @@ public class DebtorRepository : IDebtorRepository
                 SubmitDate = d.SubmitDate,
             });
 
+        //filter list based on plate number 
+        if (!string.IsNullOrEmpty(queryParameters.PlateNumber))
+        {
+            debtorsList = debtorsList.Where(d => d.PlateNumber.Contains(queryParameters.PlateNumber.ToEnglishNumber()));
+        }
+
+        //filter the list based on debtor's name
         if (!string.IsNullOrEmpty(queryParameters.SearchedName))
         {
             var searchedQuery = queryParameters.SearchedName.ToLower().Replace(" ", "");
@@ -68,6 +90,7 @@ public class DebtorRepository : IDebtorRepository
                 .Contains(searchedQuery));
         }
 
+        //filter based on the fact that the debt is paid or not
         if (queryParameters.Paid is not null)
         {
             if (queryParameters.Paid.Value is true)
@@ -96,36 +119,6 @@ public class DebtorRepository : IDebtorRepository
         }
 
         return debtorsReportModel;
-    }
-
-    public DebtorReportModel GetDebtorsByName(string searchedName)
-    {
-        var debtorsList = _context.Debtors.AsNoTracking()
-            .Where(d => (d.DriverFirstName + d.DriverLastName).Contains(searchedName))
-            .Select(d => new DebtorEntityReportModel
-            {
-                Destination = d.Destination,
-                DriverFirstName = d.DriverFirstName,
-                DriverLastName = d.DriverLastName,
-                PlateNumber = d.PlateNumber,
-                PaymentDate = d.PaymentDate,
-                DebtAmount = d.DebtAmount,
-                Id = d.Id,
-                PhoneNumber = d.PhoneNumber,
-                Description = d.Description,
-                SubmitDate = d.SubmitDate,
-            });
-
-        var debtorReportModel = new DebtorReportModel();
-        debtorReportModel.DebtorsList = debtorsList.OrderByDescending(d => d.SubmitDate).ToList();
-        debtorReportModel.TotalDebt = debtorsList.Sum(d => d.DebtAmount);
-
-        for (int i = 0; i < debtorReportModel.DebtorsList.Count; i++)
-        {
-            debtorReportModel.DebtorsList[i].RowNumber = i + 1;
-        }
-
-        return debtorReportModel;
     }
 
     public async Task AddDebtor(AddUpdateDebtorModel debtorModel)

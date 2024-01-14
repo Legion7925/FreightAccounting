@@ -34,7 +34,7 @@
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="هزینه سازمان :" VerticalAlignment="Center" />
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="هزینه بیمه :" VerticalAlignment="Center" />
                                 <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="مالیات و دارایی :" VerticalAlignment="Center" />
-                                <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,17" Text="تاریخ ثبت :" VerticalAlignment="Center" />
+                                <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Margin="1,22" Text="تاریخ ثبت :" VerticalAlignment="Center" />
                             </StackPanel>
 
                             <StackPanel Grid.Column="1" Margin="10,0">
@@ -51,9 +51,17 @@
                                 <TextBox x:Name="txtTaxPayment" Foreground="{DynamicResource MaterialDesignBody}" Width="130" VerticalAlignment="Center" Margin="0,15,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15"  IsReadOnly="True" TextChanged="txtTaxPayment_TextChanged"></TextBox>
 
-
-                                <persianDateControls:PersianDatePicker x:Name="dpDate" BorderBrush="Gray" VerticalAlignment="Center"
-                                                               Foreground="{DynamicResource MaterialDesignBody}" Margin="0,22,0,0"/>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,22,0,0">
+                                    <persianDateControls:PersianDatePicker x:Name="dpDate" BorderBrush="Gray" VerticalAlignment="Center"
+                                                               Foreground="{DynamicResource MaterialDesignBody}" 
+                                                                           SelectedDateChanged="dpDate_SelectedDateChanged"/>
+                                    <Button x:Name="btnGetLastSubmittedDate" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
+                                         Height="25" Width="25"
+                                         Background="#FF4C84CF" BorderBrush="{x:Null}" HorizontalAlignment="Left" ToolTip="دریافت آخرین تاریخ ثبت شده" VerticalAlignment="Bottom" 
+                                         Margin="7,0,0,2" Click="btnGetLastSubmittedDate_Click" >
+                                        <materialDesign:PackIcon Kind="Refresh"/>
+                                    </Button>
+                                </StackPanel>
 
                             </StackPanel>
 
@@ -69,7 +77,8 @@
                             <StackPanel Grid.Column="3">
                                 <StackPanel Orientation="Horizontal" Margin="0,12,0,10">
                                     <ComboBox x:Name="cbSubmitUser" Foreground="{DynamicResource MaterialDesignBody}" Width="140" 
-                                          VerticalAlignment="Center" DisplayMemberPath="Value" SelectedValuePath="Key"  IsEditable="True" HorizontalAlignment="Left"></ComboBox>
+                                          VerticalAlignment="Center" DisplayMemberPath="Value" SelectedValuePath="Key"  IsEditable="True" HorizontalAlignment="Left"
+                                              KeyDown="cbSubmitUser_KeyDown"></ComboBox>
 
                                     <Button x:Name="btnAddUser" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
                                             Height="25" Width="25"
@@ -83,7 +92,7 @@
                                 <StackPanel Orientation="Horizontal">
                                     <ComboBox x:Name="cbUserCut" Foreground="{DynamicResource MaterialDesignBody}" Width="140" SelectedIndex="0"
                                           VerticalAlignment="Center" Margin="0,12,0,10" IsEditable="True" HorizontalAlignment="Left"
-                                           SelectionChanged="cbUserCut_SelectionChanged">
+                                           SelectionChanged="cbUserCut_SelectionChanged" KeyDown="cbUserCut_KeyDown">
                                         <ComboBoxItem Content="0"></ComboBoxItem>
                                         <ComboBoxItem Content="0.5"></ComboBoxItem>
                                         <ComboBoxItem Content="3"></ComboBoxItem>
@@ -103,7 +112,7 @@
                                 <StackPanel Orientation="Horizontal">
                                     <TextBox x:Name="txtReceviedCommission" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
                                          HorizontalAlignment="Left" MaxLength="13" InputScope="Number" TextChanged="CalculateInputs"
-                                         PreviewTextInput="CheckTextboxForOnlyNumberInput"></TextBox>
+                                         PreviewTextInput="CheckTextboxForOnlyNumberInput" KeyDown="txtReceviedCommission_KeyDown"></TextBox>
 
                                     <Button x:Name="btnOpenAddDebtorWindow" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
                                             Height="25" Width="25"

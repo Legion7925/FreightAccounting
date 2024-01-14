@@ -373,29 +373,33 @@
                                     </StackPanel>
 
                                     <StackPanel>
-                                        <Viewbox MaxHeight="50" HorizontalAlignment="Center" Margin="0,0,0,0" FlowDirection="LeftToRight">
-                                            <controlplatetext:WPF_NGM_Plate x:Name="txtPlate" IsEnabled="True" Foreground="Black"/>
-                                        </Viewbox>
+                                       
                                     </StackPanel>
 
                                     <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
 
                                         <StackPanel VerticalAlignment="Center" Margin="10,0" Orientation="Horizontal">
-
-                                            <Button x:Name="btnRemoveFilterDebtors" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
-                                            Height="25" Width="25" Background="#d9534f" BorderBrush="{x:Null}" HorizontalAlignment="Left" ToolTip="حذف فیلتر" VerticalAlignment="Bottom" 
-                                            Margin="5" Click="btnRemoveFilterDebtors_Click">
-                                                <materialDesign:PackIcon Kind="Remove"/>
-                                            </Button>
-                                            <Button x:Name="btnSearchDebtorsByName" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
-                                            Height="25" Width="25" BorderBrush="{x:Null}" HorizontalAlignment="Left" ToolTip="جست و جو" VerticalAlignment="Bottom" 
-                                            Margin="5" Click="btnSearchDebtorByName_Click">
-                                                <materialDesign:PackIcon Kind="Search"/>
-                                            </Button>
+                                            <StackPanel Orientation="Horizontal" Margin="10,0" VerticalAlignment="Center">
+                                                <Button x:Name="btnRemoveFilterDebtors" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
+                                                    Height="25" Width="25" Background="#d9534f" BorderBrush="{x:Null}" HorizontalAlignment="Left" ToolTip="حذف فیلتر" VerticalAlignment="Bottom" 
+                                                    Margin="5" Click="btnRemoveFilterDebtors_Click">
+                                                    <materialDesign:PackIcon Kind="Remove"/>
+                                                </Button>
+                                                <Button x:Name="btnSearchDebtorsByName" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
+                                                     Height="25" Width="25" BorderBrush="{x:Null}" HorizontalAlignment="Left" ToolTip="جست و جو" VerticalAlignment="Bottom" 
+                                                     Margin="5" Click="btnSearchDebtorByName_Click">
+                                                    <materialDesign:PackIcon Kind="Search"/>
+                                                </Button>
+                                            </StackPanel>
+                                           
+                                            <Viewbox MaxHeight="50" HorizontalAlignment="Center" Margin="10,0" FlowDirection="LeftToRight">
+                                                <controlplatetext:WPF_NGM_Plate x:Name="txtPlate" IsEnabled="True" Foreground="Black"/>
+                                            </Viewbox>
                                             <TextBox x:Name="txtSearchDebtorsByName" Width="130" Margin="10,0"  VerticalAlignment="Center"
                                                   FlowDirection="RightToLeft" Foreground="{DynamicResource MaterialDesignBody}"
                                                  KeyDown="txtSearchDebtorsByName_KeyDown"></TextBox>
                                             <TextBlock Foreground="{DynamicResource MaterialDesignBody}" Text=": جست و جو نام" VerticalAlignment="Center"></TextBlock>
+                                            
 
                                         </StackPanel>
 

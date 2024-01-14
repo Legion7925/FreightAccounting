@@ -165,6 +165,7 @@ public partial class AddRemitance : Window
                 });
                 NotificationEventsManager.OnShowMessage("حواله جدید با موفقیت اضافه شد!", MessageTypeEnum.Success);
             }
+            AppSession.LastSubmittedDate = dpDate.SelectedDate;
             CartableEventsManager.OnUpdateRemittanceDatagrid();
             CartableEventsManager.OnUpdateExpensesDatagrid();
             btnSubmit.IsEnabled = true;
@@ -373,7 +374,7 @@ public partial class AddRemitance : Window
 
     private void txtUserCut_TextChanged(object sender, TextChangedEventArgs e)
     {
-        if(cbxUserCutPercentage?.IsChecked ?? false)
+        if (cbxUserCutPercentage?.IsChecked ?? false)
         {
             _userCut = Convert.ToInt64(txtUserCut.Text.Replace(",", ""));
             CalculateNetProfitAndTaxes();
@@ -416,12 +417,63 @@ public partial class AddRemitance : Window
     private void txtTranforPayment_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
     {
         if (e.Key == System.Windows.Input.Key.Enter)
-            txtProductInsurance.Focus();
+        {
+            btnGetLastSubmittedDate.Focus();
+        }
     }
 
     private void txtProductInsurance_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
     {
         if (e.Key == System.Windows.Input.Key.Enter)
             txtReceviedCommission.Focus();
+    }
+
+    private void cbSubmitUser_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key == System.Windows.Input.Key.Enter)
+        {
+            if (cbxUserCutPercentage.IsChecked ?? false)
+            {
+                txtProductInsurance.Focus();
+            }
+            else
+            {
+                cbUserCut.Focus();
+
+                cbUserCut.IsDropDownOpen = true;
+            }
+        }
+    }
+
+    private void cbUserCut_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key == System.Windows.Input.Key.Enter)
+        {
+            txtProductInsurance.Focus();
+        }
+    }
+
+    private void txtReceviedCommission_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key == System.Windows.Input.Key.Enter)
+        {
+            btnSubmit_Click(null!, null!);
+        }
+    }
+
+    private void btnGetLastSubmittedDate_Click(object sender, RoutedEventArgs e)
+    {
+        dpDate.SelectedDate = AppSession.LastSubmittedDate;
+
+        cbSubmitUser.Focus();
+
+        cbSubmitUser.IsDropDownOpen = true;
+    }
+
+    private void dpDate_SelectedDateChanged(object sender, RoutedEventArgs e)
+    {
+        cbSubmitUser.Focus();
+
+        cbSubmitUser.IsDropDownOpen = true;
     }
 }

@@ -1,4 +1,5 @@
-﻿namespace FreightAccounting.WPF.Helper;
+﻿
+namespace FreightAccounting.WPF.Helper;
 
 public static class AppSession
 {
@@ -7,6 +8,9 @@ public static class AppSession
     public static string LoggedInUsername { get; set; } = string.Empty;
 
     public static int LoggedInUserId { get; set; }
+
+    public static Mohsen.PersianDate LastSubmittedDate { get; set; } = Mohsen.PersianDate.Today;
+
 }
 
 public class AppSettings

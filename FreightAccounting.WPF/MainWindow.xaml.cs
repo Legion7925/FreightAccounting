@@ -1,4 +1,5 @@
-﻿using FreightAccounting.Core.Entities;
+﻿using ControlPlateText;
+using FreightAccounting.Core.Entities;
 using FreightAccounting.Core.Exception;
 using FreightAccounting.Core.Interfaces.Repositories;
 using FreightAccounting.Core.Model.Debtors;
@@ -195,10 +196,18 @@ public partial class MainWindow : Window
     {
         try
         {
+
             dgDebtorsReport.ItemsSource = null;
 
             _debtorsTotalCount = _debtorRepository
-                .GetDebtorsReportCount(_debtorPaidFilter, dpDebtorsStart.SelectedDate.ToDateTime(), dpDebtorsEnd.SelectedDate.ToDateTime());
+                .GetDebtorsReportCount(new DebtorsQueryParameters()
+                {
+                    Paid = _debtorPaidFilter,
+                    StartDate = dpDebtorsStart.SelectedDate.ToDateTime(),
+                    EndDate = dpDebtorsEnd.SelectedDate.ToDateTime(),
+                    SearchedName = txtSearchDebtorsByName.Text,
+                    PlateNumber = ControlPlate.ControlPleat(txtPlate.PlateText) ? txtPlate.PlateText : null,
+                });
 
             if (_debtorsTotalCount is 0)
             {
@@ -283,7 +292,8 @@ public partial class MainWindow : Window
                 Paid = _debtorPaidFilter,
                 StartDate = dpDebtorsStart.SelectedDate.ToDateTime(),
                 EndDate = dpDebtorsEnd.SelectedDate.ToDateTime(),
-                SearchedName = txtSearchDebtorsByName.Text
+                SearchedName = txtSearchDebtorsByName.Text,
+                PlateNumber = ControlPlate.ControlPleat(txtPlate.PlateText) ? txtPlate.PlateText : null,
             });
             lblTotalDebt.Text = debtorReportModel.TotalDebt.ToString("N0");
             dgDebtorsReport.ItemsSource = debtorReportModel.DebtorsList;
@@ -399,7 +409,8 @@ public partial class MainWindow : Window
                 Paid = _debtorPaidFilter,
                 StartDate = dpDebtorsStart.SelectedDate.ToDateTime(),
                 EndDate = dpDebtorsEnd.SelectedDate.ToDateTime(),
-                SearchedName = txtSearchDebtorsByName.Text,             
+                SearchedName = txtSearchDebtorsByName.Text,        
+                PlateNumber = ControlPlate.ControlPleat(txtPlate.PlateText) ? txtPlate.PlateText : null
             });
             if (!report.DebtorsList.Any())
             {
@@ -486,6 +497,7 @@ public partial class MainWindow : Window
     private void btnRemoveFilterDebtors_Click(object sender, RoutedEventArgs e)
     {
         txtSearchDebtorsByName.Text = string.Empty;
+        txtPlate.PlateText = string.Empty;
         btnGetDebtorsReport_Click(null!, null!);
         cmbFilterPaymentStatus.SelectedIndex = 0;
     }
