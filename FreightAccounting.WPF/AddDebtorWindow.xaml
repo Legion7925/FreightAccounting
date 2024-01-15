@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="AddDebtorWindow" Width="auto" Height="auto" SizeToContent="WidthAndHeight" Grid.RowSpan="2" Panel.ZIndex="1" WindowStartupLocation="CenterScreen" WindowStyle="None"
         AllowsTransparency="True"  ResizeMode="NoResize" Background="Transparent" 
-        FontFamily="./Resources/Fonts/samim-font-v4.0.5/Farsi-Digits/#Samim FD" FontSize="16">
+        FontFamily="./Resources/Fonts/samim-font-v4.0.5/Farsi-Digits/#Samim FD" FontSize="16" Loaded="Window_Loaded">
     <Border Padding="7" Background="{DynamicResource MaterialDesignPaper}" CornerRadius="7" BorderThickness="3"
             BorderBrush="#FFC8C8C8">
         <Border Padding="15,10,15,10">
@@ -48,16 +48,16 @@
                                     <controlplatetext:WPF_NGM_Plate x:Name="txtPlate" IsEnabled="True" Foreground="Black"/>
                                 </Viewbox>
                                 <TextBox x:Name="txtDriverFirstName" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="10,25,0,10"  
-                                         HorizontalAlignment="Left" ></TextBox>
+                                         HorizontalAlignment="Left" KeyDown="txtDriverFirstName_KeyDown"></TextBox>
                                 <TextBox x:Name="txtDriverLastName" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="10,15,0,10"  
-                                         HorizontalAlignment="Left"></TextBox>
+                                         HorizontalAlignment="Left" KeyDown="txtDriverLastName_KeyDown"></TextBox>
                                 <TextBox x:Name="txtDestination" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="10,15,0,10"  
-                                         HorizontalAlignment="Left" ></TextBox>
+                                         HorizontalAlignment="Left" KeyDown="txtDestination_KeyDown"></TextBox>
                                 <TextBox x:Name="txtPhoneNumber" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="10,15,0,10"  
-                                         HorizontalAlignment="Left" MaxLength="11"></TextBox>
+                                         HorizontalAlignment="Left" MaxLength="11" KeyDown="txtPhoneNumber_KeyDown"></TextBox>
                                 <TextBox x:Name="txtDebtAmount" Foreground="{DynamicResource MaterialDesignBody}" Width="150" VerticalAlignment="Center" Margin="10,17,0,10"  
                                          HorizontalAlignment="Left" InputScope="Number" TextChanged="txtDebtAmount_TextChanged"
-                                         MaxLength="13"></TextBox>
+                                         MaxLength="13" KeyDown="txtDebtAmount_KeyDown"></TextBox>
                                 <persianDateControls:PersianDatePicker x:Name="dpSubmitDate" BorderBrush="Gray" VerticalAlignment="Center"
                                                                Foreground="{DynamicResource MaterialDesignBody}" Margin="0,22,0,0" Height="30"/>
                             </StackPanel>

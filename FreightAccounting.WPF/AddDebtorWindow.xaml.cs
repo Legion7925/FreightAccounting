@@ -161,4 +161,39 @@ public partial class AddDebtorWindow : Window
             }
         }
     }
+
+    private void txtDriverFirstName_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key == System.Windows.Input.Key.Enter)
+            txtDriverLastName.Focus();
+    }
+
+    private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        txtDriverFirstName.Focus();
+    }
+
+    private void txtDriverLastName_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key == System.Windows.Input.Key.Enter)
+            txtDestination.Focus();
+    }
+
+    private void txtDestination_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key == System.Windows.Input.Key.Enter)
+            txtPhoneNumber.Focus();
+    }
+
+    private void txtPhoneNumber_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key == System.Windows.Input.Key.Enter)
+            txtDebtAmount.Focus();
+    }
+
+    private void txtDebtAmount_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key == System.Windows.Input.Key.Enter)
+            txtDescription.Focus();
+    }
 }
