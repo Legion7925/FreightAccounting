@@ -169,7 +169,8 @@ public partial class AddRemitance : Window
             CartableEventsManager.OnUpdateRemittanceDatagrid();
             CartableEventsManager.OnUpdateExpensesDatagrid();
             btnSubmit.IsEnabled = true;
-            Close();
+            CleanInput();
+            txtNumberRemmitance.Focus();
         }
         catch (AppException ne)
         {
@@ -182,6 +183,13 @@ public partial class AddRemitance : Window
             NotificationEventsManager.OnShowMessage("در انجام عملیات خطایی رخ داده است", MessageTypeEnum.Error);
             btnSubmit.IsEnabled = true;
         }
+    }
+
+    private void CleanInput()
+    {
+        txtNumberRemmitance.Text = txtTranforPayment.Text = txtOrganizationPayment.Text = txtInsurancePayment.Text =
+            txtTaxPayment.Text = cbSubmitUser.Text = cbUserCut.Text = txtUserCut.Text =
+            txtReceviedCommission.Text = txtNetProfit.Text = string.Empty;
     }
 
     private void GetUserList(object? sender, EventArgs e)
