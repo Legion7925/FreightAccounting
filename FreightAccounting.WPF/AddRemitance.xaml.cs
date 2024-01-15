@@ -113,6 +113,7 @@ public partial class AddRemitance : Window
         cbUserCut.Items.Add(AppSession.AppSettings.UserCutPercentage);
         txtNumberRemmitance.Focus();
         txtProductInsurance.Text = "3000";
+        //cbUserCut.ItemsSource = cbUserCut.Items;
     }
 
     private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -187,9 +188,15 @@ public partial class AddRemitance : Window
 
     private void CleanInput()
     {
-        txtNumberRemmitance.Text = txtTranforPayment.Text = txtOrganizationPayment.Text = txtInsurancePayment.Text =
-            txtTaxPayment.Text = cbSubmitUser.Text = cbUserCut.Text = txtUserCut.Text =
-            txtReceviedCommission.Text = txtNetProfit.Text = string.Empty;
+        try
+        {
+            txtNumberRemmitance.Text = txtTranforPayment.Text = txtOrganizationPayment.Text = txtInsurancePayment.Text =
+                        txtTaxPayment.Text = txtUserCut.Text = txtReceviedCommission.Text = txtNetProfit.Text = string.Empty;
+        }
+        catch (Exception ex)
+        {
+            var s = ex.Message;
+        }
     }
 
     private void GetUserList(object? sender, EventArgs e)
@@ -483,5 +490,13 @@ public partial class AddRemitance : Window
         cbSubmitUser.Focus();
 
         cbSubmitUser.IsDropDownOpen = true;
+    }
+
+    private void txtUserCut_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key == System.Windows.Input.Key.Enter)
+        {
+            txtProductInsurance.Focus();
+        }
     }
 }

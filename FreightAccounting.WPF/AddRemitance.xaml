@@ -78,7 +78,7 @@
                                 <StackPanel Orientation="Horizontal" Margin="0,12,0,10">
                                     <ComboBox x:Name="cbSubmitUser" Foreground="{DynamicResource MaterialDesignBody}" Width="140" 
                                           VerticalAlignment="Center" DisplayMemberPath="Value" SelectedValuePath="Key"  IsEditable="True" HorizontalAlignment="Left"
-                                              KeyDown="cbSubmitUser_KeyDown"></ComboBox>
+                                              KeyDown="cbSubmitUser_KeyDown" SelectedIndex="0"></ComboBox>
 
                                     <Button x:Name="btnAddUser" Style="{DynamicResource MaterialDesignFloatingActionAccentButton}" 
                                             Height="25" Width="25"
@@ -104,7 +104,7 @@
 
                                 <TextBox x:Name="txtUserCut" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
                                          HorizontalAlignment="Left" MaxLength="15" TextChanged="txtUserCut_TextChanged"  IsReadOnly="True"
-                                         PreviewTextInput="CheckTextboxForOnlyNumberInput"></TextBox>
+                                         PreviewTextInput="CheckTextboxForOnlyNumberInput" KeyDown="txtUserCut_KeyDown"></TextBox>
 
                                 <TextBox x:Name="txtProductInsurance" Foreground="{DynamicResource MaterialDesignBody}" Width="140" VerticalAlignment="Center" Margin="0,14,0,10"  
                                          HorizontalAlignment="Left" MaxLength="13" TextChanged="CalculateInputs" PreviewTextInput="CheckTextboxForOnlyNumberInput" KeyDown="txtProductInsurance_KeyDown"></TextBox>
