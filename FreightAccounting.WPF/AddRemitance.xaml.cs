@@ -170,7 +170,7 @@ public partial class AddRemitance : Window
             CartableEventsManager.OnUpdateRemittanceDatagrid();
             CartableEventsManager.OnUpdateExpensesDatagrid();
             btnSubmit.IsEnabled = true;
-            CleanInput();
+            CleanInputs();
             txtNumberRemmitance.Focus();
         }
         catch (AppException ne)
@@ -186,17 +186,17 @@ public partial class AddRemitance : Window
         }
     }
 
-    private void CleanInput()
+    private void CleanInputs()
     {
-        try
-        {
-            txtNumberRemmitance.Text = txtTranforPayment.Text = txtOrganizationPayment.Text = txtInsurancePayment.Text =
-                        txtTaxPayment.Text = txtUserCut.Text = txtReceviedCommission.Text = txtNetProfit.Text = string.Empty;
-        }
-        catch (Exception ex)
-        {
-            var s = ex.Message;
-        }
+        txtNumberRemmitance.Text = string.Empty;
+        txtTranforPayment.Text = string.Empty;
+        txtOrganizationPayment.Text = string.Empty;
+        txtInsurancePayment.Text = string.Empty;
+        txtTaxPayment.Text = string.Empty;
+        txtUserCut.Text = string.Empty;
+        txtReceviedCommission.Text = string.Empty;
+        txtNetProfit.Text = string.Empty;
+        txtProductInsurance.Text = "3000";
     }
 
     private void GetUserList(object? sender, EventArgs e)
@@ -389,6 +389,8 @@ public partial class AddRemitance : Window
 
     private void txtUserCut_TextChanged(object sender, TextChangedEventArgs e)
     {
+        if (string.IsNullOrWhiteSpace(txtUserCut.Text))
+            return;
         if (cbxUserCutPercentage?.IsChecked ?? false)
         {
             _userCut = Convert.ToInt64(txtUserCut.Text.Replace(",", ""));
@@ -449,7 +451,7 @@ public partial class AddRemitance : Window
         {
             if (cbxUserCutPercentage.IsChecked ?? false)
             {
-                txtProductInsurance.Focus();
+                txtUserCut.Focus();
             }
             else
             {
