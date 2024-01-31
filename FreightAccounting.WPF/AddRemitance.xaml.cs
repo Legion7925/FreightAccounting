@@ -150,6 +150,7 @@ public partial class AddRemitance : Window
             }
             else
             {
+                Logger.LogMessage($"submitting remittance with number : {txtNumberRemmitance.Text}");
                 await _remittanceRepository.AddRemittance(new AddUpdateRemittanceModel
                 {
                     RemittanceNumber = txtNumberRemmitance.Text,
@@ -164,6 +165,7 @@ public partial class AddRemitance : Window
                     ReceviedCommission = Convert.ToInt64(txtReceviedCommission.Text.Replace(",", "")),
                     IsUserCutEnteredByHand = cbxUserCutPercentage?.IsChecked ?? false
                 });
+                Logger.LogMessage($"remittance submitted into database successfuly with the number : {txtNumberRemmitance.Text}");
                 NotificationEventsManager.OnShowMessage("حواله جدید با موفقیت اضافه شد!", MessageTypeEnum.Success);
             }
             AppSession.LastSubmittedDate = dpDate.SelectedDate;
@@ -259,6 +261,11 @@ public partial class AddRemitance : Window
         if (string.IsNullOrWhiteSpace(txtProductInsurance.Text))
         {
             MessageBox.Show("مقدار بیمه کالا نمیتواند خالی باشد");
+            return false;
+        }
+        if (string.IsNullOrWhiteSpace(txtUserCut.Text))
+        {
+            MessageBox.Show("مقدار پورسانت کاربر");
             return false;
         }
 
