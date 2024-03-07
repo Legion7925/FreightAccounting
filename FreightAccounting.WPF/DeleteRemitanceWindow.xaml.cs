@@ -31,11 +31,11 @@ namespace FreightAccounting.WPF
             this._remitanceId = remitanceId;
         }
 
-        private async void btnSubmitDelete_Click(object sender, RoutedEventArgs e)
+        private void btnSubmitDelete_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                await remitanceRepository.DeleteRemittance(_remitanceId);
+                 remitanceRepository.DeleteRemittance(_remitanceId);
                 NotificationEventsManager.OnShowMessage("حذف حواله با موفقیت انجام شد!", MessageTypeEnum.Success);
                 CartableEventsManager.OnUpdateRemittanceDatagrid();
                 CartableEventsManager.OnUpdateExpensesDatagrid();

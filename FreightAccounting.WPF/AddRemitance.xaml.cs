@@ -132,7 +132,7 @@ public partial class AddRemitance : Window
             var doubleTranforPayment = double.Parse(txtTranforPayment.Text);
             if (_isEdit)
             {
-                await _remittanceRepository.UpdateRemittance(_remittanceId, new AddUpdateRemittanceModel
+                 _remittanceRepository.UpdateRemittance(_remittanceId, new AddUpdateRemittanceModel
                 {
                     ProductInsurancePayment = Convert.ToInt64(txtProductInsurance.Text.Replace(",", "")),
                     RemittanceNumber = txtNumberRemmitance.Text,
@@ -150,8 +150,7 @@ public partial class AddRemitance : Window
             }
             else
             {
-                Logger.LogMessage($"submitting remittance with number : {txtNumberRemmitance.Text}");
-                await _remittanceRepository.AddRemittance(new AddUpdateRemittanceModel
+                 _remittanceRepository.AddRemittance(new AddUpdateRemittanceModel
                 {
                     RemittanceNumber = txtNumberRemmitance.Text,
                     TransforPayment = Convert.ToInt64(txtTranforPayment.Text.Replace(",", "")),
@@ -165,7 +164,6 @@ public partial class AddRemitance : Window
                     ReceviedCommission = Convert.ToInt64(txtReceviedCommission.Text.Replace(",", "")),
                     IsUserCutEnteredByHand = cbxUserCutPercentage?.IsChecked ?? false
                 });
-                Logger.LogMessage($"remittance submitted into database successfuly with the number : {txtNumberRemmitance.Text}");
                 NotificationEventsManager.OnShowMessage("حواله جدید با موفقیت اضافه شد!", MessageTypeEnum.Success);
             }
             AppSession.LastSubmittedDate = dpDate.SelectedDate;
